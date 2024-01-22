@@ -12,6 +12,8 @@ server.set('port', port);
 // Defining a folder that will contain static files.
 server.use(express.static('public'));
 
+server.use(express.json());
+
 // Telling the server to use the USER_API 
 server.use("/user", USER_API);
 

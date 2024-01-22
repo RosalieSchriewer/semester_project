@@ -7,12 +7,7 @@ const USER_API = express.Router();
 //const express = require('express')
 
 
-const users = [{
-    "email": "test@live.com",
-    "name": "kai",
-    "password": "pass123"
-
-}];
+const users = [];
 USER_API.get('/', (req, res) => {
     res.status(HttpCodes.SuccesfullResponse.Ok).json(users);
   });
@@ -33,7 +28,6 @@ USER_API.get('/:id', (req, res) => {
 })
 
 USER_API.post('/', (req, res, next) => {
-    console.log("USER API POST")
 
     // This is using javascript object destructuring.
     // Recomend reading up https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment#syntax
@@ -53,13 +47,13 @@ USER_API.post('/', (req, res, next) => {
 
         if (!exists) {
             users.push(user);
-            res.status(HttpCodes.SuccesfullRespons.Ok).end();
+            res.status(HttpCodes.SuccesfullResponse.Ok).end();
         } else {
-            res.status(HttpCodes.ClientSideErrorRespons.BadRequest).end();
+            res.status(HttpCodes.ClientSideErrorResponse.BadRequest).end();
         }
 
     } else {
-        res.status(HttpCodes.ClientSideErrorRespons.BadRequest).send("Mangler data felt").end();
+        res.status(HttpCodes.ClientSideErrorResponse.BadRequest).send("Mangler data felt").end();
     }
 
 });
