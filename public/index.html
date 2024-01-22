@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+   <!--  <script  src="/languages/english.mjs"></script>
+    <script  src="/routes/userFrontend.mjs"></script> -->
+</head>
+<body>
+    <form id="createUserForm" action="/user/users" lang="en">
+        <label for="inputEmail" id="emailLabel"></label>E-mail:<br>
+        <input type="email" id="inputEmail" name="inputEmail" ><br>
+        <label for="inputPassword" id="passwordLabel">Password:</label><br>
+        <input type="password" id="inputPassword" name="inputPassword" ><br><br>
+        <label for="inputFullname" id="fullNameLabel">Full name:</label><br>
+        <input type="txt" id="inputFullname" name="inputFullname" ><br><br>
+        <!-- <label for="inputImage" id="imageLabel">Profile picture</label><br>
+        <input type="file" id="inputImage" name="inputImage" ><br><br> -->
+        <input type="submit" value="Submit" id="submitButton">
+    </form>
+    
+   
+</body>
+<script>
+    // userFrontend --------should be moved to other file?--------
+document.getElementById('createUserForm').addEventListener('submit',async function (event) {
+   
+    event.preventDefault();
+  
+    // Getting form data
+    const name = document.getElementById('inputFullname').value;
+    const email = document.getElementById('inputEmail').value;
+    const password = document.getElementById('inputPassword').value;
+
+    
+    const userData = { name, email, password };
+    try {
+
+        let response = await fetch('user/users', {
+          method: "POST",
+          headers: {
+            'Content-Type': 'application/json',
+        },
+          body: JSON.stringify(userData),
+    
+        });
+
+
+
+        let test = response
+        console.log(test)
+
+
+
+        if (response.status == 200) {
+            let data = await response.json();
+            console.log("User created");
+      
+
+        } else {
+            throw new Error("Server error: " + response.status);
+        }
+
+      
+      } catch (error) {
+        console.error("The error is: " + error);
+      }
+    });
+    
+    
+    
+     
+  
+  
+</script>
+</html>

@@ -1,0 +1,15 @@
+Tasks Catchup week 1
+
+    Create your own version of a project management solution. (Y)
+    Create a GitHub repository for your semester project. (Y)
+    Create your own version of our common project. (Y)
+    Complete and extend the user routing (At minimum look at the TODO´s)
+    Create testing UI for using the routes **
+    Submit your semester project outline. (Y)
+
+    You are in a good place when:
+
+    You have a project management tool that is up to date.
+    You can run YOUR server locally on your computer and create, edit, and delete user accounts.
+    You have a GitHub repository for your project that is up to date. (Y)
+    You have submitted your project outline.(Y)
