@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <form id="createUserForm" action="" lang="en">
+        <label for="inputEmail" id="emailLabel"></label>Change e-mail:<br />
+        <input type="email" id="inputEmail" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" name="inputEmail"
+            required /><br />
+        <label for="inputPassword" id="passwordLabel">Change password:</label><br />
+        <input type="password" id="inputPassword" name="inputPassword" required /><br /><br />
+        <label for="inputFullname" id="fullNameLabel">Change full name:</label><br />
+        <input type="txt" pattern="^[^\d]+ [^\d]+$"
+            title="Can't contain numbers and has to include both first and last name." id="inputFullname"
+            name="inputFullname" required /><br /><br />
+        <!-- <label for="inputImage" id="imageLabel">Profile picture</label><br>
+            <input type="file" id="inputImage" name="inputImage" ><br><br> -->
+        <input type="submit" value="Submit" id="submitButton" />
+    </form>
+    <input class="globalButton" type="submit" value="Delete user" style="background-color: rgb(211, 97, 77);"
+        id="deleteAccBtn">
+
+</body>
+<script>
+
+    //-----------------getting user data to preview currently saved information-----------
+    let userID = 1 //hardcoded for now -->TODO
+loadData();
+    async function loadData() {
+
+        const form = document.querySelector('form');
+        let formData = new FormData(form);
+
+
+
+
+        try {
+            let response = await fetch("/user/" + userID, {
+                method: 'GET',
+
+
+            });
+
+            if (response.status != 200) {
+                throw new Error("Server error: " + response.status);
+            } else {
+                let data = await response.json();
+                console.log(data);
+
+                //if (user) {
+                    inputFullname.value = data.name
+                    inputEmail.value = data.email
+                    inputPassword.value = data.password
+
+               // }
+            }
+
+
+            //let user = data.find((user) => user.id === 1)//parseInt(login_userID));
+
+
+
+
+
+        } catch (error) {
+            console.error("The error is: " + error);
+        }
+
+        // userFrontend --------should be moved to other file?--------
+        
+        document.getElementById("createUserForm")
+        document.addEventListener("submit", async function (event) {
+                event.preventDefault();
+
+                // Getting form data
+                const name = document.getElementById("inputFullname").value;
+                const email = document.getElementById("inputEmail").value;
+                const password = document.getElementById("inputPassword").value;
+
+                const userData = { name, email, password };
+
+                try {
+                    let response = await fetch("/user/" + userID, {
+                        method: "PUT",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(userData),
+                    });
+
+                    if (response.status == 200) {
+                        let data = await response.json;
+                        console.log("User updated", userData);
+                    } else {
+                        throw new Error("Server error: " + response.status);
+                    }
+                } catch (error) {
+
+                    console.error("The error is: " + error);
+                }
+            });
+
+        //-------------------deleting user info when pressing delete account button---------------------
+        let deleteAccBtn = document.getElementById("deleteAccBtn");
+
+        deleteAccBtn.addEventListener('click', async function (event) {
+            event.preventDefault();
+
+
+            try {
+                let response = await fetch("/user/" + userID, {
+                    method: 'DELETE',
+
+                });
+
+                if (response.status != 200) {
+                    throw new Error("Server error: " + response.status);
+                }
+
+              //  let data = await response.json();
+                console.log('User deleted');
+                alert("User deleted.")
+
+
+            } catch (error) {
+                console.error("The error is: " + error);
+            }
+        });
+
+
+    };
+
+
+
+</script>
+
+</html>

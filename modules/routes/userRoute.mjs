@@ -62,11 +62,44 @@ USER_API.post("/", (req, res, next) => {
 });
 
 USER_API.put("/:id", (req, res) => {
-  /// TODO: Edit user
-});
+    const userId = parseInt(req.params.id, 10);
+
+    if (!isNaN(userId)) {
+      const foundIndex = users.findIndex((user) => user.id === userId);
+  
+      if (foundIndex !== -1) {
+        const { name, email, password } = req.body;
+        users[foundIndex].name = name 
+        users[foundIndex].email = email 
+        users[foundIndex].pswHash = password 
+        res.status(HttpCodes.SuccesfullResponse.Ok).end();
+      } else {
+        res.status(HttpCodes.ClientSideErrorResponse.NotFound).send("User not found").end();
+      }
+    } else {
+      res.status(HttpCodes.ClientSideErrorResponse.BadRequest).send("Invalid user ID").end();
+    }
+  });
+ 
+
+
+
 
 USER_API.delete("/:id", (req, res) => {
-  /// TODO: Delete user.
+    const userId = parseInt(req.params.id, 10);
+
+    if (!isNaN(userId)) {
+      const foundIndex = users.findIndex((user) => user.id === userId);
+  
+      if (foundIndex !== -1) {
+        users.splice(foundIndex, 1);
+        res.status(HttpCodes.SuccesfullResponse.Ok).end();
+      } else {
+        res.status(HttpCodes.ClientSideErrorResponse.NotFound).send("User not found").end();
+      }
+    } else {
+      res.status(HttpCodes.ClientSideErrorResponse.BadRequest).send("Invalid user ID").end();
+    }
 });
 
 export default USER_API;
