@@ -6,24 +6,33 @@ const USER_API = express.Router();
 //const express = require('express')
 
 const users = [];
+
+//url: localhost:8080/user -->lists all users
+
 USER_API.get("/", (req, res) => {
   res.status(HttpCodes.SuccesfullResponse.Ok).json(users);
-});
+}); 
 
-USER_API.get("/:id", (req, res) => {
-  const userId = req.params.id;
+//url: localhost:8080/user/id -->lists specific user
 
-  //res.send(users)
-  res.status(HttpCodes.SuccesfullResponse.Ok).json(users);
+USER_API.get("/:id", (req, res) => { 
+    const userId = parseInt(req.params.id, 10); //has to be parsed for some reason, didnt work if i didnt
 
-  /// TODO:
-  // Return user object
-});
+    if (userId) {
+      let foundId = users.find((user) => user.id === userId);
+
+      if (foundId) {
+        res.status(HttpCodes.SuccesfullResponse.Ok).json(foundId);
+      } else {
+        res.status(HttpCodes.ClientSideErrorResponse.NotFound).send("User not found").end();
+      }
+    } else {
+      res.status(HttpCodes.ClientSideErrorResponse.BadRequest).send("Invalid user ID").end();
+    }
+  });
 
 USER_API.post("/", (req, res, next) => {
-  // This is using javascript object destructuring.
-  // Recomend reading up https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment#syntax
-  // https://www.freecodecamp.org/news/javascript-object-destructuring-spread-operator-rest-parameter/
+  
   const { name, email, password } = req.body;
 
   if (name != "" && email != "" && password != "") {
