@@ -5,30 +5,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" id="themeStylesheet" href="/styles/light-theme.css">
 </head>
 
 <body>
+    <button id="lightModeBtn">Darkmode</button>
+        <input class="globalButton" type="submit" value="Delete user" style="background-color: rgb(211, 97, 77);"
+        id="deleteAccBtn">
+    <h1>Edit your user account</h1>
     <form id="createUserForm" action="" lang="en">
-        <label for="inputEmail" id="emailLabel"></label>Change e-mail:<br />
+       
+        <label for="inputEmail" id="emailLabel">Change e-mail:</label><br />
         <input type="email" id="inputEmail" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" name="inputEmail"
             required /><br />
         <label for="inputPassword" id="passwordLabel">Change password:</label><br />
-        <input type="password" id="inputPassword" name="inputPassword" required /><br /><br />
+        <input type="password" id="inputPassword" name="inputPassword" required /><br />
         <label for="inputFullname" id="fullNameLabel">Change full name:</label><br />
         <input type="txt" pattern="^[^\d]+ [^\d]+$"
             title="Can't contain numbers and has to include both first and last name." id="inputFullname"
-            name="inputFullname" required /><br /><br />
+            name="inputFullname" required /><br />
         <!-- <label for="inputImage" id="imageLabel">Profile picture</label><br>
             <input type="file" id="inputImage" name="inputImage" ><br><br> -->
         <input type="submit" value="Submit" id="submitButton" />
-    </form>
-    <input class="globalButton" type="submit" value="Delete user" style="background-color: rgb(211, 97, 77);"
-        id="deleteAccBtn">
-
+    
+ 
+</form>
 </body>
 <script>
 
     //-----------------getting user data to preview currently saved information-----------
+    let lightModeBtn= document.getElementById("lightModeBtn")
+  lightModeBtn.addEventListener("click", function() {
+    const themeStylesheet = document.getElementById("themeStylesheet");
+    
+    // Toggle between dark and light themes
+    if (themeStylesheet.href.includes("dark")) {
+      lightModeBtn.textContent= "Darkmode"  
+        themeStylesheet.href = "/styles/light-theme.css";
+    } else {
+      lightModeBtn.textContent= "Lightmode"
+        themeStylesheet.href = "/styles/dark.theme.css";
+    }
+});
+
     let userID = 1 //hardcoded for now -->TODO
 loadData();
     async function loadData() {

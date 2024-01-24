@@ -7,19 +7,21 @@
   <title>Document</title>
   <!--  <script  src="/languages/english.mjs"></script>
     <script  src="/routes/userFrontend.mjs"></script> -->
-    <link rel="stylesheet" href="/styles/light-theme.css">
+   <!--  <link rel="stylesheet" href="/styles/light-theme.css"> -->
+   <link rel="stylesheet" id="themeStylesheet" href="/styles/light-theme.css">
 </head>
 
 <body>
-
+<button id="lightModeBtn">Darkmode</button>
   <h1>Create your user account</h1>
     <form id="createUserForm" action="" lang="en">
         <label for="inputEmail" id="emailLabel">E-mail:</label><br>
-        <input type="email" id="inputEmail" name="inputEmail" ><br>
+        <input type="email" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" id="inputEmail" name="inputEmail" required><br>
         <label for="inputPassword" id="passwordLabel">Password:</label><br>
-        <input type="password" id="inputPassword" name="inputPassword" ><br>
+        <input type="password" id="inputPassword" name="inputPassword" required><br>
         <label for="inputFullname" id="fullNameLabel">Full name:</label><br>
-        <input type="txt" id="inputFullname" name="inputFullname" ><br>
+        <input type="txt" id="inputFullname" name="inputFullname" pattern="^[^\d]+ [^\d]+$"
+        title="Can't contain numbers and has to include both first and last name." required><br>
         <!-- <label for="inputImage" id="imageLabel">Profile picture</label><br>
         <input type="file" id="inputImage" name="inputImage" ><br><br> -->
     <input type="submit" value="Submit" id="submitButton" />
@@ -28,6 +30,21 @@
 <script>
 
   // userFrontend --------should be moved to other file?--------
+
+  let lightModeBtn= document.getElementById("lightModeBtn")
+  lightModeBtn.addEventListener("click", function() {
+    const themeStylesheet = document.getElementById("themeStylesheet");
+    
+    // Toggle between dark and light themes
+    if (themeStylesheet.href.includes("dark")) {
+      lightModeBtn.textContent= "Darkmode"  
+        themeStylesheet.href = "/styles/light-theme.css";
+    } else {
+      lightModeBtn.textContent= "Lightmode"
+        themeStylesheet.href = "/styles/dark.theme.css";
+    }
+});
+
   document
     .getElementById("createUserForm")
     .addEventListener("submit", async function (event) {
@@ -54,7 +71,7 @@
 
             let data = await response.json;
             console.log("User created");
-            location.href("/editUser.html")
+            window.location.href="editUser.html"
 
 
         } else {
