@@ -7,29 +7,32 @@
   <title>Document</title>
   <!--  <script  src="/languages/english.mjs"></script>
     <script  src="/routes/userFrontend.mjs"></script> -->
+    <link rel="stylesheet" href="/styles/light-theme.css">
 </head>
 
 <body>
-  <form id="createUserForm" action="" lang="en">
-    <label for="inputEmail" id="emailLabel"></label>E-mail:<br />
-    <input type="email" id="inputEmail" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" name="inputEmail" required /><br />
-    <label for="inputPassword" id="passwordLabel">Password:</label><br />
-    <input type="password" id="inputPassword" name="inputPassword" required /><br /><br />
-    <label for="inputFullname" id="fullNameLabel">Full name:</label><br />
-    <input type="txt" pattern="^[^\d]+ [^\d]+$"
-      title="Can't contain numbers and has to include both first and last name." id="inputFullname" name="inputFullname"
-      required /><br /><br />
-    <!-- <label for="inputImage" id="imageLabel">Profile picture</label><br>
+
+  <h1>Create your user account</h1>
+    <form id="createUserForm" action="" lang="en">
+        <label for="inputEmail" id="emailLabel">E-mail:</label><br>
+        <input type="email" id="inputEmail" name="inputEmail" ><br>
+        <label for="inputPassword" id="passwordLabel">Password:</label><br>
+        <input type="password" id="inputPassword" name="inputPassword" ><br>
+        <label for="inputFullname" id="fullNameLabel">Full name:</label><br>
+        <input type="txt" id="inputFullname" name="inputFullname" ><br>
+        <!-- <label for="inputImage" id="imageLabel">Profile picture</label><br>
         <input type="file" id="inputImage" name="inputImage" ><br><br> -->
     <input type="submit" value="Submit" id="submitButton" />
   </form>
 </body>
 <script>
+
   // userFrontend --------should be moved to other file?--------
   document
     .getElementById("createUserForm")
     .addEventListener("submit", async function (event) {
       event.preventDefault();
+
 
       // Getting form data
       const name = document.getElementById("inputFullname").value;
@@ -48,8 +51,12 @@
         });
 
         if (response.status == 200) {
-          let data = await response.json;
-          console.log("User created", data);
+
+            let data = await response.json;
+            console.log("User created");
+            location.href("/editUser.html")
+
+
         } else {
           throw new Error("Server error: " + response.status);
         }
