@@ -3,7 +3,7 @@ import User from "../user.mjs";
 import HttpCodes from "../httpErrorCodes.mjs";
 
 const USER_API = express.Router();
-//const express = require('express')
+
 
 const users = [];
 
