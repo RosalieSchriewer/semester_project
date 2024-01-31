@@ -4,11 +4,11 @@
 
 class HTTPCodes {
 
-    static SuccesfullRespons = {
+    static SuccessfulResponse = {
         Ok: 200
     }
 
-    static ClientSideErrorRespons = {
+    static ClientSideErrorResponse = {
         BadRequest: 400,
         Unauthorized: 401,
         PaymentRequired: 402,
@@ -29,4 +29,8 @@ const HTTPMethods = {
     DELETE: "DELETE"
 }
 
-export { HTTPCodes, HTTPMethods };
+
+
+export default HTTPCodes//{ HTTPCodes , HTTPMethods  };
+
+export {HTTPMethods}
