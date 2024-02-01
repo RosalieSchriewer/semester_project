@@ -5,21 +5,64 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" id="themeStylesheet" href="/styles/light-theme.css">
 </head>
 
 <body>
-    <form>
+    <h1 >Login</h1>
+    <form id="loginForm">
 
-        <label>Username</label>
-        <input class="inputField" name="username" type="text" placeholder="Brukernavn" required />
-        <label>Password</label>
-        <input class="inputField" name="password" type="password" placeholder="Passord" required />
+        <label for="inputEmail">E-mail</label><br>
+        <input id="inputEmail" class="inputField" name="email" type="text"
+            pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" placeholder="name@email.com" required /><br>
+        <label for="inputPassword">Password</label><br>
+        <input id="inputPassword" class="inputField" name="password" type="password" placeholder="Password" required /><br>
         <input type="submit" value="Submit" id="submitButton" />
 
 
 
 
     </form>
+
+
+    <script>
+        const loginForm = document.getElementById("loginForm");
+
+        loginForm.addEventListener("submit", async function (event) {
+            event.preventDefault();
+
+      let formData = new FormData(loginForm);
+      let email = formData.get("email");
+      let pswHash = formData.get("password");
+      
+        
+
+      let url = "/user/login";
+      
+      
+      try {
+        let response = await fetch(url, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", },
+          body: JSON.stringify({ email, pswHash}),
+        });
+
+        if (response.status != 200) {
+          throw new Error("Server error: " + response.status);
+
+        }
+
+        let data = await response.json();
+        localStorage.setItem("token", data.token)
+        console.log("User logged in with token" +data.token);
+        alert("You are now logged in");
+        //location.href  = "Homepage.html";
+      } catch (error) {
+        alert("Wrong password or e-mail");
+        console.error("The error is: " + error);
+      }
+    });
+    </script>
 </body>
 
 </html>

@@ -1,21 +1,25 @@
 import express, { response } from "express";
 import User from "../user.mjs";
 import HTTPCodes from "../httpConstants.mjs";
+import jwt from 'jsonwebtoken';
+import { verifyToken } from "../authentication.mjs";
 
 const USER_API = express.Router();
 
-
-const users = [];
+/* TEMPORARY HARDCODE USERS */
+const users = []
+  /*{id: 1, name: 'Vanilla Ice', email: 'vanilla@gmail.com', pswHash: 'password'}
+]; */
 
 //url: localhost:8080/user -->lists all users
-
+/* 
 USER_API.get("/", (req, res) => {
   res.status(HTTPCodes.SuccessfulResponse.Ok).json(users);
 }); 
-
+ */
 //url: localhost:8080/user/id -->lists specific user
 
-USER_API.get("/:id", (req, res) => { 
+USER_API.get("/:id", verifyToken, (req, res) => { 
     const userId = parseInt(req.params.id, 10); //has to be parsed for some reason, didn't work if i didn't
 
     if (userId) {
@@ -31,6 +35,7 @@ USER_API.get("/:id", (req, res) => {
     }
   });
 
+/*   -----------NEW USER--------------- */
 USER_API.post("/", (req, res, next) => {
   
   const { name, email, password } = req.body;
@@ -61,7 +66,37 @@ USER_API.post("/", (req, res, next) => {
   }
 });
 
-USER_API.put("/:id", (req, res) => {
+/*   -----------LOGIN--------------- */
+
+USER_API.post("/login", (req,res) => {
+  const {email, pswHash} = req.body;
+  console.log("hihihi" +req.body);
+
+  const secretKey = 'mySecretKey';
+
+  const user = users.find((user) => user.email === email && user.pswHash === pswHash)
+
+  if(user) {
+    const token = jwt.sign({
+      userId: user.id,
+      email: user.email
+    },
+    secretKey,
+    {expiresIn: '1h'}
+    )
+    res.json({token});
+  }else {
+    res.status(HTTPCodes.ClientSideErrorResponse.Unauthorized).send("Wrong password or e-mail address.")
+  }
+})
+
+
+
+
+
+//EDIT USER
+
+USER_API.put("/:id", verifyToken, (req, res) => {
     const userId = parseInt(req.params.id, 10);
 
     if (!isNaN(userId)) {
@@ -85,7 +120,7 @@ USER_API.put("/:id", (req, res) => {
 
 
 
-USER_API.delete("/:id", (req, res) => {
+USER_API.delete("/:id", verifyToken, (req, res) => {
     const userId = parseInt(req.params.id, 10);
 
     if (!isNaN(userId)) {

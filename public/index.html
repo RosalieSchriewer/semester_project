@@ -70,8 +70,9 @@
         if (response.status == 200) {
 
             let data = await response.json;
+            localStorage.removeItem("token")
             console.log("User created");
-            window.location.href="editUser.html"
+            window.location.href="login.html"
 
 
         } else {
