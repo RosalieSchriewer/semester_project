@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <!--  <script  src="/languages/english.mjs"></script>
+    <script  src="/routes/userFrontend.mjs"></script> -->
+   <!--  <link rel="stylesheet" href="/styles/light-theme.css"> -->
+   <link rel="stylesheet" id="themeStylesheet" href="/styles/light-theme.css">
+</head>
+
+<body>
+<button id="lightModeBtn">Darkmode</button>
+  <h1>Create your user account</h1>
+    <form id="createUserForm" action="" lang="en">
+        <label for="inputEmail" id="emailLabel">E-mail:</label><br>
+        <input type="email" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" id="inputEmail" name="inputEmail" required><br>
+        <label for="inputPassword" id="passwordLabel">Password:</label><br>
+        <input type="password" id="inputPassword" name="inputPassword" required><br>
+        <label for="inputFullname" id="fullNameLabel">Full name:</label><br>
+        <input type="txt" id="inputFullname" name="inputFullname" pattern="^[^\d]+ [^\d]+$"
+        title="Can't contain numbers and has to include both first and last name." required><br>
+        <!-- <label for="inputImage" id="imageLabel">Profile picture</label><br>
+        <input type="file" id="inputImage" name="inputImage" ><br><br> -->
+    <input type="submit" value="Submit" id="submitButton" />
+  </form>
+</body>
+<script>
+
+  // userFrontend --------should be moved to other file?--------
+
+  let lightModeBtn= document.getElementById("lightModeBtn")
+  lightModeBtn.addEventListener("click", function() {
+    const themeStylesheet = document.getElementById("themeStylesheet");
+    
+    // Toggle between dark and light themes
+    if (themeStylesheet.href.includes("dark")) {
+      lightModeBtn.textContent= "Darkmode"  
+        themeStylesheet.href = "/styles/light-theme.css";
+    } else {
+      lightModeBtn.textContent= "Lightmode"
+        themeStylesheet.href = "/styles/dark.theme.css";
+    }
+});
+
+  document
+    .getElementById("createUserForm")
+    .addEventListener("submit", async function (event) {
+      event.preventDefault();
+
+
+      // Getting form data
+      const name = document.getElementById("inputFullname").value;
+      const email = document.getElementById("inputEmail").value;
+      const password = document.getElementById("inputPassword").value;
+
+      const userData = { name, email, password };
+
+      try {
+        let response = await fetch("/user", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(userData),
+        });
+
+        if (response.status == 200) {
+
+            let data = await response.json;
+            localStorage.removeItem("token")
+            console.log("User created");
+            window.location.href="login.html"
+
+
+        } else {
+          throw new Error("Server error: " + response.status);
+        }
+      } catch (error) {
+        alert("This email is already in use.");
+        console.error("The error is: " + error);
+      }
+    });
+</script>
+
+</html>

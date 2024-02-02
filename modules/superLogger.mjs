@@ -1,6 +1,6 @@
 
 import Chalk from "chalk";
-import { HTTPMethods } from "./httpConstants.mjs"
+import { HTTPMethods } from './httpConstants.mjs'
 
 //#region  Construct for decorating output.
 
@@ -106,6 +106,8 @@ class SuperLogger {
     }
 
 }
+
+
 
 
 export default SuperLogger

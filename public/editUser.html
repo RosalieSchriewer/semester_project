@@ -12,6 +12,8 @@
     <button id="lightModeBtn">Darkmode</button>
         <input class="globalButton" type="submit" value="Delete user" style="background-color: rgb(211, 97, 77);"
         id="deleteAccBtn">
+        <!-- <input class="globalButton" type="submit" value="Logout" style="background-color: rgb(211, 97, 77);"
+        id="logoutBtn"> -->
     <h1>Edit your user account</h1>
     <form id="createUserForm" action="" lang="en">
        
@@ -32,6 +34,7 @@
 </form>
 </body>
 <script>
+   
 
     //-----------------getting user data to preview currently saved information-----------
     let lightModeBtn= document.getElementById("lightModeBtn")
@@ -49,7 +52,12 @@
 });
 
     let userID = 1 //hardcoded for now -->TODO
+    let token = localStorage.getItem("token")
+
 loadData();
+
+
+
     async function loadData() {
 
         const form = document.querySelector('form');
@@ -61,6 +69,7 @@ loadData();
         try {
             let response = await fetch("/user/" + userID, {
                 method: 'GET',
+                headers: { Authorization: token},
 
 
             });
@@ -107,6 +116,7 @@ loadData();
                     let response = await fetch("/user/" + userID, {
                         method: "PUT",
                         headers: {
+                             Authorization: token,
                             "Content-Type": "application/json",
                         },
                         body: JSON.stringify(userData),
@@ -115,7 +125,11 @@ loadData();
                     if (response.status == 200) {
                         let data = await response.json;
                         console.log("User updated", userData);
-                    } else {
+                    } else if( response.status === 401){
+                        alert("Login expired, please log in again")
+                        location.href = "login.html"
+
+                    }else{
                         throw new Error("Server error: " + response.status);
                     }
                 } catch (error) {
@@ -134,6 +148,7 @@ loadData();
             try {
                 let response = await fetch("/user/" + userID, {
                     method: 'DELETE',
+                    headers: { Authorization: token,}
 
                 });
 

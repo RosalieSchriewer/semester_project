@@ -26,6 +26,19 @@ input#submitButton{
     display: inline-block;
     font-size: 16px;
     border-radius: 8px;
+    cursor: pointer;
+}
+.greenButton{
+    background-color: #04AA6D; 
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
 }
 
 form{
@@ -53,6 +66,7 @@ Button{
     display: inline-block;
     font-size: 16px;
     border-radius: 8px;
+    cursor: pointer;
 }
 
 #lightModeBtn{
@@ -60,4 +74,5 @@ Button{
     top: 0;
     right: 0;
     margin: 10px;
+    cursor: pointer;
 }
