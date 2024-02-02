@@ -13,23 +13,41 @@
 
 <body>
 <button id="lightModeBtn">Darkmode</button>
-  <h1>Create your user account</h1>
-    <form id="createUserForm" action="" lang="en">
-        <label for="inputEmail" id="emailLabel">E-mail:</label><br>
-        <input type="email" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" id="inputEmail" name="inputEmail" required><br>
-        <label for="inputPassword" id="passwordLabel">Password:</label><br>
-        <input type="password" id="inputPassword" name="inputPassword" required><br>
-        <label for="inputFullname" id="fullNameLabel">Full name:</label><br>
-        <input type="txt" id="inputFullname" name="inputFullname" pattern="^[^\d]+ [^\d]+$"
-        title="Can't contain numbers and has to include both first and last name." required><br>
-        <!-- <label for="inputImage" id="imageLabel">Profile picture</label><br>
-        <input type="file" id="inputImage" name="inputImage" ><br><br> -->
-    <input type="submit" value="Submit" id="submitButton" />
-  </form>
+<button id="createAccBtn">Create account</button>
+<button id="loginBtn" class="greenButton">Login</button>
+<button id="profileBtn" style="display: none;">My profile</button>
+<button id="logoutBtn" style="display: none;" style="background-color: rgb(211, 97, 77),">Logout</button>
+  <h1>Create you avatar</h1>
+
 </body>
 <script>
 
-  // userFrontend --------should be moved to other file?--------
+let token = localStorage.getItem("token")
+
+const createAccBtn = document.getElementById("createAccBtn")
+if(token) {createAccBtn.style.display = "none" }
+createAccBtn.addEventListener("click", function(){
+  location.href = "createAccount.html"
+})
+
+const loginBtn = document.getElementById("loginBtn")
+if(token) {loginBtn.style.display = "none" }
+loginBtn.addEventListener("click", function(){
+  location.href = "login.html"
+})
+
+const profileBtn = document.getElementById("profileBtn")
+if(token) {profileBtn.style.display = "inline" }
+profileBtn.addEventListener("click", function(){
+  location.href = "editUser.html"
+})
+
+const logoutBtn = document.getElementById("logoutBtn")
+if(token) {logoutBtn.style.display = "inline" }
+logoutBtn.addEventListener("click", function(){
+  localStorage.removeItem("token")
+  location.href = "index.html"
+})
 
   let lightModeBtn= document.getElementById("lightModeBtn")
   lightModeBtn.addEventListener("click", function() {
@@ -45,44 +63,7 @@
     }
 });
 
-  document
-    .getElementById("createUserForm")
-    .addEventListener("submit", async function (event) {
-      event.preventDefault();
-
-
-      // Getting form data
-      const name = document.getElementById("inputFullname").value;
-      const email = document.getElementById("inputEmail").value;
-      const password = document.getElementById("inputPassword").value;
-
-      const userData = { name, email, password };
-
-      try {
-        let response = await fetch("/user", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(userData),
-        });
-
-        if (response.status == 200) {
-
-            let data = await response.json;
-            localStorage.removeItem("token")
-            console.log("User created");
-            window.location.href="login.html"
-
-
-        } else {
-          throw new Error("Server error: " + response.status);
-        }
-      } catch (error) {
-        alert("This email is already in use.");
-        console.error("The error is: " + error);
-      }
-    });
+ 
 </script>
 
 </html>
