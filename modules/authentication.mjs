@@ -16,5 +16,7 @@ export function verifyToken(req, res, next) {
         next();
     } catch (err) {
         return res.status(HTTPCodes.ClientSideErrorResponse.Unauthorized).send("Unauthorized: Invalid token");
+        
+    
     }
 }

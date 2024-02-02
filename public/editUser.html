@@ -12,8 +12,8 @@
     <button id="lightModeBtn">Darkmode</button>
         <input class="globalButton" type="submit" value="Delete user" style="background-color: rgb(211, 97, 77);"
         id="deleteAccBtn">
-        <input class="globalButton" type="submit" value="Logout" style="background-color: rgb(211, 97, 77);"
-        id="logoutBtn">
+        <!-- <input class="globalButton" type="submit" value="Logout" style="background-color: rgb(211, 97, 77);"
+        id="logoutBtn"> -->
     <h1>Edit your user account</h1>
     <form id="createUserForm" action="" lang="en">
        
@@ -34,6 +34,7 @@
 </form>
 </body>
 <script>
+   
 
     //-----------------getting user data to preview currently saved information-----------
     let lightModeBtn= document.getElementById("lightModeBtn")
@@ -124,7 +125,11 @@ loadData();
                     if (response.status == 200) {
                         let data = await response.json;
                         console.log("User updated", userData);
-                    } else {
+                    } else if( response.status === 401){
+                        alert("Login expired, please log in again")
+                        location.href = "login.html"
+
+                    }else{
                         throw new Error("Server error: " + response.status);
                     }
                 } catch (error) {

@@ -70,7 +70,7 @@ USER_API.post("/", (req, res, next) => {
 
 USER_API.post("/login", (req,res) => {
   const {email, pswHash} = req.body;
-  console.log("hihihi" +req.body);
+  console.log(req.body);
 
   const secretKey = 'mySecretKey';
 
