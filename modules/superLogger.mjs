@@ -1,5 +1,7 @@
+
 import Chalk from "chalk";
-import { HTTPMethods } from './httpConstants.mjs'
+import { HTTPMethods } from "./httpConstants.mjs"
+import fs from "fs/promises"
 
 //#region  Construct for decorating output.
 
@@ -61,6 +63,16 @@ class SuperLogger {
     }
     //#endregion
 
+    static log(msg, logLevl = SuperLogger.LOGGING_LEVELS.NORMAL) {
+
+        let logger = SuperLogger.instance;
+        if (logger.#globalThreshold > logLevl) {
+            return;
+        }
+
+        logger.#writeToLog(msg);
+    }
+
 
     // This is our automatic logger, it outputs at a "normal" level
     // It is just a convinent wrapper around the more generic createLimitedRequestLogger function
@@ -98,15 +110,21 @@ class SuperLogger {
 
         // TODO: This is just one simple thing to create structure and order. Can you do more?
         type = colorize(type);
-        console.log(when, type, path);
+        this.#writeToLog([when, type, path].join(" "));
 
         // On to the next handler function
         next();
     }
 
+    #writeToLog(msg) {
+
+        msg += "\n";
+        console.log(msg);
+        ///TODO: The files should be based on current date.
+        // ex: 300124.log
+        fs.appendFile("./log.txt", msg, { encoding: "utf8" }, (err) => { });
+    }
 }
-
-
 
 
 export default SuperLogger
