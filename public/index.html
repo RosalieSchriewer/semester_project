@@ -18,10 +18,29 @@
 <button id="profileBtn" style="display: none;">My profile</button>
 <button id="logoutBtn" style="display: none;" style="background-color: rgb(211, 97, 77),">Logout</button>
   <h1>Create you avatar</h1>
+  <button id="mainBtn" class="globalBtn">Avatar</button>
+  <button id="exitBtn" class="globalBtn">X</button>
+  <button id="questionBtn" class="globalBtn">?</button>
+  <button id="checkBtn" class="globalBtn">&#10004</button>
+ 
 
+  <div id="choiceMenu">
+      <img class="thumbnail" src="./AvatarStudio/Media/head.png">
+      <img class="thumbnail" src="./AvatarStudio/Media/head.png"> 
+      <img class="thumbnail" src="./AvatarStudio/Media/head.png">
+      <img class="thumbnail" src="./AvatarStudio/Media/head.png">
+      <img class="thumbnail" src="./AvatarStudio/Media/head.png">
+      <img class="thumbnail" src="./AvatarStudio/Media/eyebrowRender.jpg" id="loadEyebrows2Button">
+      <img class="thumbnail" src="./AvatarStudio/Media/eyebrow-1Render.jpg"id="loadEyebrowsButton">
+  </div>
 </body>
-<script>
 
+
+<script type="module">
+  import { loadScene } from "./AvatarStudio/Script/main.js";
+  loadScene()
+</script>
+<script>
 let token = localStorage.getItem("token")
 
 const createAccBtn = document.getElementById("createAccBtn")
@@ -57,6 +76,8 @@ logoutBtn.addEventListener("click", function(){
     if (themeStylesheet.href.includes("dark")) {
       lightModeBtn.textContent= "Darkmode"  
         themeStylesheet.href = "/styles/light-theme.css";
+       
+
     } else {
       lightModeBtn.textContent= "Lightmode"
         themeStylesheet.href = "/styles/dark.theme.css";

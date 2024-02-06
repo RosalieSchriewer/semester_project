@@ -12,7 +12,7 @@ class DBManager {
         this.#credentials = {
             connectionstring,
             ssl: {
-                rejectUnautherized: process.env.LIVE || false
+                rejectUnauthorized: process.env.LIVE || false
             }
         }
     }
@@ -22,7 +22,8 @@ class DBManager {
 
         try{
             await client.connect();
-            const output = await client.query(`INSERT INTO users (username, email, name) VALUES (${user.email}, ${user.name}, ${user.pswHash} 'john.doe@example.com'`);
+            const output = await client.query(`INSERT INTO Users ("id","name","pswHash","email") 
+            VALUES (${user.id},${user.name}, ${user.pswHash}, ${user.email}`);
 
 
             if(output.rows.length === 1){
