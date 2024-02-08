@@ -22,8 +22,8 @@ class DBManager {
 
         try{
             await client.connect();
-            const output = await client.query(`INSERT INTO Users ("id","name","pswHash","email") 
-            VALUES (${user.id},${user.name}, ${user.pswHash}, ${user.email}`);
+            const output = await client.query(`INSERT INTO "public"."Users"("id", "name", "pswHash", "email", "avatar_id")
+             VALUES('${user.id}', '${user.name}', '${user.pswHash}', '${user.email}', '${user.avatar_id}') `);
 
 
             if(output.rows.length === 1){

@@ -8,7 +8,7 @@ import { verifyToken } from './modules/authentication.mjs';
 const server = express();
 //server.use(express.static('public', { extensions: ['html', 'mjs'] }));
 // Selecting a port for the server to use.
-const port = (process.env.PORT || 8081);
+const port = (process.env.PORT || 8080);
 
 server.set('port', port);
 
