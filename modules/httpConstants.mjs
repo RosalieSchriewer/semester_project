@@ -18,7 +18,10 @@ class HTTPCodes {
         MethodNotAllowed: 405,
         NotAcceptable: 406
     }
-
+    static ServerErrorResponse = {
+        InternalError: 500,
+        NotImplemented: 501,
+    }
 }
 const HTTPMethods = {
     POST: "POST",
