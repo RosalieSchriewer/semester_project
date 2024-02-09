@@ -64,7 +64,22 @@ class DBManager {
 
         return user;
     }
+    async getUserByEmail(email) {
+        const client = new pg.Client(this.#credentials);
 
+        try {
+          await client.connect();
+    
+          const output = await client.query('SELECT * FROM "public"."Users" WHERE email = $1', [email]);
+    
+          return output.rows[0];
+        } catch (error) {
+          console.error('Error getting user by email:', error);
+          throw error;
+        } finally {
+          client.end();
+        }
+      }
     async createUser(user) {
 
         const client = new pg.Client(this.#credentials);

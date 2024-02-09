@@ -3,6 +3,7 @@ import User from "../user.mjs";
 import HTTPCodes from "../httpConstants.mjs";
 import jwt from 'jsonwebtoken';
 import { verifyToken } from "../authentication.mjs";
+import storageManager from "../storageManager.mjs";
 
 const USER_API = express.Router();
 
@@ -41,7 +42,8 @@ USER_API.post("/",async (req, res, next) => {
   if (name != "" && email != "" && pswHash != "") {
     ///TODO: Do not save passwords.
 
-    let exists = users.find((user) => user.email === email);
+    let exists = await storageManager.getUserByEmail(email)
+    console.log(exists)
 
     if (!exists) {
       let user = new User();
