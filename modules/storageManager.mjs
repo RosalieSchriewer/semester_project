@@ -64,6 +64,7 @@ class DBManager {
 
         return user;
     }
+
     async getUserByEmail(email) {
         const client = new pg.Client(this.#credentials);
 
@@ -80,6 +81,7 @@ class DBManager {
           client.end();
         }
       }
+
     async createUser(user) {
 
         const client = new pg.Client(this.#credentials);
@@ -106,6 +108,24 @@ class DBManager {
         return user;
 
     }
+
+    async getUserByEmailAndPassword(email,pswHash) {
+        const client = new pg.Client(this.#credentials);
+
+        try {
+          await client.connect();
+    
+          const output = await client.query('SELECT * FROM "public"."Users" WHERE email = $1 AND "pswHash" = $2', [email, pswHash]);
+    
+          return output.rows[0];
+        } catch (error) {
+          console.error('Error fetching user by email and password:', error);
+          throw error;
+        } finally {
+          client.end();
+        }
+      }
+
 
 }
 

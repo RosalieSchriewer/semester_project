@@ -71,13 +71,13 @@ USER_API.post("/",async (req, res, next) => {
 
 /*   -----------LOGIN--------------- */
 
-USER_API.post("/login", (req,res) => {
+USER_API.post("/login", async (req,res) => {
   const {email, pswHash} = req.body;
   console.log(req.body);
 
   const secretKey = 'mySecretKey';
 
-  const user = users.find((user) => user.email === email && user.pswHash === pswHash)
+  const user = await storageManager.getUserByEmailAndPassword(email, pswHash);
 
   if(user) {
     const token = jwt.sign({
