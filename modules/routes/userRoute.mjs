@@ -1,4 +1,4 @@
-import express, { response } from "express";
+import express from "express";
 import User from "../user.mjs";
 import HTTPCodes from "../httpConstants.mjs";
 import jwt from 'jsonwebtoken';
@@ -6,10 +6,8 @@ import { verifyToken } from "../authentication.mjs";
 
 const USER_API = express.Router();
 
-/* TEMPORARY HARDCODE USERS */
 const users = []
-  /*{id: 1, name: 'Vanilla Ice', email: 'vanilla@gmail.com', pswHash: 'password'}
-]; */
+
 
 //url: localhost:8080/user -->lists all users
 /* 
@@ -36,22 +34,25 @@ USER_API.get("/:id", verifyToken, (req, res) => {
   });
 
 /*   -----------NEW USER--------------- */
-USER_API.post("/", (req, res, next) => {
+USER_API.post("/",async (req, res, next) => {
   
-  const { name, email, password } = req.body;
+  const { name, email, pswHash } = req.body;
 
-  if (name != "" && email != "" && password != "") {
+  if (name != "" && email != "" && pswHash != "") {
     ///TODO: Do not save passwords.
 
     let exists = users.find((user) => user.email === email);
 
     if (!exists) {
-      const user = new User();
+      let user = new User();
       user.name = name;
       user.email = email;
-      user.pswHash = password;
+      user.pswHash = pswHash;
       users.push(user);
       res.status(HTTPCodes.SuccessfulResponse.Ok).end();
+      //TODO: What happens if this fails?
+      user = await user.save();
+     // res.status(HTTPCodes.SuccessfulResponse.Ok).json(JSON.stringify(user)).end();
     } else {
       res
         .status(HTTPCodes.ClientSideErrorResponse.BadRequest)
@@ -103,11 +104,12 @@ USER_API.put("/:id", verifyToken, (req, res) => {
       const foundIndex = users.findIndex((user) => user.id === userId);
   
       if (foundIndex !== -1) {
-        const { name, email, password } = req.body;
+        const { name, email, pswHash } = req.body;
         users[foundIndex].name = name 
         users[foundIndex].email = email 
-        users[foundIndex].pswHash = password 
+        users[foundIndex].pswHash = pswHash 
         res.status(HTTPCodes.SuccessfulResponse.Ok).end();
+        user.save();
       } else {
         res.status(HTTPCodes.ClientSideErrorResponse.NotFound).send("User not found").end();
       }

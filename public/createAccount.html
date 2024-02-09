@@ -54,9 +54,9 @@
       // Getting form data
       const name = document.getElementById("inputFullname").value;
       const email = document.getElementById("inputEmail").value;
-      const password = document.getElementById("inputPassword").value;
+      const pswHash = document.getElementById("inputPassword").value;
 
-      const userData = { name, email, password };
+      const userData = { name, email, pswHash };
 
       try {
         let response = await fetch("/user", {
