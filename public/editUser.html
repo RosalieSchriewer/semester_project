@@ -62,36 +62,13 @@
 
         const form = document.querySelector('form');
         let formData = new FormData(form);
-        ///Delete later-----------------
-        if (!token) {
-            console.log("no token")
-        } else console.log(token)
-        ///-----------------------
-        /* async function getUserId() {
-            const response = await fetch("/user/getUserId", {
-                headers: { Authorization: token },
-            })
-
-            console.log("response from getUserById", response)
-
-            if (response.ok) {
-                const data = await response.json();
-                console.log(data.userId)
-                 return data.userId;
-            } else {
-                console.error('Failed to get user ID');
-                return null;
-            }
-        } */
-
-
-
+        
 
         try {
 
             
 
-            let response = await fetch("/user/getUserById", { //change userID
+            let response = await fetch("/user/getUserById", { 
                 method: 'GET',
                 headers: { Authorization: token },
 
@@ -104,16 +81,16 @@
                 let data = await response.json();
                 console.log(data);
 
-                //if (user) {
+                
                 inputFullname.value = data.userInfo.name
                 inputEmail.value = data.userInfo.email
                 inputPassword.value = data.userInfo.pswHash
 
-                // }
+                
             }
 
 
-            //let user = data.find((user) => user.id === 1)//parseInt(login_userID));
+           
 
 
 
@@ -148,7 +125,7 @@
 
                 if (response.status == 200) {
                     let data = await response.json();
-                    console.log("User updated", data);
+                    //console.log("User updated", data);
                 } else if (response.status === 401) {
                     alert("Login expired, please log in again")
                     location.href = "login.html"

@@ -10,116 +10,82 @@ const USER_API = express.Router();
 const users = []
 
 
-//url: localhost:8080/user -->lists all users
-/* 
-USER_API.get("/user", (req, res) => {
-  res.status(HTTPCodes.SuccessfulResponse.Ok).json(users);
-}); 
- */
-//url: localhost:8080/user/id -->lists specific user
-/*
-USER_API.get("/:id", verifyToken, (req, res) => { 
-    const userId = parseInt(req.params.id, 10); //has to be parsed for some reason, didn't work if i didn't
 
-    if (userId) {
-      let foundId = users.find((user) => user.id === userId);
-
-      if (foundId) {
-        res.status(HTTPCodes.SuccessfulResponse.Ok).json(foundId);
-      } else {
-        res.status(HTTPCodes.ClientSideErrorResponse.NotFound).send("User not found").end();
-      }
-    } else {
-      res.status(HTTPCodes.ClientSideErrorResponse.BadRequest).send("Invalid user ID").end();
-    }
-  });*/
 
 /*   -----------NEW USER--------------- */
-USER_API.post("/",async (req, res, next) => {
-  
-  const { name, email, pswHash } = req.body;
+USER_API.post("/", async (req, res) => {
+  try {
+    const { name, email, pswHash } = req.body;
 
-  if (name != "" && email != "" && pswHash != "") {
-    ///TODO: Do not save passwords.
-
-    let exists = await DBManager.getUserByEmail(email)
-    console.log(exists)
-
-    if (!exists) {
-      let user = new User();
-      user.name = name;
-      user.email = email;
-      user.pswHash = pswHash;
-      users.push(user);
-      res.status(HTTPCodes.SuccessfulResponse.Ok).end();
-      //TODO: What happens if this fails?
-      user = await user.save();
-     // res.status(HTTPCodes.SuccessfulResponse.Ok).json(JSON.stringify(user)).end();
-    } else {
-      res
-        .status(HTTPCodes.ClientSideErrorResponse.BadRequest)
-        .send("This email is already in use.")
-        .end();
+    if (!name || !email || !pswHash) {
+      throw new Error("Missing input");
     }
-  } else {
-    res
-      .status(HTTPCodes.ClientSideErrorResponse.BadRequest)
-      .send("Missing input")
-      .end();
+
+    const exists = await DBManager.getUserByEmail(email);
+
+    if (exists) {
+      throw new Error("This email is already in use.");
+    }
+
+    let user = new User();
+    user.name = name;
+    user.email = email;
+    user.pswHash = pswHash;
+
+    // Save user to DB
+    await user.save();
+
+    res.status(HTTPCodes.SuccessfulResponse.Ok).end();
+  } catch (error) {
+    console.error("Error creating user:", error.message);
+    res.status(HTTPCodes.ClientSideErrorResponse.BadRequest).send(error.message).end();
   }
 });
-
 /*   -----------LOGIN--------------- */
 
-USER_API.post("/login", async (req,res) => {
-  const {email, pswHash} = req.body;
-  console.log(req.body);
+USER_API.post("/login", async (req, res) => {
+  try {
+    const { email, pswHash } = req.body;
+    const secretKey = process.env.SECRET_KEY;
 
-  const secretKey =  process.env.SECRET_KEY;;
+    const user = await DBManager.getUserByEmailAndPassword(email, pswHash);
 
-  const user = await DBManager.getUserByEmailAndPassword(email, pswHash);
+    if (!user) {
+      throw new Error("Wrong password or e-mail address.");
+    }
 
-  if(user) {
     const token = jwt.sign({
       userId: user.id,
       email: user.email
-    },
-    secretKey,
-    {expiresIn: '1h'}
-    )
-    res.json({token});
-  }else {
-    res.status(HTTPCodes.ClientSideErrorResponse.Unauthorized).send("Wrong password or e-mail address.")
-  }
-})
+    }, secretKey, { expiresIn: '1h' });
 
-
-
-
-
-//EDIT USER
-USER_API.put("/updateUser", verifyToken, async (req, res, next) => {
-  const {email, pswHash,name} = req.body
-  const userId = req.user.userId;
-  
-
-  try {
-    const userUpdate = await DBManager.updateUser(name, email, pswHash, userId);
-    res.status(HTTPCodes.SuccessfulResponse.Ok).json( userUpdate );
+    res.json({ token });
   } catch (error) {
-    console.error("Error updating user:", error);
-    res.status(HTTPCodes.ServerErrorResponse.InternalError).send("Internal Server Error").end();
+    console.error("Error during login:", error.message);
+    res.status(HTTPCodes.ClientSideErrorResponse.Unauthorized).send(error.message);
   }
+});
 
+/*   -----------EDIT--------------- */
+USER_API.put("/updateUser", verifyToken, async (req, res) => {
+  try {
+    const { email, pswHash, name } = req.body;
+    const userId = req.user.userId;
 
- 
+    const userUpdate = await DBManager.updateUser(name, email, pswHash, userId);
+    res.status(HTTPCodes.SuccessfulResponse.Ok).json(userUpdate);
+  } catch (error) {
+    console.error("Error updating user:", error.message);
+    res.status(HTTPCodes.ServerErrorResponse.InternalError).send("Internal Server Error");
+  }
 });
 
  
-
+/*   -----------DELETE--------------- */
 USER_API.delete("/deleteUser", verifyToken, async (req, res, next) => {
-  const userId = req.user.userId;
+  
   try {
+    const userId = req.user.userId;
     const userDeletion = await DBManager.deleteUser(userId);
     res.status(HTTPCodes.SuccessfulResponse.Ok).json( userDeletion );
   } catch (error) {
@@ -128,41 +94,37 @@ USER_API.delete("/deleteUser", verifyToken, async (req, res, next) => {
   }
 });
 
-USER_API.get('/token/', verifyToken, async (req, res) =>{
-  //let userId = await storageManager.getUserById(userId)
-
-const userId = await DBManager.getUserById(id)
-    res.json({ userId });
-})
-
-USER_API.get('/getUserId', verifyToken, (req, res,next) =>{
-  //let userId = await storageManager.getUserById(userId)
+/*   -----------GET ID--------------- */
+USER_API.get('/getUserId', verifyToken, (req, res) =>{
 
 const userId = req.user.userId
-//req.params.id
 
 res.json({userId})
 })
 
-
+/*   -----------GET USER BY ID--------------- */
 USER_API.get('/getUserById', verifyToken, async (req, res, next) =>{
  
-  const userId = req.user.userId
-  let userInfo = await DBManager.getUserById(userId)
-  
-res.json({userInfo})
-
-  
+  try {
+    const userId = req.user.userId;
+    const userInfo = await DBManager.getUserById(userId);
+    res.json({ userInfo });
+  } catch (error) {
+    console.error("Error getting user by ID:", error.message);
+    res.status(HTTPCodes.ServerErrorResponse.InternalError).send("Internal Server Error");
+  }  
 })
-////--------------DELETE THIS LATER-----------------
+
+////--------------ALL USERS-----------------
 USER_API.get('/', async (req, res) =>{
  
- 
-  let allUsers = await DBManager.getAllUsers()
- res.status(200).json(allUsers)
- return allUsers;
-
-  
-})
+  try {
+    const allUsers = await DBManager.getAllUsers();
+    res.status(HTTPCodes.SuccessfulResponse.Ok).json(allUsers);
+  } catch (error) {
+    console.error("Error fetching all users:", error.message);
+    res.status(HTTPCodes.ServerErrorResponse.InternalError).send("Internal Server Error");
+  }
+});
 //----------------------------------------------------
 export default USER_API;
