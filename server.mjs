@@ -1,11 +1,12 @@
 import express from 'express' // Express is installed using npm
 import USER_API from './modules/routes/userRoute.mjs'; // This is where we have defined the API for working with users.
 import SuperLogger from './modules/superLogger.mjs';
-//import 'dotenv/config'
+import dotenv from 'dotenv'
 import { verifyToken } from './modules/authentication.mjs';
-
+dotenv.config()
 // Creating an instance of the server
 const server = express();
+//console.log('Environment variables:', process.env);
 //server.use(express.static('public', { extensions: ['html', 'mjs'] }));
 // Selecting a port for the server to use.
 const port = (process.env.PORT || 8080);

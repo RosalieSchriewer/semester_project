@@ -11,8 +11,11 @@ export function verifyToken(req, res, next) {
     }
 
     try {
-        const decoded = jwt.verify(token, 'mySecretKey');
-        req.user = decoded;
+        const decoded = jwt.verify(token, process.env.SECRET_KEY);
+        req.user = {
+            userId: decoded.userId,
+            email: decoded.email,
+        };
         next();
     } catch (err) {
         return res.status(HTTPCodes.ClientSideErrorResponse.Unauthorized).send("Unauthorized: Invalid token");
