@@ -7,5 +7,5 @@ GET / -> Returns current authenticated user object. If no authenticated user, re
 METHOD: POST
 Expects: JSON
 Returns: JSON
-Requires: Authentication
+Requires: Authentication (token)
 Creates a user, required fields {name,password,email,....}
