@@ -21,7 +21,7 @@
         <input type="email" id="inputEmail" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" name="inputEmail"
             required /><br />
         <label for="inputPassword" id="passwordLabel">Change password:</label><br />
-        <input type="password" id="inputPassword" name="inputPassword" required /><br />
+        <input type="password" id="inputPassword" name="inputPassword"/><br />
         <label for="inputFullname" id="fullNameLabel">Change full name:</label><br />
         <input type="txt" pattern="^[^\d]+ [^\d]+$"
             title="Can't contain numbers and has to include both first and last name." id="inputFullname"
@@ -84,7 +84,7 @@
                 
                 inputFullname.value = data.userInfo.name
                 inputEmail.value = data.userInfo.email
-                inputPassword.value = data.userInfo.pswHash
+                
 
                 
             }
@@ -109,9 +109,12 @@
             // Getting form data
             const name = document.getElementById("inputFullname").value;
             const email = document.getElementById("inputEmail").value;
-            const pswHash = document.getElementById("inputPassword").value;
+            const newPassword = document.getElementById("inputPassword").value; 
 
-            const userData = { name, email, pswHash };
+            const userData = { name, email};
+            if(newPassword){
+                userData.pswHash = newPassword
+            }
 
             try {
                 let response = await fetch("/user/updateUser", {
