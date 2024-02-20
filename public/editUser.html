@@ -9,6 +9,9 @@
 </head>
 
 <body>
+    <div id="notificationPopup" class="notification-popup hidden">
+        <span id="notificationText"></span>
+    </div>
     <button id="lightModeBtn">Darkmode</button>
     <input class="globalButton" type="submit" value="Delete user" style="background-color: rgb(211, 97, 77);"
         id="deleteAccBtn">
@@ -29,7 +32,7 @@
         <!-- <label for="inputImage" id="imageLabel">Profile picture</label><br>
             <input type="file" id="inputImage" name="inputImage" ><br><br> -->
         <input type="submit" value="Submit" id="submitButton" />
-
+     
 
     </form>
 </body>
@@ -52,6 +55,18 @@
         }
     });
 
+    function showNotification(message) {
+    const notificationPopup = document.getElementById('notificationPopup');
+    const notificationText = document.getElementById('notificationText');
+
+    notificationText.textContent = message;
+
+    notificationPopup.classList.remove('hidden');
+
+    setTimeout(() => {
+        notificationPopup.classList.add('hidden');
+    }, 3000);
+}
 
     let token = localStorage.getItem("token")
     loadData();
@@ -128,7 +143,8 @@
 
                 if (response.status == 200) {
                     let data = await response.json();
-                    //console.log("User updated", data);
+                    showNotification("User updated successfully")
+                    
                 } else if (response.status === 401) {
                     alert("Login expired, please log in again")
                     location.href = "login.html"

@@ -1,15 +1,7 @@
 import pg from "pg"
-import SuperLogger from "./superLogger.mjs";
-import jwt from 'jsonwebtoken'
-import userId from "./routes/userRoute.mjs"
 import { generateHash } from './crypto.mjs';
 
-// We are using an environment variable to get the db credentials 
-/* if (process.env.DB_CONNECTIONSTRING == undefined) {
-    throw ("You forgot the db connection string");
-} */
 
-/// TODO: is the structure / design of the DBManager as good as it could be?
 
 class DBManager {
 
@@ -36,7 +28,7 @@ class DBManager {
               queryParams.push(pswHash);
           }
           
-          queryParams.push(userId);  // Add userId to queryParams
+          queryParams.push(userId); 
           
           const output = await client.query(
               'UPDATE "public"."Users" SET "name" = $1, "email" = $2' + 
