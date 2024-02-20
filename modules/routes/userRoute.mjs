@@ -72,7 +72,7 @@ USER_API.put("/updateUser", verifyToken, async (req, res) => {
     const { email, pswHash, name } = req.body;
     const userId = req.user.userId;
 
-    const userUpdate = await DBManager.updateUser(name, email, pswHash, userId);
+    const userUpdate = await DBManager.updateUser(name, email, pswHash || undefined, userId);
     res.status(HTTPCodes.SuccessfulResponse.Ok).json(userUpdate);
   } catch (error) {
     console.error("Error updating user:", error.message);
