@@ -144,12 +144,13 @@ USER_API.get("/", async (req, res) => {
 });
 //----------------------------------------------------
 
-USER_API.post("/saveAvatar", /* verifyToken, */ async (req, res) => {
+USER_API.post("/saveAvatar",  verifyToken,  async (req, res) => {
   try {
     const { eyeColor, 
       skinColor,
       hairColor,
       eyebrowType} = req.body;
+      const userId = req.user.userId;
 
       let avatar = new Avatar();
       avatar.eyeColor = eyeColor;
@@ -161,7 +162,8 @@ USER_API.post("/saveAvatar", /* verifyToken, */ async (req, res) => {
       eyeColor, 
       skinColor,
       hairColor,
-      eyebrowType
+      eyebrowType,
+      userId
     );
     res.status(HTTPCodes.SuccessfulResponse.Ok).json(avatar);
   } catch (error) {

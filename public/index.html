@@ -12,6 +12,9 @@
 </head>
 
 <body>
+  <div id="notificationPopup" class="notification-popup hidden">
+    <span id="notificationText"></span>
+</div>
 <button id="lightModeBtn">Darkmode</button>
 <button id="createAccBtn">Create account</button>
 <button id="loginBtn" class="greenButton">Login</button>
@@ -69,7 +72,7 @@ console.log(avatarData)
                 let response = await fetch("/user/saveAvatar", {
                     method: "POST",
                     headers: {
-                        /* Authorization: token, */
+                         Authorization: token, 
                         "Content-Type": "application/json",
                     },
                     body: JSON.stringify(avatarData),

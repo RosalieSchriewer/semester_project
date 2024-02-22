@@ -10,7 +10,7 @@ class DBManager {
     constructor(connectionString) {
         this.#credentials = {
             connectionString,
-            ssl: (process.env.DB_SSL === "true") ? process.env.DB_SSL : true
+            ssl: (process.env.DB_SSL === "true") ? process.env.DB_SSL : false
         };
 
     }
@@ -146,18 +146,22 @@ class DBManager {
         }
     }
 
-    async saveAvatar( hairColor, eyeColor, skinColor, eyebrowType) {
+    async saveAvatar( hairColor, eyeColor, skinColor, eyebrowType, userId) {
         const client = new pg.Client(this.#credentials);
     
         try {
             await client.connect();
             
-            const output = await client.query('INSERT INTO "public"."Avatar"( "hairColor", "eyeColor", "skinColor", "eyebrowType") VALUES($1, $2, $3, $4)',
+            const avatarOutput = await client.query('INSERT INTO "public"."Avatar"( "hairColor", "eyeColor", "skinColor", "eyebrowType") VALUES($1, $2, $3, $4) RETURNING id',
             [ hairColor, eyeColor, skinColor, eyebrowType]);
     
            /*  if (output.rows.length > 0) { */
-                const savedAvatar = output.rows[0];
-                return savedAvatar;
+           const avatarId = avatarOutput.rows[0].id;
+
+           const userOutput = await client.query('UPDATE "public"."Users" SET "avatar_id" = $1 WHERE id = $2 RETURNING *',
+            [avatarId, userId]);
+            const userUpdate = userOutput.rows[0]
+                return{avatarId, userUpdate};
            /*  } else {
                 throw new Error("Avatar not saved");
             } */
