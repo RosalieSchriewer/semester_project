@@ -21,7 +21,7 @@
   <button id="mainBtn" class="globalBtn">Avatar</button>
   <button id="exitBtn" class="globalBtn">X</button>
   <button id="questionBtn" class="globalBtn">?</button>
-  <button id="checkBtn" class="globalBtn">&#10004</button>
+  <button id="checkBtn"  class="globalBtn">&#10004</button>
  
 
   <div id="choiceMenu">
@@ -37,10 +37,64 @@
 
 
 <script type="module">
+
+//let token2 = localStorage.getItem("token")
+
   import { loadScene } from "./AvatarStudio/Script/main.js";
+  import { avatarData } from "./AvatarStudio/Script/scene.js";
+ // import {showNotification} from "./editUser.html"
   loadScene()
+
+  const checkBtn = document.getElementById("checkBtn")
+if(!token) {checkBtn.style.display = "none" }
+
+function showNotification(message) {
+    const notificationPopup = document.getElementById('notificationPopup');
+    const notificationText = document.getElementById('notificationText');
+
+    notificationText.textContent = message;
+
+    notificationPopup.classList.remove('hidden');
+
+    setTimeout(() => {
+        notificationPopup.classList.add('hidden');
+    }, 3000);
+}
+
+  checkBtn.addEventListener("click", async function (event) {
+  
+
+console.log(avatarData)
+  try {
+                let response = await fetch("/user/saveAvatar", {
+                    method: "POST",
+                    headers: {
+                        /* Authorization: token, */
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(avatarData),
+                });
+
+                if (response.status == 200) {
+                    let data = await response.json();
+                    showNotification("Saved your Avatar!")
+                    
+                } else if (response.status === 401) {
+                    alert("Login expired, please log in again")
+                    location.href = "login.html"
+
+                } else {
+                    throw new Error("Server error: " + response.status);
+                }
+            } catch (error) {
+
+                console.error("The error is: " + error);
+            }
+        });
 </script>
 <script>
+
+
 let token = localStorage.getItem("token")
 
 const createAccBtn = document.getElementById("createAccBtn")
@@ -83,6 +137,9 @@ logoutBtn.addEventListener("click", function(){
         themeStylesheet.href = "/styles/dark.theme.css";
     }
 });
+
+
+
 
  
 </script>

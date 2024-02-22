@@ -77,11 +77,7 @@ class DBManager {
             const output = await client.query('INSERT INTO "public"."Users"("name", "email", "pswHash") VALUES($1::Text, $2::Text, $3::Text) RETURNING id;',
              [user.name, user.email, user.pswHash]);
 
-            // Client.Query returns an object of type pg.Result (https://node-postgres.com/apis/result)
-            // Of special interest is the rows and rowCount properties of this object.
-
             if (output.rows.length == 1) {
-                // We stored the user in the DB.
                 user.id = output.rows[0].id;
             }
 
@@ -147,6 +143,29 @@ class DBManager {
             throw error;
         } finally {
             client.end();
+        }
+    }
+
+    async saveAvatar( hairColor, eyeColor, skinColor, eyebrowType) {
+        const client = new pg.Client(this.#credentials);
+    
+        try {
+            await client.connect();
+            
+            const output = await client.query('INSERT INTO "public"."Avatar"( "hairColor", "eyeColor", "skinColor", "eyebrowType") VALUES($1, $2, $3, $4)',
+            [ hairColor, eyeColor, skinColor, eyebrowType]);
+    
+           /*  if (output.rows.length > 0) { */
+                const savedAvatar = output.rows[0];
+                return savedAvatar;
+           /*  } else {
+                throw new Error("Avatar not saved");
+            } */
+        } catch (error) {
+            console.error("Error saving Avatar:", error);
+            throw error;
+        } finally {
+            client.end(); // Always disconnect from the database.
         }
     }
 
