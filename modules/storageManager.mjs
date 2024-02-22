@@ -10,7 +10,7 @@ class DBManager {
     constructor(connectionString) {
         this.#credentials = {
             connectionString,
-            ssl: (process.env.DB_SSL === "true") ? process.env.DB_SSL : false
+            ssl: (process.env.DB_SSL === "true") ? process.env.DB_SSL : true
         };
 
     }
