@@ -172,6 +172,25 @@ class DBManager {
             client.end(); // Always disconnect from the database.
         }
     }
+    async getAvatarId(avatar_id){
+        
+            const client = new pg.Client(this.#credentials);
+    
+            try {
+              await client.connect();
+              pswHash= generateHash(pswHash);
+              const output = await client.query('SELECT * FROM "public"."Users" WHERE avatar_id = $1', 
+              [avatar_id]);
+        
+              return output.rows[0];
+            } catch (error) {
+              console.error('Error fetching user by email and password:', error);
+              throw error;
+            } finally {
+              client.end();
+            }
+          
+    }
     async getAvatar(avatar_id) {
         const client = new pg.Client(this.#credentials);
 

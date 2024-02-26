@@ -50,19 +50,23 @@ USER_API.post("/login", async (req, res) => {
     const secretKey = process.env.SECRET_KEY;
 
     const user = await DBManager.getUserByEmailAndPassword(email, pswHash);
-
+   
     if (!user) {
       throw new Error("Wrong password or e-mail address.");
     }
 
-    const token = jwt.sign(
-      {
-        userId: user.id,
-        email: user.email,
-      },
-      secretKey,
-      { expiresIn: "1h" }
-    );
+    let tokenPayload = {
+      userId: user.id,
+      email: user.email,
+    };
+
+    const userWithAvatar = await DBManager.getUserById(user.id);
+    if (userWithAvatar) {
+  
+      tokenPayload.avatar_id = userWithAvatar.avatar_id;
+    }
+
+    const token = jwt.sign(tokenPayload, secretKey, { expiresIn: "1h" });
 
     res.json({ token });
   } catch (error) {
@@ -72,7 +76,6 @@ USER_API.post("/login", async (req, res) => {
       .send(error.message);
   }
 });
-
 /*   -----------EDIT--------------- */
 USER_API.put("/updateUser", verifyToken, async (req, res) => {
   try {
@@ -177,11 +180,24 @@ USER_API.post("/saveAvatar",  verifyToken,  async (req, res) => {
 USER_API.get("/getAvatar",  verifyToken,  async (req, res) => {
   try {
    
-    const avatar_id = req.user.avatar_id;
+    const avatar_id = req.user.avatar_id
     const avatarInfo = await DBManager.getAvatar(avatar_id);
     res.json({ avatarInfo });
   } catch (error) {
     console.error("Error getting avatar from user:", error.message);
+    res
+      .status(HTTPCodes.ServerErrorResponse.InternalError)
+      .send("Internal Server Error");
+  }
+});
+
+USER_API.get("/getAvatarId", verifyToken, async (req, res, next) => {
+  try {
+    const userId = req.user.userId;
+    const avatarInfoInfo = await DBManager.getAvatarId(avatar_id);
+    res.json({ avatarInfo });
+  } catch (error) {
+    console.error("Error getting user by ID:", error.message);
     res
       .status(HTTPCodes.ServerErrorResponse.InternalError)
       .send("Internal Server Error");
