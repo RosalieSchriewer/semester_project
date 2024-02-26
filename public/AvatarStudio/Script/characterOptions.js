@@ -1,6 +1,7 @@
 "use strict"
 import { GLTFLoader } from "../three.js-master/build/GLTFLoader.js";
 import * as THREE from '../three.js-master/src/Three.js';
+import { avatarData } from "./scene.js";
 
 export class TCharacterOptions extends THREE.Object3D {
     constructor(scene) {
@@ -8,6 +9,8 @@ export class TCharacterOptions extends THREE.Object3D {
       
         const loader = new GLTFLoader();
         let activeEyebrow = null;
+        let eyebrowInt= null;
+
 
 const loadEyebrowsButton = document.getElementById('loadEyebrowsButton');
 
@@ -20,6 +23,8 @@ const loadEyebrowsButton = document.getElementById('loadEyebrowsButton');
             loader.load("AvatarStudio/Media/eyebrows.gltf", (gltfModel) => {
                 gltfModel.scene.position.set(0, 0, 0);
                 this.add(gltfModel.scene);
+                eyebrowInt=1
+                avatarData.eyebrowType = eyebrowInt
                 activeEyebrow = gltfModel.scene;
                 
             });
@@ -36,6 +41,9 @@ const loadEyebrowsButton = document.getElementById('loadEyebrowsButton');
                 
                 gltfModel.scene.position.set(0, 0, 0);
                 this.add(gltfModel.scene);
+                eyebrowInt=2;
+                avatarData.eyebrowType = eyebrowInt
+                console.log(avatarData);
                 activeEyebrow = gltfModel.scene;
             });
         }); 

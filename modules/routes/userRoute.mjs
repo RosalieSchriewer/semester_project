@@ -1,16 +1,14 @@
 import express, { raw } from "express";
 import User from "../user.mjs";
 import HTTPCodes from "../httpConstants.mjs";
-import jwt from 'jsonwebtoken';
+import jwt from "jsonwebtoken";
 import { verifyToken } from "../authentication.mjs";
-import  DBManager from "../storageManager.mjs";
+import DBManager from "../storageManager.mjs";
+import Avatar from "../avatar.mjs";
 
 const USER_API = express.Router();
 
-const users = []
-
-
-
+const users = [];
 
 /*   -----------NEW USER--------------- */
 USER_API.post("/", async (req, res) => {
@@ -38,7 +36,10 @@ USER_API.post("/", async (req, res) => {
     res.status(HTTPCodes.SuccessfulResponse.Ok).end();
   } catch (error) {
     console.error("Error creating user:", error.message);
-    res.status(HTTPCodes.ClientSideErrorResponse.BadRequest).send(error.message).end();
+    res
+      .status(HTTPCodes.ClientSideErrorResponse.BadRequest)
+      .send(error.message)
+      .end();
   }
 });
 /*   -----------LOGIN--------------- */
@@ -49,82 +50,157 @@ USER_API.post("/login", async (req, res) => {
     const secretKey = process.env.SECRET_KEY;
 
     const user = await DBManager.getUserByEmailAndPassword(email, pswHash);
-
+   
     if (!user) {
       throw new Error("Wrong password or e-mail address.");
     }
 
-    const token = jwt.sign({
+    let tokenPayload = {
       userId: user.id,
-      email: user.email
-    }, secretKey, { expiresIn: '1h' });
+      email: user.email,
+    };
+
+    const userWithAvatar = await DBManager.getUserById(user.id);
+    if (userWithAvatar) {
+  
+      tokenPayload.avatar_id = userWithAvatar.avatar_id;
+    }
+
+    const token = jwt.sign(tokenPayload, secretKey, { expiresIn: "1h" });
 
     res.json({ token });
   } catch (error) {
     console.error("Error during login:", error.message);
-    res.status(HTTPCodes.ClientSideErrorResponse.Unauthorized).send(error.message);
+    res
+      .status(HTTPCodes.ClientSideErrorResponse.Unauthorized)
+      .send(error.message);
   }
 });
-
 /*   -----------EDIT--------------- */
 USER_API.put("/updateUser", verifyToken, async (req, res) => {
   try {
     const { email, pswHash, name } = req.body;
     const userId = req.user.userId;
 
-    const userUpdate = await DBManager.updateUser(name, email, pswHash || undefined, userId);
+    const userUpdate = await DBManager.updateUser(
+      name,
+      email,
+      pswHash || undefined,
+      userId
+    );
     res.status(HTTPCodes.SuccessfulResponse.Ok).json(userUpdate);
   } catch (error) {
     console.error("Error updating user:", error.message);
-    res.status(HTTPCodes.ServerErrorResponse.InternalError).send("Internal Server Error");
+    res
+      .status(HTTPCodes.ServerErrorResponse.InternalError)
+      .send("Internal Server Error");
   }
 });
 
- 
 /*   -----------DELETE--------------- */
 USER_API.delete("/deleteUser", verifyToken, async (req, res, next) => {
-  
   try {
     const userId = req.user.userId;
     const userDeletion = await DBManager.deleteUser(userId);
-    res.status(HTTPCodes.SuccessfulResponse.Ok).json( userDeletion );
+    res.status(HTTPCodes.SuccessfulResponse.Ok).json(userDeletion);
   } catch (error) {
     console.error("Error deleting user:", error);
-    res.status(HTTPCodes.ServerErrorResponse.InternalError).send("Internal Server Error").end();
+    res
+      .status(HTTPCodes.ServerErrorResponse.InternalError)
+      .send("Internal Server Error")
+      .end();
   }
 });
 
 /*   -----------GET ID--------------- */
-USER_API.get('/getUserId', verifyToken, (req, res) =>{
+USER_API.get("/getUserId", verifyToken, (req, res) => {
+  const userId = req.user.userId;
 
-const userId = req.user.userId
-
-res.json({userId})
-})
+  res.json({ userId });
+});
 
 /*   -----------GET USER BY ID--------------- */
-USER_API.get('/getUserById', verifyToken, async (req, res, next) =>{
- 
+USER_API.get("/getUserById", verifyToken, async (req, res, next) => {
   try {
     const userId = req.user.userId;
     const userInfo = await DBManager.getUserById(userId);
     res.json({ userInfo });
   } catch (error) {
     console.error("Error getting user by ID:", error.message);
-    res.status(HTTPCodes.ServerErrorResponse.InternalError).send("Internal Server Error");
-  }  
-})
+    res
+      .status(HTTPCodes.ServerErrorResponse.InternalError)
+      .send("Internal Server Error");
+  }
+});
 
 ////--------------ALL USERS-----------------
-USER_API.get('/', async (req, res) =>{
- 
+USER_API.get("/", async (req, res) => {
   try {
     const allUsers = await DBManager.getAllUsers();
     res.status(HTTPCodes.SuccessfulResponse.Ok).json(allUsers);
   } catch (error) {
     console.error("Error fetching all users:", error.message);
-    res.status(HTTPCodes.ServerErrorResponse.InternalError).send("Internal Server Error");
+    res
+      .status(HTTPCodes.ServerErrorResponse.InternalError)
+      .send("Internal Server Error");
   }
 });
 //----------------------------------------------------
+/*   -----------SAVE AVATAR--------------- */
+USER_API.post("/saveAvatar",  verifyToken,  async (req, res) => {
+  try {
+    const { eyeColor, 
+      skinColor,
+      hairColor,
+      eyebrowType} = req.body;
+      const userId = req.user.userId;
+
+      let avatar = new Avatar();
+      avatar.eyeColor = eyeColor;
+     avatar.skinColor = skinColor;
+      avatar.hairColor = hairColor;
+      avatar.eyebrowType = eyebrowType;
+
+    await DBManager.saveAvatar(
+      eyeColor, 
+      skinColor,
+      hairColor,
+      eyebrowType,
+      userId
+    );
+    res.status(HTTPCodes.SuccessfulResponse.Ok).json(avatar);
+  } catch (error) {
+    console.error("Error saving Avatar:", error.message);
+    res
+      .status(HTTPCodes.ClientSideErrorResponse.Unauthorized)
+      .send(error.message);
+  }
+});
+/*   -----------GET AVATAR--------------- */
+USER_API.get("/getAvatar",  verifyToken,  async (req, res) => {
+  try {
+   
+    const avatar_id = req.user.avatar_id
+    const avatarInfo = await DBManager.getAvatar(avatar_id);
+    res.json({ avatarInfo });
+  } catch (error) {
+    console.error("Error getting avatar from user:", error.message);
+    res
+      .status(HTTPCodes.ServerErrorResponse.InternalError)
+      .send("Internal Server Error");
+  }
+});
+
+USER_API.get("/getAvatarId", verifyToken, async (req, res, next) => {
+  try {
+    const userId = req.user.userId;
+    const avatarInfoInfo = await DBManager.getAvatarId(avatar_id);
+    res.json({ avatarInfo });
+  } catch (error) {
+    console.error("Error getting user by ID:", error.message);
+    res
+      .status(HTTPCodes.ServerErrorResponse.InternalError)
+      .send("Internal Server Error");
+  }
+});
 export default USER_API;

@@ -77,11 +77,7 @@ class DBManager {
             const output = await client.query('INSERT INTO "public"."Users"("name", "email", "pswHash") VALUES($1::Text, $2::Text, $3::Text) RETURNING id;',
              [user.name, user.email, user.pswHash]);
 
-            // Client.Query returns an object of type pg.Result (https://node-postgres.com/apis/result)
-            // Of special interest is the rows and rowCount properties of this object.
-
             if (output.rows.length == 1) {
-                // We stored the user in the DB.
                 user.id = output.rows[0].id;
             }
 
@@ -150,15 +146,77 @@ class DBManager {
         }
     }
 
+    async saveAvatar( hairColor, eyeColor, skinColor, eyebrowType, userId) {
+        const client = new pg.Client(this.#credentials);
+    
+        try {
+            await client.connect();
+            
+            const avatarOutput = await client.query('INSERT INTO "public"."Avatar"( "hairColor", "eyeColor", "skinColor", "eyebrowType") VALUES($1, $2, $3, $4) RETURNING id',
+            [ hairColor, eyeColor, skinColor, eyebrowType]);
+    
+           /*  if (output.rows.length > 0) { */
+           const avatarId = avatarOutput.rows[0].id;
+
+           const userOutput = await client.query('UPDATE "public"."Users" SET "avatar_id" = $1 WHERE id = $2 RETURNING *',
+            [avatarId, userId]);
+            const userUpdate = userOutput.rows[0]
+                return{avatarId, userUpdate};
+           /*  } else {
+                throw new Error("Avatar not saved");
+            } */
+        } catch (error) {
+            console.error("Error saving Avatar:", error);
+            throw error;
+        } finally {
+            client.end(); // Always disconnect from the database.
+        }
+    }
+    async getAvatarId(avatar_id){
+        
+            const client = new pg.Client(this.#credentials);
+    
+            try {
+              await client.connect();
+              pswHash= generateHash(pswHash);
+              const output = await client.query('SELECT * FROM "public"."Users" WHERE avatar_id = $1', 
+              [avatar_id]);
+        
+              return output.rows[0];
+            } catch (error) {
+              console.error('Error fetching user by email and password:', error);
+              throw error;
+            } finally {
+              client.end();
+            }
+          
+    }
+    async getAvatar(avatar_id) {
+        const client = new pg.Client(this.#credentials);
+
+        try {
+          await client.connect();
+    
+          const output = await client.query('SELECT * FROM "public"."Avatar" WHERE id = $1', [avatar_id]);
+    
+          return output.rows[0];
+        } catch (error) {
+          console.error('Error getting avatar id:', error);
+          throw error;
+        } finally {
+          client.end();
+        }
+      }
 }
 
 
 
 
 
+let connectionString = process.env.ENVIRONMENT == "local" ? process.env.DB_CONNECTIONSTRING_LOCAL : process.env.DB_CONNECTIONSTRING_PROD;
 
 
 
-export default new DBManager(process.env.DB_CONNECTIONSTRING_LOCAL);
+export default new DBManager(connectionString);
 
 //

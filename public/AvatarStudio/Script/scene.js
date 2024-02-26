@@ -5,8 +5,17 @@ import * as dat from "../three.js-master/build/dat.gui.module.js";
 import { TCharacter } from './Character.js';
 import { TCharacterOptions } from './characterOptions.js';
 
+export const avatarData = {
+    skinColor: null,
+    hairColor: null,
+    eyeColor: null,
+    eyebrowType: null,
+}
+
 
 export function TinitialiseScene(anAvatar) {
+
+
 
     let scene, camera, renderer, cubeMaterial, cube, model, modelMaterial, eyeMaterial, hairMaterial, skinMaterial;
 
@@ -62,6 +71,7 @@ export function TinitialiseScene(anAvatar) {
         gui.addColor(colorChanger, 'color').name("Eye color").onChange(function (color) {
             eyeMaterial.color.set(color);
             character.setIrisColor(color);
+            avatarData.eyeColor = eyeMaterial.color.getHex().toString(16);
             // Set the color of the loaded model's material to the same color
             if (modelMaterial) {
                 modelMaterial.color.set(color);
@@ -72,6 +82,8 @@ export function TinitialiseScene(anAvatar) {
         gui.addColor(HairColorChanger, 'color').name("Hair color").onChange(function (color) {
             hairMaterial.color.set(color);
             character.setHairColor(color);
+            avatarData.hairColor = hairMaterial.color.getHex().toString(16);
+ 
             // Set the color of the loaded model's material to the same color
             if (modelMaterial) {
                 modelMaterial.color.set(color);
@@ -82,6 +94,10 @@ export function TinitialiseScene(anAvatar) {
         gui.addColor(SkinColorChanger, 'color').name("Skin color").onChange(function (color) {
             skinMaterial.color.set(color);
             character.setSkinColor(color);
+            avatarData.skinColor = skinMaterial.color.getHex().toString(16);
+       
+        
+            
             // Set the color of the loaded model's material to the same color
             if (modelMaterial) {
                 modelMaterial.color.set(color);
