@@ -63,6 +63,29 @@ function showNotification(message) {
         notificationPopup.classList.add('hidden');
     }, 3000);
 }
+getAvatar()
+async function getAvatar(){
+  try{let response = await fetch("/user/getAvatar", {
+        
+                    headers: {
+                         Authorization: token, 
+                        
+                    },
+                   
+                });
+                if (response.status == 200) {
+                    let data = await response.json();
+                    console.log(data)
+                    
+                }else{
+                  console.log("not getting Avatar")
+                }
+
+  }catch(error) {
+
+console.error("The error is: " + error);
+}
+}
 
   checkBtn.addEventListener("click", async function (event) {
   

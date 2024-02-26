@@ -172,16 +172,32 @@ class DBManager {
             client.end(); // Always disconnect from the database.
         }
     }
+    async getAvatar(avatar_id) {
+        const client = new pg.Client(this.#credentials);
 
+        try {
+          await client.connect();
+    
+          const output = await client.query('SELECT * FROM "public"."Avatar" WHERE id = $1', [avatar_id]);
+    
+          return output.rows[0];
+        } catch (error) {
+          console.error('Error getting avatar id:', error);
+          throw error;
+        } finally {
+          client.end();
+        }
+      }
 }
 
 
 
 
 
+let connectionString = process.env.ENVIRONMENT == "local" ? process.env.DB_CONNECTIONSTRING_LOCAL : process.env.DB_CONNECTIONSTRING_PROD;
 
 
 
-export default new DBManager(process.env.DB_CONNECTIONSTRING_LOCAL);
+export default new DBManager(connectionString);
 
 //

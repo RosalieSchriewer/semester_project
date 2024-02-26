@@ -2,7 +2,9 @@ import express from 'express' // Express is installed using npm
 import USER_API from './modules/routes/userRoute.mjs'; // This is where we have defined the API for working with users.
 import SuperLogger from './modules/superLogger.mjs';
 import dotenv from 'dotenv'
+import printDeveloperStartupImportantInformationMSG from "./modules/developerHelpers.mjs";
 import { verifyToken } from './modules/authentication.mjs';
+printDeveloperStartupImportantInformationMSG();
 dotenv.config()
 // Creating an instance of the server
 const server = express();

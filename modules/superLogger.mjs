@@ -33,7 +33,7 @@ class SuperLogger {
         VERBOSE: 5,     // We output a lott, but not 
         NORMAL: 10,     // We output a moderate amount of messages
         IMPORTANT: 100, // We output just siginfican messages
-        CRTICAL: 999    // We output only errors. 
+        CRITICAL: 999    // We output only errors. 
     };
 
     // What level of messages should we be logging.

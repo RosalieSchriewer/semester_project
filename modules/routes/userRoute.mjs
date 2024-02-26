@@ -143,7 +143,7 @@ USER_API.get("/", async (req, res) => {
   }
 });
 //----------------------------------------------------
-
+/*   -----------SAVE AVATAR--------------- */
 USER_API.post("/saveAvatar",  verifyToken,  async (req, res) => {
   try {
     const { eyeColor, 
@@ -173,5 +173,18 @@ USER_API.post("/saveAvatar",  verifyToken,  async (req, res) => {
       .send(error.message);
   }
 });
-
+/*   -----------GET AVATAR--------------- */
+USER_API.get("/getAvatar",  verifyToken,  async (req, res) => {
+  try {
+   
+    const avatar_id = req.user.avatar_id;
+    const avatarInfo = await DBManager.getAvatar(avatar_id);
+    res.json({ avatarInfo });
+  } catch (error) {
+    console.error("Error getting avatar from user:", error.message);
+    res
+      .status(HTTPCodes.ServerErrorResponse.InternalError)
+      .send("Internal Server Error");
+  }
+});
 export default USER_API;
