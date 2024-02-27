@@ -40,13 +40,14 @@
 
 
 <script type="module">
+  loadScene()
 
 //let token2 = localStorage.getItem("token")
 
   import { loadScene } from "./AvatarStudio/Script/main.js";
   import { avatarData } from "./AvatarStudio/Script/scene.js";
  // import {showNotification} from "./editUser.html"
-  loadScene()
+ 
 
   const checkBtn = document.getElementById("checkBtn")
 if(!token) {checkBtn.style.display = "none" }
@@ -63,7 +64,7 @@ function showNotification(message) {
         notificationPopup.classList.add('hidden');
     }, 3000);
 }
-getAvatar()
+/* getAvatar()
 async function getAvatar(){
   try{let response = await fetch("/user/getAvatar", {
         
@@ -76,16 +77,23 @@ async function getAvatar(){
                 if (response.status == 200) {
                     let data = await response.json();
                     console.log(data)
+                    localStorage.setItem(data.avatarInfo.hairColor, "userHairColor");
+                    localStorage.setItem(data.avatarInfo.skinColor, "userSkinColor")
+                    localStorage.setItem(data.avatarInfo.eyeColor, "userEyeColor")
+                    localStorage.setItem(data.avatarInfo.eyebrowType, "userEyebrowType")
+                    
                     
                 }else{
                   console.log("not getting Avatar")
+                  
                 }
 
   }catch(error) {
 
 console.error("The error is: " + error);
 }
-}
+} */
+
 
   checkBtn.addEventListener("click", async function (event) {
   
@@ -144,7 +152,7 @@ profileBtn.addEventListener("click", function(){
 const logoutBtn = document.getElementById("logoutBtn")
 if(token) {logoutBtn.style.display = "inline" }
 logoutBtn.addEventListener("click", function(){
-  localStorage.removeItem("token")
+  localStorage.clear()
   location.href = "index.html"
 })
 

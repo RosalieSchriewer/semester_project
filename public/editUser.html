@@ -146,6 +146,7 @@
                     showNotification("User updated successfully")
                     
                 } else if (response.status === 401) {
+                    localStorage.clear()
                     alert("Login expired, please log in again")
                     location.href = "login.html"
 
