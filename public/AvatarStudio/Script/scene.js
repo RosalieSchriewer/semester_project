@@ -5,7 +5,7 @@ import * as dat from "../three.js-master/build/dat.gui.module.js";
 import { TCharacter } from "./Character.js";
 import { TCharacterOptions } from "./characterOptions.js";
 
-export const avatarData = {
+export let avatarData = {
   skinColor: null,
   hairColor: null,
   eyeColor: null,
@@ -58,17 +58,23 @@ export function TinitialiseScene(anAvatar) {
   scene.add(character, characterOptions);
 
   eyeMaterial = new THREE.MeshBasicMaterial();
-  const userEyeColor = "#" + localStorage.getItem("userEyeColor");
-  eyeMaterial.color.set(userEyeColor);
+  const userEyeColor = localStorage.getItem("userEyeColor");
+  eyeMaterial.color.set("#" + userEyeColor);
   // character.setIrisColor(userEyeColor);
+  avatarData.eyeColor = userEyeColor;
 
   hairMaterial = new THREE.MeshBasicMaterial();
-  const userHairColor = "#" + localStorage.getItem("userHairColor");
-  hairMaterial.color.set(userHairColor);
+  const userHairColor =  localStorage.getItem("userHairColor");
+  hairMaterial.color.set("#" + userHairColor);
+  avatarData.hairColor = userHairColor;
 
   skinMaterial = new THREE.MeshBasicMaterial();
-  const userSkinColor = "#" + localStorage.getItem("userSkinColor");
-  skinMaterial.color.set(userSkinColor);
+  const userSkinColor = localStorage.getItem("userSkinColor");
+  skinMaterial.color.set("#" + userSkinColor);
+  avatarData.skinColor = userSkinColor;
+
+  const userEyebrowType = localStorage.getItem("userEyebrowType")
+  avatarData.eyebrowType = userEyebrowType;
 
   //cube = new THREE.Mesh(new THREE.BoxGeometry(1, 1), cubeMaterial);
   //cube.position.set(0, 0, 0);

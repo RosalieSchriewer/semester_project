@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!--  <script  src="/languages/english.mjs"></script>
+    <script  src="/routes/userFrontend.mjs"></script> -->
+    <!--  <link rel="stylesheet" href="/styles/light-theme.css"> -->
+    <link rel="stylesheet" id="themeStylesheet" href="/styles/light-theme.css">
+</head>
+
+<body>
+    <div id="notificationPopup" class="notification-popup hidden">
+        <span id="notificationText"></span>
+    </div>
+    <button id="lightModeBtn">Darkmode</button>
+
+    <h1>Your friend shared their avatar with you</h1>
+
+</body>
+
+
+<script type="module">
+
+    import { loadScene } from "./AvatarStudio/Script/main.js";
+    import { avatarData } from "./AvatarStudio/Script/scene.js";
+    loadScene()
+
+    let lightModeBtn = document.getElementById("lightModeBtn")
+    lightModeBtn.addEventListener("click", function () {
+        const themeStylesheet = document.getElementById("themeStylesheet");
+
+        // Toggle between dark and light themes
+        if (themeStylesheet.href.includes("dark")) {
+            lightModeBtn.textContent = "Darkmode"
+            themeStylesheet.href = "/styles/light-theme.css";
+
+
+        } else {
+            lightModeBtn.textContent = "Lightmode"
+            themeStylesheet.href = "/styles/dark.theme.css";
+        }
+    });
+
+    const token = new URLSearchParams(window.location.search).get("token");
+
+
+    fetch(`http://localhost:8080/user/shareable-link?token=` + token)
+        .then(response => response.json())
+        .then(data => {
+            console.log('Retrieved avatar information:', data);
+
+            // Create HTML elements and insert avatar information
+            const avatarInfoContainer = document.getElementById("avatarInfo");
+            const avatarInfoList = document.createElement("ul");
+
+            for (const [key, value] of Object.entries(data)) {
+                const listItem = document.createElement("li");
+                listItem.textContent = `${key}: ${value}`;
+                avatarInfoList.appendChild(listItem);
+            }
+
+            avatarInfoContainer.appendChild(avatarInfoList);
+        })
+        .catch(error => {
+            console.error('Error retrieving avatar information:', error);
+        });
+
+    console.log(avatarData)
+
+
+</script>
+
+</html>

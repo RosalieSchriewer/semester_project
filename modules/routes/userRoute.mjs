@@ -191,13 +191,52 @@ USER_API.get("/getAvatar",  verifyToken,  async (req, res) => {
   }
 });
 
-USER_API.get("/getAvatarId", verifyToken, async (req, res, next) => {
+USER_API.post("/generateShareableLink", verifyToken, async (req, res) => {
   try {
-    const userId = req.user.userId;
-    const avatarInfoInfo = await DBManager.getAvatarId(avatar_id);
-    res.json({ avatarInfo });
+    const avatar_id = req.user.avatar_id
+    const avatarInfo = await DBManager.getAvatar(avatar_id);
+
+   
+    const tokenPayload = {
+      hairColor: avatarInfo.hairColor,
+      eyeColor: avatarInfo.eyeColor,
+      skinColor: avatarInfo.skinColor,
+      eyebrowType: avatarInfo.eyebrowType,
+    };
+
+ 
+    const token = jwt.sign(tokenPayload, process.env.SECRET_KEY, { expiresIn: '1 day' });
+
+   //TODO HARDCODED LINK TO LOCALHOST
+    const shareableLink = `http://localhost:8080/user/shareable-link?token=${token}`;
+
+    res.json({ shareableLink });
   } catch (error) {
-    console.error("Error getting user by ID:", error.message);
+    console.error("Error generating shareable link:", error.message);
+    res.status(HTTPCodes.ClientSideErrorResponse.Unauthorized).send(error.message);
+  }
+});
+USER_API.get("/shareable-link", async (req, res) => {
+  try {
+    const { token } = req.query;
+
+    const decoded = jwt.verify(token, process.env.SECRET_KEY);
+
+   // res.json(decoded);
+   const currentWorkingDir = process.cwd();
+   
+    const htmlFilePath = `${currentWorkingDir}/public/sharedAvatar.html`;
+
+    //res.set('Content-Type', 'text/html');
+   
+    res.sendFile(htmlFilePath, {
+      token: JSON.stringify(decoded),
+      headers: {
+        'Content-Type': 'text/html',
+      },
+    });
+  } catch (error) {
+    console.error("Error handling shareable link:", error.message);
     res
       .status(HTTPCodes.ServerErrorResponse.InternalError)
       .send("Internal Server Error");

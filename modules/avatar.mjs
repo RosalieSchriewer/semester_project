@@ -1,30 +1,13 @@
 
 import DBManager from "./storageManager.mjs";
+import jwt from "jsonwebtoken";
 
-/*  
-// If you dont want to use class, this is one alternative
-
-const User = function () {
-  return {
-    email: "",
-    pswHash: "",
-    name: "",
-    id: null,
-    save: Save,
-  };
-
-  function Save() {
-    console.log(this.name);
-  }
-};
-
-}*/
 
 
 class Avatar {
 
   constructor() {
-    ///TODO: Are these the correct fields for your project?
+   
     this.hairColor;
     this.eyeColor;
     this.skinColor;
@@ -50,6 +33,20 @@ class Avatar {
     /// TODO: What happens if the DBManager fails to complete its task?
     DBManager.deleteAvatar(this);
   }
+  /* generateShareableLink() {
+    const tokenPayload = {
+      hairColor: this.hairColor,
+      eyeColor: this.eyeColor,
+      skinColor: this.skinColor,
+      eyebrowType: this.eyebrowType,
+    };
+
+   
+    const token = jwt.sign(tokenPayload,process.env.SECRET_KEY, { expiresIn: '1 day' });
+
+    const shareableLink = `/http://localhost:8080/shareable-avatar?token=${token}`;
+    return shareableLink;
+  } */
 }
 
 export default Avatar;

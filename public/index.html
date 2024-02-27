@@ -41,10 +41,11 @@
 
 
 <script type="module">
-  loadScene()
+ 
 
   import { loadScene } from "./AvatarStudio/Script/main.js";
   import { avatarData } from "./AvatarStudio/Script/scene.js";
+  loadScene()
  
   let token = localStorage.getItem("token")
 
@@ -113,11 +114,10 @@
   }
 
 
-
+  console.log(avatarData)
   checkBtn.addEventListener("click", async function (event) {
 
 
-    console.log(avatarData)
     try {
       let response = await fetch("/user/saveAvatar", {
         method: "PUT",
@@ -133,6 +133,7 @@
         showNotification("Saved your Avatar!")
 
       } else if (response.status === 401) {
+        localStorage.clear()
         alert("Login expired, please log in again")
         location.href = "login.html"
 
@@ -144,5 +145,35 @@
       console.error("The error is: " + error);
     }
   });
+
+  shareBtn.addEventListener("click", async function (event) {
+  try {
+    let response = await fetch("user/generateShareableLink", {
+      method: "POST",
+      headers: {
+        Authorization: token,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(avatarData),
+    });
+
+    if (response.status == 200) {
+      let data = await response.json();
+      const shareableLink = data.shareableLink;
+      console.log("this",shareableLink)
+      showNotification("Shareable link generated: " + shareableLink);
+      console.log(shareableLink)
+    } else if (response.status === 401) {
+      localStorage.clear();
+      alert("Login expired, please log in again");
+      location.href = "login.html";
+    } else {
+      throw new Error("Server error: " + response.status);
+    }
+  } catch (error) {
+    console.error("The error is: " + error);
+  }
+});
+
 </script>
 </html>

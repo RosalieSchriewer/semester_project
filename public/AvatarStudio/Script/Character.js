@@ -1,7 +1,7 @@
 "use strict"
 import { GLTFLoader } from "../three.js-master/build/GLTFLoader.js";
 import * as THREE from '../three.js-master/src/Three.js';
-
+import { avatarData } from "./scene.js";
 
 const bodyParts = {
     head: null,
@@ -48,7 +48,9 @@ export class TCharacter extends THREE.Object3D {
                 const eyeMaterial = this.getObjectByName('eye_left');
                 let userEyeColor =localStorage.getItem("userEyeColor")
                 eyeMaterial.children[2].material.color.set("#"+userEyeColor);
+                
             }
+
             this.userEyeColorApply()
 
             const hairMaterial = gltfModel.scene.children.find(child => child.name === 'hair_joined')
