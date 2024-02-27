@@ -112,12 +112,12 @@ USER_API.delete("/deleteUser", verifyToken, async (req, res, next) => {
   }
 });
 
-/*   -----------GET ID--------------- */
+/* /*   -----------GET ID--------------- 
 USER_API.get("/getUserId", verifyToken, (req, res) => {
   const userId = req.user.userId;
 
   res.json({ userId });
-});
+}); */
 
 /*   -----------GET USER BY ID--------------- */
 USER_API.get("/getUserById", verifyToken, async (req, res, next) => {
