@@ -143,6 +143,13 @@ canvas {
     bottom:40%;
     width: 2.5em;
 }
+#shareBtn {
+    color: rgb(47, 185, 70);
+    background-color: white;
+    right: 2em;
+    bottom: 20%;
+    width: 15em;
+}
 
 #checkBtn:hover {
     background-color: rgb(47, 185, 70);

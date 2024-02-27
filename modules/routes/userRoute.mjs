@@ -147,7 +147,7 @@ USER_API.get("/", async (req, res) => {
 });
 //----------------------------------------------------
 /*   -----------SAVE AVATAR--------------- */
-USER_API.post("/saveAvatar",  verifyToken,  async (req, res) => {
+USER_API.put("/saveAvatar",  verifyToken,  async (req, res) => {
   try {
     const { eyeColor, 
       skinColor,

@@ -78,7 +78,8 @@
                 alert("You are now logged in");
                 location.href = "index.html";
             } catch (error) {
-                console.error("Error fetching avatar data: " + error);
+               
+                location.href = "index.html";
             }
         } catch (error) {
             alert("Wrong password or e-mail");
