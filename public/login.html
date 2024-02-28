@@ -41,27 +41,75 @@
       
       
       try {
-        let response = await fetch(url, {
-          method: "POST",
-          headers: { "Content-Type": "application/json", },
-          body: JSON.stringify({ email, pswHash}),
-        });
+            let response = await fetch(url, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, pswHash }),
+            });
 
-        if (response.status != 200) {
-          throw new Error("Server error: " + response.status);
+            if (response.status != 200) {
+                throw new Error("Server error: " + response.status);
+            }
 
+            let data = await response.json();
+            localStorage.setItem("token", data.token);
+            console.log("User logged in with token" + data.token);
+
+            // Fetch avatar data after successful login
+
+            try {
+                let lightmodeResponse = await fetch("/user/getLightMode", {
+                    headers: {
+                        Authorization: data.token,
+                    },
+                });
+
+                if (lightmodeResponse.status == 200) {
+                    let lightmodeData = await lightmodeResponse.json();
+                    localStorage.setItem("lightmode",lightmodeData.lightmode)
+                    console.log(lightmodeData.lightmode)
+              
+                } else {
+                    console.log("not getting lightmode");
+                }
+
+                // Navigate to index.html after fetching avatar data
+               
+            } catch (error) {
+                console.error("The error is: " + error)
+            }
+
+            try {
+                let avatarResponse = await fetch("/user/getAvatar", {
+                    headers: {
+                        Authorization: data.token,
+                    },
+                });
+
+                if (avatarResponse.status == 200) {
+                    let avatarData = await avatarResponse.json();
+                    console.log(avatarData);
+                    localStorage.setItem("userHairColor", avatarData.avatarInfo.hairColor);
+                    localStorage.setItem("userSkinColor", avatarData.avatarInfo.skinColor);
+                    localStorage.setItem("userEyeColor", avatarData.avatarInfo.eyeColor);
+                    localStorage.setItem("userEyebrowType", avatarData.avatarInfo.eyebrowType);
+                } else {
+                    console.log("not getting Avatar");
+                }
+
+                // Navigate to index.html after fetching avatar data
+                alert("You are now logged in");
+                location.href = "index.html";
+            } catch (error) {
+               
+                location.href = "index.html";
+            }
+        } catch (error) {
+            alert("Wrong password or e-mail");
+            console.error("The error is: " + error);
         }
-
-        let data = await response.json();
-        localStorage.setItem("token", data.token)
-        console.log("User logged in with token" +data.token);
-        alert("You are now logged in");
-        location.href  = "index.html";
-      } catch (error) {
-        alert("Wrong password or e-mail");
-        console.error("The error is: " + error);
-      }
     });
+    
     </script>
 </body>
 

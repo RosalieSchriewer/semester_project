@@ -58,6 +58,7 @@ USER_API.post("/login", async (req, res) => {
     let tokenPayload = {
       userId: user.id,
       email: user.email,
+      lightmode: user.lightmode
     };
 
     const userWithAvatar = await DBManager.getUserById(user.id);
@@ -112,12 +113,12 @@ USER_API.delete("/deleteUser", verifyToken, async (req, res, next) => {
   }
 });
 
-/*   -----------GET ID--------------- */
+/* /*   -----------GET ID--------------- 
 USER_API.get("/getUserId", verifyToken, (req, res) => {
   const userId = req.user.userId;
 
   res.json({ userId });
-});
+}); */
 
 /*   -----------GET USER BY ID--------------- */
 USER_API.get("/getUserById", verifyToken, async (req, res, next) => {
@@ -147,7 +148,7 @@ USER_API.get("/", async (req, res) => {
 });
 //----------------------------------------------------
 /*   -----------SAVE AVATAR--------------- */
-USER_API.post("/saveAvatar",  verifyToken,  async (req, res) => {
+USER_API.put("/saveAvatar",  verifyToken,  async (req, res) => {
   try {
     const { eyeColor, 
       skinColor,
@@ -191,13 +192,81 @@ USER_API.get("/getAvatar",  verifyToken,  async (req, res) => {
   }
 });
 
-USER_API.get("/getAvatarId", verifyToken, async (req, res, next) => {
+USER_API.post("/generateShareableLink", verifyToken, async (req, res) => {
   try {
-    const userId = req.user.userId;
-    const avatarInfoInfo = await DBManager.getAvatarId(avatar_id);
-    res.json({ avatarInfo });
+    const avatar_id = req.user.avatar_id
+    const avatarInfo = await DBManager.getAvatar(avatar_id);
+
+   
+    const tokenPayload = {
+      hairColor: avatarInfo.hairColor,
+      eyeColor: avatarInfo.eyeColor,
+      skinColor: avatarInfo.skinColor,
+      eyebrowType: avatarInfo.eyebrowType,
+    };
+
+ 
+    const token = jwt.sign(tokenPayload, process.env.SECRET_KEY, { expiresIn: '1 day' });
+
+   //TODO HARDCODED LINK TO LOCALHOST
+    const shareableLink = `http://localhost:8080/user/shareable-link?token=${token}`;
+
+    res.json({ shareableLink });
   } catch (error) {
-    console.error("Error getting user by ID:", error.message);
+    console.error("Error generating shareable link:", error.message);
+    res.status(HTTPCodes.ClientSideErrorResponse.Unauthorized).send(error.message);
+  }
+});
+USER_API.get("/shareable-link", async (req, res) => {
+  try {
+    const { token } = req.query;
+
+    const decoded = jwt.verify(token, process.env.SECRET_KEY);
+
+   // res.json(decoded);
+   const currentWorkingDir = process.cwd();
+   
+    const htmlFilePath = `${currentWorkingDir}/public/sharedAvatar.html`;
+
+    //res.set('Content-Type', 'text/html');
+   
+    res.sendFile(htmlFilePath, {
+      token: JSON.stringify(decoded),
+      headers: {
+        'Content-Type': 'text/html',
+      },
+    });
+  } catch (error) {
+    console.error("Error handling shareable link:", error.message);
+    res
+      .status(HTTPCodes.ServerErrorResponse.InternalError)
+      .send("Internal Server Error");
+  }
+});
+USER_API.put("/updateLightMode", verifyToken, async (req, res) => {
+  try {
+    const { lightmode } = req.body; 
+    const userId = req.user.userId; 
+
+   
+    const lightModeUpdateResult = await DBManager.updateLightMode(lightmode, userId);
+
+   
+    res.status(HTTPCodes.SuccessfulResponse.Ok).json(lightModeUpdateResult);
+  } catch (error) {
+    console.error("Error updating light mode choice:", error.message);
+    res
+      .status(HTTPCodes.ServerErrorResponse.InternalError)
+      .send("Internal Server Error");
+  }
+});
+USER_API.get("/getLightMode", verifyToken, async (req, res) => {
+  try {
+    const  lightmode  =  req.user.lightmode; 
+   
+    res.status(HTTPCodes.SuccessfulResponse.Ok).json({lightmode});
+  } catch (error) {
+    console.error("Error getting light mode choice:", error.message);
     res
       .status(HTTPCodes.ServerErrorResponse.InternalError)
       .send("Internal Server Error");

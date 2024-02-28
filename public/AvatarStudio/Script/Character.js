@@ -1,7 +1,7 @@
 "use strict"
 import { GLTFLoader } from "../three.js-master/build/GLTFLoader.js";
 import * as THREE from '../three.js-master/src/Three.js';
-
+import { avatarData } from "./scene.js";
 
 const bodyParts = {
     head: null,
@@ -21,6 +21,7 @@ export class TCharacter extends THREE.Object3D {
    
         loader.load("AvatarStudio/Media/Boy-smaller-file.gltf", (gltfModel) => {
             //this.irisOfEye = gltfModel.scene.children[2].material;
+            
             gltfModel.scene.position.set(0, 0, 0);
             //gltfModel.scene.rotation.y = -Math.PI / 2;
             this.add(gltfModel.scene);
@@ -37,18 +38,32 @@ export class TCharacter extends THREE.Object3D {
                
                 light.intensity = 1;
             });
-            const eyeMaterial = gltfModel.scene.children.find(child => child.name === 'eye_left')
-            console.log(eyeMaterial)
-
-            // Define setIrisColor as a method of the class
             this.setIrisColor = function (aColor) {
-                eyeMaterial.children[2].material.color.set(aColor);  // Set a default color for testing
-            };
+                const eyeMaterial = this.getObjectByName('eye_left');
+                if (eyeMaterial) {
+                    eyeMaterial.children[2].material.color.set(aColor);
+                }
+            }
+            this.userEyeColorApply = function(){
+                const eyeMaterial = this.getObjectByName('eye_left');
+                let userEyeColor =localStorage.getItem("userEyeColor")
+                eyeMaterial.children[2].material.color.set("#"+userEyeColor);
+                
+            }
+
+            this.userEyeColorApply()
+
             const hairMaterial = gltfModel.scene.children.find(child => child.name === 'hair_joined')
             console.log(hairMaterial)
             this.setHairColor = function (aColor) {
                 hairMaterial.material.color.set(aColor);  // Set a default color for testing
             };
+            this.userHairColorApply = function(){
+                const hairMaterial = this.getObjectByName('hair_joined');
+                let userHairColor =localStorage.getItem("userHairColor")
+                hairMaterial.material.color.set("#"+userHairColor);
+            }
+            this.userHairColorApply()
 
             const skinMaterial = gltfModel.scene.children.find(child => child.name === 'BSurfaceMesh002')
             const earMaterial = gltfModel.scene.children.find(child => child.name === 'EARS')
@@ -58,7 +73,15 @@ export class TCharacter extends THREE.Object3D {
             this.setSkinColor = function (aColor) {
                 skinMaterial.material.color.set(aColor); 
                 earMaterial.material.color.set(aColor)
-            };
+            }
+            this.userSkinColorApply = function(){
+                const skinMaterial = this.getObjectByName('BSurfaceMesh002');
+                const earMaterial = this.getObjectByName('EARS');
+                let userSkinColor =localStorage.getItem("userSkinColor")
+                skinMaterial.material.color.set("#"+userSkinColor);
+                earMaterial.material.color.set("#"+userSkinColor);
+            }
+            this.userSkinColorApply()
         });
 
 

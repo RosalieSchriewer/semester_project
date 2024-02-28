@@ -7,167 +7,149 @@
   <title>Document</title>
   <!--  <script  src="/languages/english.mjs"></script>
     <script  src="/routes/userFrontend.mjs"></script> -->
-   <!--  <link rel="stylesheet" href="/styles/light-theme.css"> -->
-   <link rel="stylesheet" id="themeStylesheet" href="/styles/light-theme.css">
+  <!--  <link rel="stylesheet" href="/styles/light-theme.css"> -->
+  <link rel="stylesheet" id="themeStylesheet" href="/styles/light-theme.css">
 </head>
 
 <body>
   <div id="notificationPopup" class="notification-popup hidden">
     <span id="notificationText"></span>
-</div>
-<button id="lightModeBtn">Darkmode</button>
-<button id="createAccBtn">Create account</button>
-<button id="loginBtn" class="greenButton">Login</button>
-<button id="profileBtn" style="display: none;">My profile</button>
-<button id="logoutBtn" style="display: none;" style="background-color: rgb(211, 97, 77),">Logout</button>
+  </div>
+  <button id="lightModeBtn">Darkmode</button>
+  <button id="createAccBtn">Create account</button>
+  <button id="loginBtn" class="greenButton">Login</button>
+  <button id="profileBtn" style="display: none;">My profile</button>
+  <button id="logoutBtn" style="display: none;" style="background-color: rgb(211, 97, 77),">Logout</button>
   <h1>Create you avatar</h1>
   <button id="mainBtn" class="globalBtn">Avatar</button>
   <button id="exitBtn" class="globalBtn">X</button>
   <button id="questionBtn" class="globalBtn">?</button>
-  <button id="checkBtn"  class="globalBtn">&#10004</button>
- 
+  <button id="checkBtn" class="globalBtn">&#10004</button>
+  <button id="shareBtn" class="globalBtn">Share this avatar</button>
+
 
   <div id="choiceMenu">
-      <img class="thumbnail" src="./AvatarStudio/Media/head.png">
-      <img class="thumbnail" src="./AvatarStudio/Media/head.png"> 
-      <img class="thumbnail" src="./AvatarStudio/Media/head.png">
-      <img class="thumbnail" src="./AvatarStudio/Media/head.png">
-      <img class="thumbnail" src="./AvatarStudio/Media/head.png">
-      <img class="thumbnail" src="./AvatarStudio/Media/eyebrowRender.jpg" id="loadEyebrows2Button">
-      <img class="thumbnail" src="./AvatarStudio/Media/eyebrow-1Render.jpg"id="loadEyebrowsButton">
+    <img class="thumbnail" src="./AvatarStudio/Media/head.png">
+    <img class="thumbnail" src="./AvatarStudio/Media/head.png">
+    <img class="thumbnail" src="./AvatarStudio/Media/head.png">
+    <img class="thumbnail" src="./AvatarStudio/Media/head.png">
+    <img class="thumbnail" src="./AvatarStudio/Media/head.png">
+    <img class="thumbnail" src="./AvatarStudio/Media/eyebrowRender.jpg" id="loadEyebrows2Button">
+    <img class="thumbnail" src="./AvatarStudio/Media/eyebrow-1Render.jpg" id="loadEyebrowsButton">
   </div>
 </body>
 
 
 <script type="module">
-
-//let token2 = localStorage.getItem("token")
+ 
 
   import { loadScene } from "./AvatarStudio/Script/main.js";
   import { avatarData } from "./AvatarStudio/Script/scene.js";
- // import {showNotification} from "./editUser.html"
+  import {createLightModeButton, showNotification} from "./sharedFunctions.js"
   loadScene()
+ 
+  let token = localStorage.getItem("token")
+
+  const createAccBtn = document.getElementById("createAccBtn")
+  if (token) { createAccBtn.style.display = "none" }
+  createAccBtn.addEventListener("click", function () {
+    location.href = "createAccount.html"
+  })
+
+  const loginBtn = document.getElementById("loginBtn")
+  if (token) { loginBtn.style.display = "none" }
+  loginBtn.addEventListener("click", function () {
+    location.href = "login.html"
+  })
+
+  const profileBtn = document.getElementById("profileBtn")
+  if (token) { profileBtn.style.display = "inline" }
+  profileBtn.addEventListener("click", function () {
+    location.href = "editUser.html"
+  })
+
+  const logoutBtn = document.getElementById("logoutBtn")
+  if (token) { logoutBtn.style.display = "inline" }
+  logoutBtn.addEventListener("click", function () {
+    localStorage.clear()
+    location.href = "index.html"
+  })
+
+  createLightModeButton();
+
 
   const checkBtn = document.getElementById("checkBtn")
-if(!token) {checkBtn.style.display = "none" }
+  const shareBtn = document.getElementById("shareBtn")
 
-function showNotification(message) {
-    const notificationPopup = document.getElementById('notificationPopup');
-    const notificationText = document.getElementById('notificationText');
+  if (!token) {
+    checkBtn.style.display = "none"
+    shareBtn.style.display = "none"
+  }
 
-    notificationText.textContent = message;
-
-    notificationPopup.classList.remove('hidden');
-
-    setTimeout(() => {
-        notificationPopup.classList.add('hidden');
-    }, 3000);
-}
-getAvatar()
-async function getAvatar(){
-  try{let response = await fetch("/user/getAvatar", {
-        
-                    headers: {
-                         Authorization: token, 
-                        
-                    },
-                   
-                });
-                if (response.status == 200) {
-                    let data = await response.json();
-                    console.log(data)
-                    
-                }else{
-                  console.log("not getting Avatar")
-                }
-
-  }catch(error) {
-
-console.error("The error is: " + error);
-}
-}
-
-  checkBtn.addEventListener("click", async function (event) {
+  
   
 
-console.log(avatarData)
-  try {
-                let response = await fetch("/user/saveAvatar", {
-                    method: "POST",
-                    headers: {
-                         Authorization: token, 
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(avatarData),
-                });
 
-                if (response.status == 200) {
-                    let data = await response.json();
-                    showNotification("Saved your Avatar!")
-                    
-                } else if (response.status === 401) {
-                    alert("Login expired, please log in again")
-                    location.href = "login.html"
-
-                } else {
-                    throw new Error("Server error: " + response.status);
-                }
-            } catch (error) {
-
-                console.error("The error is: " + error);
-            }
-        });
-</script>
-<script>
+  console.log(avatarData)
+  checkBtn.addEventListener("click", async function (event) {
 
 
-let token = localStorage.getItem("token")
+    try {
+      let response = await fetch("/user/saveAvatar", {
+        method: "PUT",
+        headers: {
+          Authorization: token,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(avatarData),
+      });
 
-const createAccBtn = document.getElementById("createAccBtn")
-if(token) {createAccBtn.style.display = "none" }
-createAccBtn.addEventListener("click", function(){
-  location.href = "createAccount.html"
-})
+      if (response.status == 200) {
+        let data = await response.json();
+        showNotification("Saved your Avatar!")
 
-const loginBtn = document.getElementById("loginBtn")
-if(token) {loginBtn.style.display = "none" }
-loginBtn.addEventListener("click", function(){
-  location.href = "login.html"
-})
+      } else if (response.status === 401) {
+        localStorage.clear()
+        alert("Login expired, please log in again")
+        location.href = "login.html"
 
-const profileBtn = document.getElementById("profileBtn")
-if(token) {profileBtn.style.display = "inline" }
-profileBtn.addEventListener("click", function(){
-  location.href = "editUser.html"
-})
+      } else {
+        throw new Error("Server error: " + response.status);
+      }
+    } catch (error) {
 
-const logoutBtn = document.getElementById("logoutBtn")
-if(token) {logoutBtn.style.display = "inline" }
-logoutBtn.addEventListener("click", function(){
-  localStorage.removeItem("token")
-  location.href = "index.html"
-})
-
-  let lightModeBtn= document.getElementById("lightModeBtn")
-  lightModeBtn.addEventListener("click", function() {
-    const themeStylesheet = document.getElementById("themeStylesheet");
-    
-    // Toggle between dark and light themes
-    if (themeStylesheet.href.includes("dark")) {
-      lightModeBtn.textContent= "Darkmode"  
-        themeStylesheet.href = "/styles/light-theme.css";
-       
-
-    } else {
-      lightModeBtn.textContent= "Lightmode"
-        themeStylesheet.href = "/styles/dark.theme.css";
+      console.error("The error is: " + error);
     }
+  });
+
+  shareBtn.addEventListener("click", async function (event) {
+  try {
+    let response = await fetch("user/generateShareableLink", {
+      method: "POST",
+      headers: {
+        Authorization: token,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(avatarData),
+    });
+
+    if (response.status == 200) {
+      let data = await response.json();
+      const shareableLink = data.shareableLink;
+      console.log("this",shareableLink)
+      showNotification("Shareable link generated: " + shareableLink);
+      console.log(shareableLink)
+    } else if (response.status === 401) {
+      localStorage.clear();
+      alert("Login expired, please log in again");
+      location.href = "login.html";
+    } else {
+      throw new Error("Server error: " + response.status);
+    }
+  } catch (error) {
+    console.error("The error is: " + error);
+  }
 });
 
-
-
-
- 
 </script>
-
 </html>

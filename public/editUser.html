@@ -36,37 +36,14 @@
 
     </form>
 </body>
-<script>
+<script type="module">
+    import {createLightModeButton, showNotification} from "./sharedFunctions.js"
 
 
 
     //-----------------getting user data to preview currently saved information-----------
-    let lightModeBtn = document.getElementById("lightModeBtn")
-    lightModeBtn.addEventListener("click", function () {
-        const themeStylesheet = document.getElementById("themeStylesheet");
+ createLightModeButton();
 
-        // Toggle between dark and light themes
-        if (themeStylesheet.href.includes("dark")) {
-            lightModeBtn.textContent = "Darkmode"
-            themeStylesheet.href = "/styles/light-theme.css";
-        } else {
-            lightModeBtn.textContent = "Lightmode"
-            themeStylesheet.href = "/styles/dark.theme.css";
-        }
-    });
-
-  /*  export  */function showNotification(message) {
-    const notificationPopup = document.getElementById('notificationPopup');
-    const notificationText = document.getElementById('notificationText');
-
-    notificationText.textContent = message;
-
-    notificationPopup.classList.remove('hidden');
-
-    setTimeout(() => {
-        notificationPopup.classList.add('hidden');
-    }, 3000);
-}
 
     let token = localStorage.getItem("token")
     loadData();
@@ -146,6 +123,7 @@
                     showNotification("User updated successfully")
                     
                 } else if (response.status === 401) {
+                    localStorage.clear()
                     alert("Login expired, please log in again")
                     location.href = "login.html"
 

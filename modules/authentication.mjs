@@ -15,7 +15,8 @@ export function verifyToken(req, res, next) {
         req.user = {
             userId: decoded.userId,
             email: decoded.email,
-            avatar_id: decoded.avatar_id
+            avatar_id: decoded.avatar_id,
+            lightmode: decoded.lightmode
         };
         next();
     } catch (err) {
