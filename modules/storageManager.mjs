@@ -173,15 +173,22 @@ class DBManager {
     }
   }
 
-  async saveAvatar(hairColor, eyeColor, skinColor, eyebrowType, userId) {
+  async saveAvatar(eyeColor, 
+    skinColor,
+    hairColor,
+    eyebrowType,
+    userId) {
     const client = new pg.Client(this.#credentials);
 
     try {
       await client.connect();
 
       const avatarOutput = await client.query(
-        'INSERT INTO "public"."Avatar"( "hairColor", "eyeColor", "skinColor", "eyebrowType") VALUES($1, $2, $3, $4) RETURNING id',
-        [hairColor, eyeColor, skinColor, eyebrowType]
+        'INSERT INTO "public"."Avatar"( "eyeColor", "skinColor", "hairColor", "eyebrowType") VALUES($1, $2, $3, $4) RETURNING id',
+        [eyeColor, 
+          skinColor,
+          hairColor,
+          eyebrowType]
       );
 
       /*  if (output.rows.length > 0) { */

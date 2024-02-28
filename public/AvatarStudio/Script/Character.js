@@ -59,7 +59,7 @@ export class TCharacter extends THREE.Object3D {
                 hairMaterial.material.color.set(aColor);  // Set a default color for testing
             };
             this.userHairColorApply = function(){
-                const eyeMaterial = this.getObjectByName('hair_joined');
+                const hairMaterial = this.getObjectByName('hair_joined');
                 let userHairColor =localStorage.getItem("userHairColor")
                 hairMaterial.material.color.set("#"+userHairColor);
             }
