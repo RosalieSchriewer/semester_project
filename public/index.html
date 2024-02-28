@@ -45,6 +45,7 @@
 
   import { loadScene } from "./AvatarStudio/Script/main.js";
   import { avatarData } from "./AvatarStudio/Script/scene.js";
+  import {createLightModeButton, showNotification} from "./sharedFunctions.js"
   loadScene()
  
   let token = localStorage.getItem("token")
@@ -74,44 +75,19 @@
     location.href = "index.html"
   })
 
-  let lightModeBtn = document.getElementById("lightModeBtn")
-  lightModeBtn.addEventListener("click", function () {
-    const themeStylesheet = document.getElementById("themeStylesheet");
+  createLightModeButton();
 
-    // Toggle between dark and light themes
-    if (themeStylesheet.href.includes("dark")) {
-      lightModeBtn.textContent = "Darkmode"
-      themeStylesheet.href = "/styles/light-theme.css";
-
-
-    } else {
-      lightModeBtn.textContent = "Lightmode"
-      themeStylesheet.href = "/styles/dark.theme.css";
-    }
-  });
 
   const checkBtn = document.getElementById("checkBtn")
   const shareBtn = document.getElementById("shareBtn")
-
-
 
   if (!token) {
     checkBtn.style.display = "none"
     shareBtn.style.display = "none"
   }
 
-  function showNotification(message) {
-    const notificationPopup = document.getElementById('notificationPopup');
-    const notificationText = document.getElementById('notificationText');
-
-    notificationText.textContent = message;
-
-    notificationPopup.classList.remove('hidden');
-
-    setTimeout(() => {
-      notificationPopup.classList.add('hidden');
-    }, 3000);
-  }
+  
+  
 
 
   console.log(avatarData)

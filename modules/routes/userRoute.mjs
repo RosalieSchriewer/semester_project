@@ -58,6 +58,7 @@ USER_API.post("/login", async (req, res) => {
     let tokenPayload = {
       userId: user.id,
       email: user.email,
+      lightmode: user.lightmode
     };
 
     const userWithAvatar = await DBManager.getUserById(user.id);
@@ -237,6 +238,35 @@ USER_API.get("/shareable-link", async (req, res) => {
     });
   } catch (error) {
     console.error("Error handling shareable link:", error.message);
+    res
+      .status(HTTPCodes.ServerErrorResponse.InternalError)
+      .send("Internal Server Error");
+  }
+});
+USER_API.put("/updateLightMode", verifyToken, async (req, res) => {
+  try {
+    const { lightmode } = req.body; 
+    const userId = req.user.userId; 
+
+   
+    const lightModeUpdateResult = await DBManager.updateLightMode(lightmode, userId);
+
+   
+    res.status(HTTPCodes.SuccessfulResponse.Ok).json(lightModeUpdateResult);
+  } catch (error) {
+    console.error("Error updating light mode choice:", error.message);
+    res
+      .status(HTTPCodes.ServerErrorResponse.InternalError)
+      .send("Internal Server Error");
+  }
+});
+USER_API.get("/getLightMode", verifyToken, async (req, res) => {
+  try {
+    const  lightmode  =  req.user.lightmode; 
+   
+    res.status(HTTPCodes.SuccessfulResponse.Ok).json({lightmode});
+  } catch (error) {
+    console.error("Error getting light mode choice:", error.message);
     res
       .status(HTTPCodes.ServerErrorResponse.InternalError)
       .send("Internal Server Error");

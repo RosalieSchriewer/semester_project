@@ -3,7 +3,8 @@ CREATE TABLE "Users" (
     name text NOT NULL,
     "pswHash" text NOT NULL,
     email text NOT NULL,
-    avatar_id integer REFERENCES "Avatar"(id)
+    avatar_id integer REFERENCES "Avatar"(id),
+    lightmode integer
 );
 CREATE TABLE "Hair" (
     id integer GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -17,9 +18,8 @@ CREATE TABLE "Eyes" (
 );
 CREATE TABLE "Avatar" (
     id integer GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    "Hair_id" integer NOT NULL REFERENCES "Hair"(id),
-    "Skin" text NOT NULL,
-    "Gender" text NOT NULL,
-    "Eyebrows" text NOT NULL,
-    "Eyes_id" integer NOT NULL REFERENCES "Eyes"(id)
+    "hairColor" character varying NOT NULL,
+    "skinColor" character varying NOT NULL,
+    "eyeColor" character varying NOT NULL,
+    "eyebrowType" integer NOT NULL
 );

@@ -29,7 +29,8 @@ class User {
     this.pswHash;
     this.name;
     this.id;
-    this.avatar_id
+    this.avatar_id;
+    this.lightmode;
   }
 
   async save() {
