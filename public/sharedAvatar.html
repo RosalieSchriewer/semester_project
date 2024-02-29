@@ -13,7 +13,7 @@
     <div id="notificationPopup" class="notification-popup hidden">
         <span id="notificationText"></span>
     </div>
-    <button id="lightModeBtn">Darkmode</button>
+   
     <img class="thumbnail" style="display: none;" src="./AvatarStudio/Media/eyebrowRender.jpg" id="loadEyebrows2Button">
     <img class="thumbnail" style="display: none;" src="./AvatarStudio/Media/eyebrow-1Render.jpg"
         id="loadEyebrowsButton">
@@ -29,23 +29,9 @@
     import { avatarData } from "./AvatarStudio/Script/scene.js";
     loadScene()
 
-    let lightModeBtn = document.getElementById("lightModeBtn")
-    lightModeBtn.addEventListener("click", function () {
-        const themeStylesheet = document.getElementById("themeStylesheet");
-
-        // Toggle between dark and light themes
-        if (themeStylesheet.href.includes("dark")) {
-            lightModeBtn.textContent = "Darkmode"
-            themeStylesheet.href = "/styles/light-theme.css";
 
 
-        } else {
-            lightModeBtn.textContent = "Lightmode"
-            themeStylesheet.href = "/styles/dark.theme.css";
-        }
-    });
 
-    const token = new URLSearchParams(window.location.search).get("token");
 
     loadData()
     async function loadData() {
@@ -69,8 +55,6 @@
             } else {
                 let data = await response.json();
                 console.log(data);
-                let sharedAvatar = true
-                localStorage.setItem("sharedAvatar", sharedAvatar)
                 localStorage.setItem("userHairColor", data.hairColor);
                 localStorage.setItem("userSkinColor", data.skinColor);
                 localStorage.setItem("userEyeColor", data.eyeColor);

@@ -74,3 +74,8 @@ export function showNotification(message) {
       notificationPopup.classList.add('hidden');
     }, 3000);
   }
+
+  export function isSharedAvatar() {
+    const queryParams = new URLSearchParams(window.location.search);
+    return queryParams.has("token");
+}
