@@ -1,7 +1,7 @@
 "use strict"
 import { GLTFLoader } from "../three.js-master/build/GLTFLoader.js";
 import * as THREE from '../three.js-master/src/Three.js';
-import { avatarData } from "./scene.js";
+
 
 const bodyParts = {
     head: null,

@@ -5,9 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Document</title>
-  <!--  <script  src="/languages/english.mjs"></script>
-    <script  src="/routes/userFrontend.mjs"></script> -->
-  <!--  <link rel="stylesheet" href="/styles/light-theme.css"> -->
+
   <link rel="stylesheet" id="themeStylesheet" href="/styles/light-theme.css">
 </head>
 
@@ -15,20 +13,19 @@
   <div id="notificationPopup" class="notification-popup hidden">
     <span id="notificationText"></span>
   </div>
+  <div>
   <button id="lightModeBtn">Darkmode</button>
   <button id="createAccBtn">Create account</button>
   <button id="loginBtn" class="greenButton">Login</button>
   <button id="profileBtn" style="display: none;">My profile</button>
   <button id="logoutBtn" style="display: none;" style="background-color: rgb(211, 97, 77),">Logout</button>
-  <h1>Create you avatar</h1>
-  <button id="mainBtn" class="globalBtn">Avatar</button>
-  <button id="exitBtn" class="globalBtn">X</button>
-  <button id="questionBtn" class="globalBtn">?</button>
-  <button id="checkBtn" class="globalBtn">&#10004</button>
-  <button id="shareBtn" class="globalBtn">Share this avatar</button>
-
+  <!-- <h1>Create you avatar</h1> -->
+</div>
+<div><button id="checkBtn" class="globalBtn">&#10004</button>
+  <button id="shareBtn" class="globalBtn">Share this avatar</button></div>
 
   <div id="choiceMenu">
+    
     <img class="thumbnail" src="./AvatarStudio/Media/head.png">
     <img class="thumbnail" src="./AvatarStudio/Media/head.png">
     <img class="thumbnail" src="./AvatarStudio/Media/head.png">
@@ -41,13 +38,13 @@
 
 
 <script type="module">
- 
+
 
   import { loadScene } from "./AvatarStudio/Script/main.js";
   import { avatarData } from "./AvatarStudio/Script/scene.js";
-  import {createLightModeButton, showNotification} from "./sharedFunctions.js"
+  import { createLightModeButton, showNotification } from "./modules/sharedFunctions.js"
   loadScene()
- 
+
   let token = localStorage.getItem("token")
 
   const createAccBtn = document.getElementById("createAccBtn")
@@ -75,7 +72,11 @@
     location.href = "index.html"
   })
 
-  createLightModeButton();
+ 
+
+     createLightModeButton();
+   
+ 
 
 
   const checkBtn = document.getElementById("checkBtn")
@@ -86,13 +87,9 @@
     shareBtn.style.display = "none"
   }
 
-  
-  
-
 
   console.log(avatarData)
   checkBtn.addEventListener("click", async function (event) {
-
 
     try {
       let response = await fetch("/user/saveAvatar", {
@@ -103,9 +100,12 @@
         },
         body: JSON.stringify(avatarData),
       });
-
       if (response.status == 200) {
         let data = await response.json();
+        localStorage.setItem("userHairColor", avatarData.hairColor);
+        localStorage.setItem("userSkinColor", avatarData.skinColor);
+        localStorage.setItem("userEyeColor", avatarData.eyeColor);
+        localStorage.setItem("userEyebrowType", avatarData.eyebrowType);
         showNotification("Saved your Avatar!")
 
       } else if (response.status === 401) {
@@ -119,37 +119,45 @@
     } catch (error) {
 
       console.error("The error is: " + error);
+      
     }
+
   });
+  
 
   shareBtn.addEventListener("click", async function (event) {
-  try {
-    let response = await fetch("user/generateShareableLink", {
-      method: "POST",
-      headers: {
-        Authorization: token,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(avatarData),
-    });
+  //  console.log(JSON.parse(avatarData))
+   
 
-    if (response.status == 200) {
-      let data = await response.json();
-      const shareableLink = data.shareableLink;
-      console.log("this",shareableLink)
-      showNotification("Shareable link generated: " + shareableLink);
-      console.log(shareableLink)
-    } else if (response.status === 401) {
-      localStorage.clear();
-      alert("Login expired, please log in again");
-      location.href = "login.html";
-    } else {
-      throw new Error("Server error: " + response.status);
+    try {
+      let response = await fetch("user/generateShareableLink", {
+        method: "POST",
+        headers: {
+          Authorization: token,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(avatarData),
+      });
+
+      if (response.status == 200) {
+        let data = await response.json();
+        const shareableLink = data.shareableLink;
+        console.log("this", shareableLink)
+        showNotification("Shareable link generated: " + shareableLink);
+        console.log(shareableLink)
+      } else if (response.status === 401) {
+        localStorage.clear();
+        alert("Login expired, please log in again");
+        location.href = "login.html";
+      }else {
+        throw new Error("Server error: " + response.status);
+      }
+    } catch (error) {
+      console.error("The error is: " + error);
     }
-  } catch (error) {
-    console.error("The error is: " + error);
-  }
-});
+  
+  });
 
 </script>
+
 </html>

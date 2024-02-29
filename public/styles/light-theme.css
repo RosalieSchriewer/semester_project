@@ -1,284 +1,269 @@
-
 body {
-    background-color: whitesmoke; 
+  background-color: whitesmoke;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  position: relative;
+  
 }
 
-input{
-    
-    background-color: white; 
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    border-color: lightgray;
-    margin: 7px;
+input {
+  background-color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  border-color: lightgray;
+  margin: 7px;
 }
-input#submitButton{
-    background-color: #04AA6D; 
-    border: none;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    border-radius: 8px;
-    cursor: pointer;
+input#submitButton {
+  background-color: #04aa6d;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
 }
-.greenButton{
-    background-color: #04AA6D; 
-    border: none;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    border-radius: 8px;
-    cursor: pointer;
-}
-
-form{
-   text-align: center; 
+.greenButton {
+  background-color: #04aa6d;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
 }
 
-label{
-    font-family: Arial, Helvetica, sans-serif;
-}
-h1{
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: 100;
-    font-size:x-large;
-    text-align: center; 
-    margin: 50px;
+form {
+  text-align: center;
 }
 
-Button{
-    background-color: #adadad; 
-    border: none;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    border-radius: 8px;
-    cursor: pointer;
+label {
+  font-family: Arial, Helvetica, sans-serif;
+}
+h1 {
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 100;
+  font-size: x-large;
+  text-align: center;
+  margin: 50px;
 }
 
-#lightModeBtn{
-    position: absolute;
-    top: 0;
-    right: 0;
-    margin: 10px;
-    cursor: pointer;
+Button {
+  margin-bottom: 20px;
+  padding: 10px;
+  background-color: #adadad;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  max-width: fit-content;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+#lightModeBtn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 10px;
+  cursor: pointer;
 }
 :root {
-    --mainBtnColor: #EBAC78;
-}
-
-body {
-    margin: 0;
-    overflow: hidden;
-    position: relative;
+  --mainBtnColor: #ebac78;
 }
 
 canvas {
-    width: 100%;
-    height: 100%;
-    display: block;
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 
 .globalBtn {
-    border: none;
-    border-radius: 10px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    position: absolute;
-    font-weight: bold;
-    font-size: large;
-    height: 2.5em;
-    margin-top: 3em;
+  border: none;
+  border-radius: 10px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  position:relative;
+  font-weight: bold;
+  font-size: large;
+  height: 2.5em;
+  margin-top: 3em;
 }
 
 .globalBtn:hover {
-    cursor: pointer;
-
+  cursor: pointer;
 }
 
-#mainBtn {
-    background-color: var(--mainBtnColor);
-    color: rgb(255, 255, 255);
-    width: 5em;
-    left: 3.5em;
-}
-
-#mainBtn:hover {
-    color: aqua;
-    background-color: rgb(17, 75, 75);
-    width: 5.3em;
-    height: 2.6em;
-}
-
-#exitBtn {
-    background-color: white;
-    color: #cc8145;
-    right: 3.5em;
-    width: 2.5em;
-}
-
-#questionBtn {
-    background-color: white;
-    color: #cc8145;
-    right: 6.5em;
-    width: 2.5em;
-}
 
 #checkBtn {
-    color: rgb(47, 185, 70);
-    background-color: white;
-    right: 2em;
-    bottom:40%;
-    width: 2.5em;
+  color: rgb(47, 185, 70);
+  background-color: white;
+  left: 80%;
+  bottom: 40%;
+  width: 2.5em;
 }
 #shareBtn {
-    color: rgb(47, 185, 70);
-    background-color: white;
-    right: 2em;
-    bottom: 20%;
-    width: 15em;
+  color: rgb(47, 185, 70);
+  background-color: white;
+  right: 2em;
+  bottom: 20%;
+  width: 15em;
 }
 
 #checkBtn:hover {
-    background-color: rgb(47, 185, 70);
-    color: white;
+  background-color: rgb(47, 185, 70);
+  color: white;
 }
 
-#questionBtn:hover {
-    color: aqua;
-    background-color: rgb(17, 75, 75)
-}
 
-#exitBtn:hover {
-    color: aqua;
-    background-color: rgb(17, 75, 75)
-}
 
 #choiceMenu {
-    background-color: white;
-    border-radius: 10px;
-    position: fixed;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 20px;
-    bottom: 10%;
-    width: 80%;
-    height: 20%;
-    align-content: center;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
-    gap: 10px;
-    justify-items: center;
-    align-content: center;
+  background-color: white;
+  border-radius: 10px;
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 20px;
+  bottom: 10%;
+  width: 80%;
+  height: 20%;
+  align-content: center;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+  gap: 10px;
+  justify-items: center;
+  align-content: center;
 
-    /*pointer-events: none; /* Allows click events to pass through the choice menu */
-    /*might need to be able to click the images*/
-
+  /*pointer-events: none; /* Allows click events to pass through the choice menu */
+  /*might need to be able to click the images*/
 }
-#colorPickers{
-    position: absolute;
-    top: 350px;
-    left: 50px;
+#colorPickers {
+  position: absolute;
+  top: 350px;
+  left: 50px;
 }
 .thumbnail {
-    width: 70%;
-    height: auto;
-    cursor: pointer;
-    background-color: rgb(250, 232, 209);
-    border: 3px solid var(--mainBtnColor);
-    border-radius: 10px;
+  width: 70%;
+  height: auto;
+  cursor: pointer;
+  background-color: rgb(250, 232, 209);
+  border: 3px solid var(--mainBtnColor);
+  border-radius: 10px;
 }
 
 @media (max-width: 480px) {
-    #choiceMenu {
-        background-color: white;
-        border-radius: 10px;
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-        padding: 10px;
-        bottom: 0em;
-        width: 100%;
-        height: 35%;
+  #choiceMenu {
+    background-color: white;
+    border-radius: 10px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px;
+    bottom: 0em;
+    width: 100%;
+    height: 35%;
+  }
 
-    }
+  #checkBtn {
+    position: fixed;
+ 
+    background-color: white;
+    color: rgb(47, 185, 70);
+   
+    
+  }
 
-    #checkBtn {
-        background-color: white;
-        color: rgb(47, 185, 70);
-        right: 2em;
-        bottom: 40%;
-        width: 2.5em;
-    }
-
-    #exitBtn {
-        background-color: white;
-        color: #cc8145;
-        right: 2em;
-        width: 2.5em;
-    }
-
-    #questionBtn {
-        background-color: white;
-        color: #cc8145;
-        right: 5em;
-        width: 2.5em;
-    }
-
-    #mainBtn {
-        background-color: #EBAC78;
-        color: rgb(255, 255, 255);
-        width: 5em;
-        left: 2em;
-    }
+ 
 }
-
-
 
 @media (max-width: 1000px) and (min-width: 480px) {
-    #checkBtn {
-        background-color: white;
-        color: rgb(47, 185, 70);
-        right: 3.5em;
-        bottom: 40%;
-        width: 2.5em;
-    }
+  #checkBtn {
+    background-color: white;
+    color: rgb(47, 185, 70);
+    right: 3.5em;
+    bottom: 40%;
+    width: 2.5em;
+  }
 }
 
-@media (min-height:800px) {
-    #checkBtn {
-        background-color: white;
-        color: rgb(47, 185, 70);
-        right: 2em;
-        bottom: 40%;
-        width: 2.5em;
-    }
+@media (min-height: 800px) {
+  #checkBtn {
+    background-color: white;
+    color: rgb(47, 185, 70);
+    right: 2em;
+    bottom: 40%;
+    width: 2.5em;
+  }
 }
 .notification-popup {
-    position: fixed;
-    top: 5%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #fff;
-    color: #000;
-    padding: 15px;
-    border-radius: 5px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    z-index: 1;
+  position: fixed;
+  top: 5%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  color: #000;
+  padding: 15px;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1;
 }
 
 .hidden {
-    display: none;
+  display: none;
+}
+
+#userContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  max-height: 60vh;
+}
+
+.user-card {
+  flex: 0 1 calc(33.33% - 20px);
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+}
+
+.user-card input {
+  margin-bottom: 10px;
+  padding: 8px;
+  width: 90%;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.user-card button {
+  padding: 10px;
+  font-size: 14px;
+  cursor: pointer;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+}
+
+@media (max-width: 768px) {
+  .user-card {
+    flex: 0 1 calc(100% - 20px);
+    /* Full width on smaller screens */
+  }
 }

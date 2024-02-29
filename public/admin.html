@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Users</title>
+    <link rel="stylesheet" id="themeStylesheet" href="/styles/light-theme.css">
+
+</head>
+
+<body>
+    <button id="lightModeBtn">Darkmode</button>
+    <button id="logoutBtn" style="display: none;" style="background-color: rgb(211, 97, 77),">Logout</button>
+    <h1>All Users</h1>
+
+    <div id="userContainer">
+        <!-- User data will be dynamically added here -->
+    </div>
+</body>
+
+
+    <script type="module">
+        import { createLightModeButton, showNotification } from "./modules/sharedFunctions.js";
+        createLightModeButton();
+        loadData();
+
+
+
+        async function loadData() {
+            const token = localStorage.getItem("token");
+            const logoutBtn = document.getElementById("logoutBtn")
+            if (token) { logoutBtn.style.display = "inline" }
+            logoutBtn.addEventListener("click", function () {
+                localStorage.clear()
+                location.href = "index.html"
+            })
+
+            try {
+                let response = await fetch("/user/admin/allUsers", {
+                    method: 'GET',
+                    headers: { Authorization: token },
+                });
+
+                if (response.status != 200) {
+                    throw new Error("Server error: " + response.status);
+                } else {
+                    let data = await response.json();
+                    displayUserData(data);
+                }
+            } catch (error) {
+                console.error("The error is: " + error);
+            }
+        }
+
+        function displayUserData(data) {
+            const userContainer = document.getElementById("userContainer");
+
+            data.forEach(user => {
+                const userCard = document.createElement("div");
+                userCard.className = "user-card";
+                userCard.innerHTML = `
+            <label for="userName">Name:</label>
+            <input type="text" id="userName" value="${user.name}" disabled />
+
+            <label for="userEmail">Email:</label>
+            <input type="email" id="userEmail" value="${user.email}" disabled />
+
+            <label for="userRole">Role:</label>
+            <input type="text" id="userRole" value="${user.role}" disabled />
+
+            <label for="userLightmode">Lightmode:</label>
+            <input type="number" id="userLightmode" value="${user.lightmode}" disabled />
+
+            <button class="editButton" data-userid="${user.id}">Edit</button>
+        `;
+                userContainer.appendChild(userCard);
+            });
+
+            // Add event listeners to the dynamically created Edit buttons
+            const editButtons = document.querySelectorAll('.editButton');
+            editButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    editUser(this.getAttribute('data-userid'));
+                });
+            });
+        }
+
+
+        function editUser(userId) {
+            const userNameInput = document.getElementById("userName");
+            const userEmailInput = document.getElementById("userEmail");
+            const userRoleInput = document.getElementById("userRole");
+            const userLightmodeInput = document.getElementById("userLightmode");
+
+            userNameInput.disabled = false;
+            userEmailInput.disabled = false;
+            userRoleInput.disabled = false;
+            userLightmodeInput.disabled = false;
+        }
+    </script>
+
+
+</html>

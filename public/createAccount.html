@@ -27,24 +27,12 @@
     <input type="submit" value="Submit" id="submitButton" />
   </form>
 </body>
-<script>
+<script type="module">
 
   // userFrontend --------should be moved to other file?--------
+  import { createLightModeButton} from "./modules/sharedFunctions.js"
 
-  let lightModeBtn= document.getElementById("lightModeBtn")
-  lightModeBtn.addEventListener("click", function() {
-    const themeStylesheet = document.getElementById("themeStylesheet");
-    
-    // Toggle between dark and light themes
-    if (themeStylesheet.href.includes("dark")) {
-      lightModeBtn.textContent= "Darkmode"  
-        themeStylesheet.href = "/styles/light-theme.css";
-    } else {
-      lightModeBtn.textContent= "Lightmode"
-        themeStylesheet.href = "/styles/dark.theme.css";
-    }
-});
-
+createLightModeButton();
   document
     .getElementById("createUserForm")
     .addEventListener("submit", async function (event) {

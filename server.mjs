@@ -39,6 +39,7 @@ server.get("/", (req, res, next) => {
     res.status(200).send(JSON.stringify({ msg: "These are not the droids...." })).end();
 });
 
+
 // Start the server 
 server.listen(server.get('port'), function () {
     console.log('server running', server.get('port'));

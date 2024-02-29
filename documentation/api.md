@@ -28,16 +28,18 @@ fetch url: "./user/login"
 METHOD: POST
 Expects: JSON
 Returns: JSON 
-Token contents: {userId: the users' unique ID,
-                email: the users' email,
-                avatar_id: the users' avatar ID (only if applicable)}
+Token contents: {userId: the user's unique ID,
+                email: the user's email,
+                avatar_id: the user's avatar ID (only if applicable),
+                lightmode: the user's lightmode preference,
+                role: the user's role (admin or user)}
 Token expires after: 1h
 required fields {email:      email,
                 password:   pswHash}
 
 
 ## -----------------------------------------------------------------------------------------------
-PUT /updateUser -> updates the users' information in the database
+PUT /updateUser -> updates the user's information in the database
 
 fetch url: "./user/updateUser"  
 METHOD: PUT
@@ -57,7 +59,7 @@ Returns: JSON
 Requires: Authentication (token)
 
 ## -----------------------------------------------------------------------------------------------
-GET /getUserById -> Returns the logged in users' info by the provided ID
+GET /getUserById -> Returns the logged in user's info by the provided ID
 
 fetch url: "./user/getUserById"  
 METHOD: GET
@@ -66,7 +68,7 @@ Requires: Authentication (token)
 
 
 ## -----------------------------------------------------------------------------------------------
-PUT /saveAvatar -> saves a users' avatar to the database
+PUT /saveAvatar -> saves a user's avatar to the database
 
 fetch url: "./user/saveAvatar"  
 METHOD: PUT
@@ -80,7 +82,7 @@ required fields {eyeColor,
 
 
 ## -----------------------------------------------------------------------------------------------
-GET /getAvatar -> gets all traits of the current users' saved avatar
+GET /getAvatar -> gets all traits of the current user's saved avatar
 
 fetch url: "./user/getAvatar"  
 METHOD: GET

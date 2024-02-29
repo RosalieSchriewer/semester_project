@@ -1,6 +1,7 @@
 // Middleware
 import jwt from "jsonwebtoken";
 import HTTPCodes from "./httpConstants.mjs";
+import DBManager from "./storageManager.mjs";
 
 export function verifyToken(req, res, next) {
     const token = req.headers.authorization;
@@ -25,3 +26,21 @@ export function verifyToken(req, res, next) {
     
     }
 }
+
+export async function isAdmin (req, res, next) {
+    const userId = req.user.userId; 
+  
+    try {
+      const user = await DBManager.getUserById(userId);
+  
+      if (user && user.role === 'admin') {
+        return next(); 
+      } else {
+        return res.status(403).json({ message: 'Forbidden' }); 
+      }
+    } catch (error) {
+      console.error('Error checking admin role:', error);
+      return res.status(500).json({ message: 'Internal Server Error' });
+    }
+  };
+  

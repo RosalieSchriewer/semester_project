@@ -5,9 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <!--  <script  src="/languages/english.mjs"></script>
-    <script  src="/routes/userFrontend.mjs"></script> -->
-    <!--  <link rel="stylesheet" href="/styles/light-theme.css"> -->
+
     <link rel="stylesheet" id="themeStylesheet" href="/styles/light-theme.css">
 </head>
 
@@ -15,7 +13,10 @@
     <div id="notificationPopup" class="notification-popup hidden">
         <span id="notificationText"></span>
     </div>
-    <button id="lightModeBtn">Darkmode</button>
+   
+    <img class="thumbnail" style="display: none;" src="./AvatarStudio/Media/eyebrowRender.jpg" id="loadEyebrows2Button">
+    <img class="thumbnail" style="display: none;" src="./AvatarStudio/Media/eyebrow-1Render.jpg"
+        id="loadEyebrowsButton">
 
     <h1>Your friend shared their avatar with you</h1>
 
@@ -28,47 +29,43 @@
     import { avatarData } from "./AvatarStudio/Script/scene.js";
     loadScene()
 
-    let lightModeBtn = document.getElementById("lightModeBtn")
-    lightModeBtn.addEventListener("click", function () {
-        const themeStylesheet = document.getElementById("themeStylesheet");
-
-        // Toggle between dark and light themes
-        if (themeStylesheet.href.includes("dark")) {
-            lightModeBtn.textContent = "Darkmode"
-            themeStylesheet.href = "/styles/light-theme.css";
 
 
-        } else {
-            lightModeBtn.textContent = "Lightmode"
-            themeStylesheet.href = "/styles/dark.theme.css";
-        }
-    });
-
-    const token = new URLSearchParams(window.location.search).get("token");
 
 
-    fetch(`http://localhost:8080/user/shareable-link?token=` + token)
-        .then(response => response.json())
-        .then(data => {
-            console.log('Retrieved avatar information:', data);
+    loadData()
+    async function loadData() {
 
-            // Create HTML elements and insert avatar information
-            const avatarInfoContainer = document.getElementById("avatarInfo");
-            const avatarInfoList = document.createElement("ul");
+        const token = new URLSearchParams(window.location.search).get("token");
 
-            for (const [key, value] of Object.entries(data)) {
-                const listItem = document.createElement("li");
-                listItem.textContent = `${key}: ${value}`;
-                avatarInfoList.appendChild(listItem);
+        try {
+
+
+            let response = await fetch("/user/decodeSharedAvatar", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ token }),
+
+            });
+
+            if (response.status != 200) {
+                throw new Error("Server error: " + response.status);
+            } else {
+                let data = await response.json();
+                console.log(data);
+                localStorage.setItem("userHairColor", data.hairColor);
+                localStorage.setItem("userSkinColor", data.skinColor);
+                localStorage.setItem("userEyeColor", data.eyeColor);
+                localStorage.setItem("userEyebrowType", data.eyebrowType);
+
+
             }
-
-            avatarInfoContainer.appendChild(avatarInfoList);
-        })
-        .catch(error => {
-            console.error('Error retrieving avatar information:', error);
-        });
-
-    console.log(avatarData)
+        } catch (error) {
+            console.error("The error is: " + error);
+        }
+    }
 
 
 </script>

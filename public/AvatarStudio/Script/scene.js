@@ -4,6 +4,7 @@ import * as dat from "../three.js-master/build/dat.gui.module.js";
 //import { GLTFLoader } from "../three.js-master/build/GLTFLoader.js";
 import { TCharacter } from "./Character.js";
 import { TCharacterOptions } from "./characterOptions.js";
+import { isSharedAvatar } from "../../modules/sharedFunctions.js";
 
 export let avatarData = {
   skinColor: null,
@@ -16,9 +17,6 @@ export function TinitialiseScene(anAvatar) {
   let scene,
     camera,
     renderer,
-    cubeMaterial,
-    cube,
-    model,
     modelMaterial,
     eyeMaterial,
     hairMaterial,
@@ -28,8 +26,6 @@ export function TinitialiseScene(anAvatar) {
 
   //---------------gradient Background & color -----------------------
 
-  /* const hexValue = "ffffff";
-  const colorOfCube = "#" + hexValue; */
 
   let topColor = new THREE.Color(0xa8d1df);
   let bottomColor = new THREE.Color(0x294a5e);
@@ -64,7 +60,7 @@ export function TinitialiseScene(anAvatar) {
   avatarData.eyeColor = userEyeColor;
 
   hairMaterial = new THREE.MeshBasicMaterial();
-  const userHairColor =  localStorage.getItem("userHairColor");
+  const userHairColor = localStorage.getItem("userHairColor");
   hairMaterial.color.set("#" + userHairColor);
   avatarData.hairColor = userHairColor;
 
@@ -73,12 +69,9 @@ export function TinitialiseScene(anAvatar) {
   skinMaterial.color.set("#" + userSkinColor);
   avatarData.skinColor = userSkinColor;
 
-  const userEyebrowType = localStorage.getItem("userEyebrowType")
+  const userEyebrowType = localStorage.getItem("userEyebrowType");
   avatarData.eyebrowType = userEyebrowType;
 
-  //cube = new THREE.Mesh(new THREE.BoxGeometry(1, 1), cubeMaterial);
-  //cube.position.set(0, 0, 0);
-  //scene.add(cube);
 
   renderer = new THREE.WebGLRenderer();
   renderer.setSize(window.innerWidth, window.innerHeight);
@@ -141,14 +134,15 @@ export function TinitialiseScene(anAvatar) {
       });
   }
 
-  addControls();
+  isSharedAvatar();
+
+  if (isSharedAvatar() === false) {
+    addControls();
+  }
 
   function render() {
     requestAnimationFrame(render);
 
-    /*   cube.rotation.x += 0.01;
-        cube.rotation.y += 0.01;
- */
     renderer.render(scene, camera);
   }
 

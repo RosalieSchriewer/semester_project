@@ -21,19 +21,18 @@ export function createLightModeButton(){
         lightModeBtn.textContent = "Darkmode"
         themeStylesheet.href = "/styles/light-theme.css";
         lightingMode = 1
-        console.log(lightingMode)
+       
       
       } else {
         lightModeBtn.textContent = "Lightmode"
         themeStylesheet.href = "/styles/dark.theme.css";
         lightingMode = 2
-        console.log(lightingMode)
+        
       }
+      const token = localStorage.getItem("token");
+      if(token!=null){
       try {
-        // Assuming you have the user's token stored in the variable 'token'
-        const token = localStorage.getItem("token");
-  
-        // Make a fetch request to the backend endpoint to update light mode
+     
         const response = await fetch("/user/updateLightMode", {
           method: "PUT",
           headers: {
@@ -56,8 +55,10 @@ export function createLightModeButton(){
       } catch (error) {
         console.error("Error updating light mode:", error);
       }
+    }
     
     }); 
+    
     
 }
 
@@ -73,3 +74,8 @@ export function showNotification(message) {
       notificationPopup.classList.add('hidden');
     }, 3000);
   }
+
+  export function isSharedAvatar() {
+    const queryParams = new URLSearchParams(window.location.search);
+    return queryParams.has("token");
+}
