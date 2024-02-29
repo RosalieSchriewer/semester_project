@@ -140,8 +140,10 @@ export function TinitialiseScene(anAvatar) {
         }
       });
   }
+const sharedAvatar= localStorage.getItem("sharedAvatar")
 
-  addControls();
+if (!sharedAvatar){ 
+  addControls();}
 
   function render() {
     requestAnimationFrame(render);

@@ -2,7 +2,7 @@ import express, { raw } from "express";
 import User from "../user.mjs";
 import HTTPCodes from "../httpConstants.mjs";
 import jwt from "jsonwebtoken";
-import { verifyToken } from "../authentication.mjs";
+import { verifyToken, isAdmin } from "../authentication.mjs";
 import DBManager from "../storageManager.mjs";
 import Avatar from "../avatar.mjs";
 
@@ -58,7 +58,8 @@ USER_API.post("/login", async (req, res) => {
     let tokenPayload = {
       userId: user.id,
       email: user.email,
-      lightmode: user.lightmode
+      lightmode: user.lightmode,
+      role: user.role
     };
 
     const userWithAvatar = await DBManager.getUserById(user.id);
@@ -135,7 +136,7 @@ USER_API.get("/getUserById", verifyToken, async (req, res, next) => {
 });
 
 ////--------------ALL USERS-----------------
-USER_API.get("/", async (req, res) => {
+USER_API.get("/admin/allUsers",verifyToken, isAdmin, async (req, res) => {
   try {
     const allUsers = await DBManager.getAllUsers();
     res.status(HTTPCodes.SuccessfulResponse.Ok).json(allUsers);
@@ -209,7 +210,7 @@ USER_API.post("/generateShareableLink", verifyToken, async (req, res) => {
     const token = jwt.sign(tokenPayload, process.env.SECRET_KEY, { expiresIn: '1 day' });
 
    //TODO HARDCODED LINK TO LOCALHOST
-    const shareableLink = `http://localhost:8080/user/shareable-link?token=${token}`;
+    const shareableLink = `http://localhost:8080/sharedAvatar.html?token=${token}`;
 
     res.json({ shareableLink });
   } catch (error) {
@@ -217,25 +218,24 @@ USER_API.post("/generateShareableLink", verifyToken, async (req, res) => {
     res.status(HTTPCodes.ClientSideErrorResponse.Unauthorized).send(error.message);
   }
 });
-USER_API.get("/shareable-link", async (req, res) => {
+USER_API.post("/decodeSharedAvatar", async (req, res) => {
   try {
-    const { token } = req.query;
+    const {token} = req.body;
 
     const decoded = jwt.verify(token, process.env.SECRET_KEY);
+   
 
    // res.json(decoded);
-   const currentWorkingDir = process.cwd();
-   
-    const htmlFilePath = `${currentWorkingDir}/public/sharedAvatar.html`;
 
     //res.set('Content-Type', 'text/html');
-   
-    res.sendFile(htmlFilePath, {
+   res.json(decoded);
+
+ /*    res.sendFile(htmlFilePath, {
       token: JSON.stringify(decoded),
       headers: {
         'Content-Type': 'text/html',
       },
-    });
+    }); */
   } catch (error) {
     console.error("Error handling shareable link:", error.message);
     res
@@ -272,4 +272,16 @@ USER_API.get("/getLightMode", verifyToken, async (req, res) => {
       .send("Internal Server Error");
   }
 });
+/* USER_API.get("/admin/userManagement", verifyToken, isAdmin, async (req, res) => {
+  try {
+    const  role  =  req.user.role; 
+   
+    res.status(HTTPCodes.SuccessfulResponse.Ok).json({role});
+  } catch (error) {
+    console.error("Error getting light mode choice:", error.message);
+    res
+      .status(HTTPCodes.ServerErrorResponse.InternalError)
+      .send("Internal Server Error");
+  }
+}); */
 export default USER_API;

@@ -31,6 +31,7 @@ class User {
     this.id;
     this.avatar_id;
     this.lightmode;
+    this.role;
   }
 
   async save() {

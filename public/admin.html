@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" id="themeStylesheet" href="/styles/light-theme.css">
+</head>
+<body>
+    <button id="lightModeBtn">Darkmode</button>
+    <h1 >All users</h1>
+    
+</body>
+<script type="module">
+import { createLightModeButton, showNotification } from "./modules/sharedFunctions.js"
+createLightModeButton();
+
+async function loadData() {
+
+    const token = localStorage.getItem("token")
+
+try {
+
+    
+    let response = await fetch("/user/admin/allUsers", { 
+        method: 'GET',
+        headers: { Authorization: token },
+
+
+    });
+
+    if (response.status != 200) {
+        throw new Error("Server error: " + response.status);
+    } else {
+        let data = await response.json();
+        console.log(data);
+
+        
+
+        
+    }
+
+
+   
+
+} catch (error) {
+    console.error("The error is: " + error);
+}
+}
+
+
+</script>
+</html>
