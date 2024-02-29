@@ -91,7 +91,6 @@
   console.log(avatarData)
   checkBtn.addEventListener("click", async function (event) {
 
-
     try {
       let response = await fetch("/user/saveAvatar", {
         method: "PUT",
@@ -101,9 +100,12 @@
         },
         body: JSON.stringify(avatarData),
       });
-
       if (response.status == 200) {
         let data = await response.json();
+        localStorage.setItem("userHairColor", avatarData.hairColor);
+        localStorage.setItem("userSkinColor", avatarData.skinColor);
+        localStorage.setItem("userEyeColor", avatarData.eyeColor);
+        localStorage.setItem("userEyebrowType", avatarData.eyebrowType);
         showNotification("Saved your Avatar!")
 
       } else if (response.status === 401) {
@@ -119,9 +121,14 @@
       console.error("The error is: " + error);
       
     }
+
   });
+  
 
   shareBtn.addEventListener("click", async function (event) {
+  //  console.log(JSON.parse(avatarData))
+   
+
     try {
       let response = await fetch("user/generateShareableLink", {
         method: "POST",
@@ -142,12 +149,13 @@
         localStorage.clear();
         alert("Login expired, please log in again");
         location.href = "login.html";
-      } else {
+      }else {
         throw new Error("Server error: " + response.status);
       }
     } catch (error) {
       console.error("The error is: " + error);
     }
+  
   });
 
 </script>

@@ -209,8 +209,8 @@ USER_API.post("/generateShareableLink", verifyToken, async (req, res) => {
  
     const token = jwt.sign(tokenPayload, process.env.SECRET_KEY, { expiresIn: '1 day' });
 
-   //TODO HARDCODED LINK TO LOCALHOST
-    const shareableLink = `http://localhost:8080/sharedAvatar.html?token=${token}`;
+    const baseUrl = `${req.protocol}://${req.get('host')}`;
+    const shareableLink = `${baseUrl}/sharedAvatar.html?token=${token}`;
 
     res.json({ shareableLink });
   } catch (error) {
