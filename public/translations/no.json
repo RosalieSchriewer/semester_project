@@ -1,4 +1,9 @@
 {
+  "submit":"Lagre",
+  "editUserHeader":"Endre på brukerkontoen din",
+  "changeEmail":"Endre email:",
+  "changePassword":"Endre passord:",
+  "changeFullName":"Endre fullt navn:",
   "english": "Engelsk",
   "norwegian": "Norsk",
   "german": "Tysk",

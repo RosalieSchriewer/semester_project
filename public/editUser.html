@@ -9,41 +9,47 @@
 </head>
 
 <body>
+    <div id="languageSwitcher">
+        <button id="languageSwitchButton"data-i18n="switchLanguage">Switch Language</button>
+        <ul id="languageDropdown" style="display: none;">
+          <li><a href="#" data-language="en"data-i18n="english">English</a></li>
+          <li><a href="#" data-language="no"data-i18n="norwegian">Norwegian</a></li>
+          <li><a href="#" data-language="de"data-i18n="german">German</a></li>
+        </ul>
+      </div>
     <div id="notificationPopup" class="notification-popup hidden">
         <span id="notificationText"></span>
     </div>
-    <button id="lightModeBtn">Darkmode</button>
+    <button id="lightModeBtn"data-i18n="darkmode">Darkmode</button>
     <input class="globalButton" type="submit" value="Delete user" style="background-color: rgb(211, 97, 77);"
         id="deleteAccBtn">
     <!-- <input class="globalButton" type="submit" value="Logout" style="background-color: rgb(211, 97, 77);"
         id="logoutBtn"> -->
-    <h1>Edit your user account</h1>
+    <h1 data-i18n="editUserHeader">Edit your user account</h1>
     <form id="createUserForm" action="" lang="en">
 
-        <label for="inputEmail" id="emailLabel">Change e-mail:</label><br />
+        <label for="inputEmail" id="emailLabel"data-i18n="changeEmail">Change e-mail:</label><br />
         <input type="email" id="inputEmail" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" name="inputEmail"
             required /><br />
-        <label for="inputPassword" id="passwordLabel">Change password:</label><br />
+        <label for="inputPassword" id="passwordLabel"data-i18n="changePassword">Change password:</label><br />
         <input type="password" id="inputPassword" name="inputPassword"/><br />
-        <label for="inputFullname" id="fullNameLabel">Change full name:</label><br />
+        <label for="inputFullname" id="fullNameLabel"data-i18n="changeFullName">Change full name:</label><br />
         <input type="txt" pattern="^[^\d]+ [^\d]+$"
             title="Can't contain numbers and has to include both first and last name." id="inputFullname"
             name="inputFullname" required /><br />
-        <!-- <label for="inputImage" id="imageLabel">Profile picture</label><br>
-            <input type="file" id="inputImage" name="inputImage" ><br><br> -->
-        <input type="submit" value="Submit" id="submitButton" />
+        <input type="submit" data-i18n="submit"value="Save" id="submitButton" />
      
 
     </form>
 </body>
 <script type="module">
-    import {createLightModeButton, showNotification} from "./sharedFunctions.js"
+    import {createLightModeButton, showNotification, changeLanguage} from "./modules/sharedFunctions.js"
 
 
 
     //-----------------getting user data to preview currently saved information-----------
  createLightModeButton();
-
+ changeLanguage()
 
     let token = localStorage.getItem("token")
     loadData();

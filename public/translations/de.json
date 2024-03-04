@@ -1,4 +1,9 @@
 {
+  "submit":"Speichern",
+  "editUserHeader":"Bearbeite dein Konto",
+  "changeEmail":"Bearbeite E-mail:",
+  "changePassword":"Bearbeite Passwort:",
+  "changeFullName":"Bearbeite vollständigen Namen:",
   "english": "Englisch",
   "norwegian": "Norwegisch",
   "german": "Deutsch",

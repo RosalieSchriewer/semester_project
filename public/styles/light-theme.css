@@ -267,3 +267,30 @@ canvas {
     /* Full width on smaller screens */
   }
 }
+#languageSwitcher {
+  position: relative;
+  display: inline-block;
+}
+
+
+#languageDropdown {
+
+  list-style: none; 
+
+}
+#languageDropdown li {
+  background-color:  whitesmoke;
+  max-width: 100px;
+}
+
+#languageDropdown a {
+  display: block;
+  padding: 10px;
+  text-decoration: none;
+  color: rgba(0, 0, 0, 0.1);
+}
+
+#languageDropdown a:hover {
+  background-color: #f5f5f534; 
+  border-radius: 8px;
+}

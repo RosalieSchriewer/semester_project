@@ -1,4 +1,9 @@
 {
+    "submit":"Save",
+    "editUserHeader":"Edit your user Account",
+    "changeEmail":"Change e-mail:",
+    "changePassword":"Change password:",
+    "changeFullName":"Change full name:",
     "english": "english",
     "norwegian": "norwegian",
     "german": "german",

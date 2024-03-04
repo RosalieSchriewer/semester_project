@@ -85,6 +85,8 @@ export function showNotification(message) {
 export function changeLanguage(){
   let currentLanguage = 'en';
 
+
+
 async function loadTranslations(language) {
   const response = await fetch(`/translations/${language}.json`);
   return response.json();
@@ -121,7 +123,13 @@ function updateUI() {
     elements.forEach(element => {
       const key = element.getAttribute('data-i18n');
       element.textContent = translations[key] || key;
+      
     });
+    const form = document.getElementById('createUserForm');
+    const submitButton = form.querySelector('input[type="submit"]');
+    if (form && submitButton) {
+      submitButton.value = translations['submit'] || 'Submit';
+    }
   });
 }
 }
