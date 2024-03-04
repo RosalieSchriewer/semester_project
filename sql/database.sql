@@ -4,8 +4,10 @@ CREATE TABLE "Users" (
     "pswHash" text NOT NULL,
     email text NOT NULL,
     avatar_id integer REFERENCES "Avatar"(id),
-    lightmode integer
+    lightmode integer DEFAULT 1,
+    role text DEFAULT 'user'::text
 );
+
 CREATE TABLE "Hair" (
     id integer GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     type integer NOT NULL,
