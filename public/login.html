@@ -9,13 +9,22 @@
 </head>
 
 <body>
-    <h1>Login</h1>
+    <div id="languageSwitcher">
+        <button id="languageSwitchButton"data-i18n="switchLanguage">Switch Language</button>
+        <ul id="languageDropdown" style="display: none;">
+          <li><a href="#" data-language="en"data-i18n="english">English</a></li>
+          <li><a href="#" data-language="no"data-i18n="norwegian">Norwegian</a></li>
+          <li><a href="#" data-language="de"data-i18n="german">German</a></li>
+        </ul>
+      </div>
+    <h1 data-i18n="login">Login</h1>
+    
     <form id="loginForm">
 
-        <label for="inputEmail">E-mail</label><br>
+        <label for="inputEmail"data-i18n="e-mail">E-mail</label><br>
         <input id="inputEmail" class="inputField" name="email" type="text"
             pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" placeholder="name@email.com" required /><br>
-        <label for="inputPassword">Password</label><br>
+        <label for="inputPassword"data-i18n="password">Password</label><br>
         <input id="inputPassword" class="inputField" name="password" type="password" placeholder="Password"
             required /><br>
         <input type="submit" value="Submit" id="submitButton" />
@@ -26,7 +35,10 @@
     </form>
 
 
-    <script>
+    <script type="module">
+import {changeLanguage} from "./modules/sharedFunctions.js"
+changeLanguage();
+
         const loginForm = document.getElementById("loginForm");
 
         loginForm.addEventListener("submit", async function (event) {
@@ -56,7 +68,7 @@
                 localStorage.setItem("token", data.token);
                 console.log("User logged in with token" + data.token);
 
-                // Fetch avatar data after successful login
+                
 
                 try {
                     let lightmodeResponse = await fetch("/user/getLightMode", {
@@ -74,7 +86,7 @@
                         console.log("not getting lightmode");
                     }
 
-                    // Navigate to index.html after fetching avatar data
+                   
 
                 } catch (error) {
                     console.error("The error is: " + error)
@@ -98,7 +110,7 @@
                         console.log("not getting Avatar");
                     }
 
-                    // Navigate to index.html after fetching avatar data
+                  
                     alert("You are now logged in");
                     location.href = "index.html";
                 } catch (error) {

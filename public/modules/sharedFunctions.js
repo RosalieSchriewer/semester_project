@@ -125,7 +125,13 @@ function updateUI() {
       element.textContent = translations[key] || key;
       
     });
-    const form = document.getElementById('createUserForm');
+    let form = document.getElementById('createUserForm');
+    
+    if (form===null){
+      let form = document.getElementById('loginForm')
+      return form;
+    }
+    console.log(form)
     const submitButton = form.querySelector('input[type="submit"]');
     if (form && submitButton) {
       submitButton.value = translations['submit'] || 'Submit';

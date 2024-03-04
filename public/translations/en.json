@@ -3,6 +3,8 @@
     "editUserHeader":"Edit your user Account",
     "changeEmail":"Change e-mail:",
     "changePassword":"Change password:",
+    "e-mail":"E-mail:",
+    "password":"Password:",
     "changeFullName":"Change full name:",
     "english": "english",
     "norwegian": "norwegian",

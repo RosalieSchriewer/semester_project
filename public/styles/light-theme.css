@@ -279,15 +279,18 @@ canvas {
 
 }
 #languageDropdown li {
-  background-color:  whitesmoke;
+  background-color:  #adadad;
   max-width: 100px;
+  border-radius: 8px;
+  margin: 5px;
 }
 
 #languageDropdown a {
   display: block;
   padding: 10px;
   text-decoration: none;
-  color: rgba(0, 0, 0, 0.1);
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 #languageDropdown a:hover {
