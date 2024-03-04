@@ -7,22 +7,34 @@
   <title>Document</title>
   <!--  <script  src="/languages/english.mjs"></script>
     <script  src="/routes/userFrontend.mjs"></script> -->
-   <!--  <link rel="stylesheet" href="/styles/light-theme.css"> -->
-   <link rel="stylesheet" id="themeStylesheet" href="/styles/light-theme.css">
+  <!--  <link rel="stylesheet" href="/styles/light-theme.css"> -->
+  <link rel="stylesheet" id="themeStylesheet" href="/styles/light-theme.css">
 </head>
 
 <body>
-<button id="lightModeBtn">Darkmode</button>
-  <h1>Create your user account</h1>
-    <form id="createUserForm" action="" lang="en">
-        <label for="inputEmail" id="emailLabel">E-mail:</label><br>
-        <input type="email" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" id="inputEmail" name="inputEmail" required><br>
-        <label for="inputPassword" id="passwordLabel">Password:</label><br>
-        <input type="password" id="inputPassword" name="inputPassword" required><br>
-        <label for="inputFullname" id="fullNameLabel">Full name:</label><br>
-        <input type="txt" id="inputFullname" name="inputFullname" pattern="^[^\d]+ [^\d]+$"
-        title="Can't contain numbers and has to include both first and last name." required><br>
-        <!-- <label for="inputImage" id="imageLabel">Profile picture</label><br>
+  <button id="lightModeBtn" data-i18n="darkmode">Darkmode</button>
+
+  <div id="languageSwitcher">
+    <button id="languageSwitchButton" data-i18n="switchLanguage">Switch Language</button>
+    <ul id="languageDropdown" style="display: none;">
+      <li><a href="#" data-language="en" data-i18n="english">English</a></li>
+      <li><a href="#" data-language="no" data-i18n="norwegian">Norwegian</a></li>
+      <li><a href="#" data-language="de" data-i18n="german">German</a></li>
+    </ul>
+  </div>
+
+  <h1 data-i18n="createUserAccount">Create your user account</h1>
+
+  <form id="createUserForm" action="" lang="en">
+    <label for="inputEmail" id="emailLabel">E-mail:</label><br>
+    <input type="email" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" id="inputEmail" name="inputEmail"
+      required><br>
+    <label for="inputPassword" id="passwordLabel"data-i18n="password">Password:</label><br>
+    <input type="password" id="inputPassword" name="inputPassword" required><br>
+    <label for="inputFullname" id="fullNameLabel"data-i18n="fullName">Full name:</label><br>
+    <input type="txt" id="inputFullname" name="inputFullname" pattern="^[^\d]+ [^\d]+$"
+      title="Can't contain numbers and has to include both first and last name." required><br>
+    <!-- <label for="inputImage" id="imageLabel">Profile picture</label><br>
         <input type="file" id="inputImage" name="inputImage" ><br><br> -->
     <input type="submit" value="Submit" id="submitButton" />
   </form>
@@ -30,9 +42,10 @@
 <script type="module">
 
   // userFrontend --------should be moved to other file?--------
-  import { createLightModeButton} from "./modules/sharedFunctions.js"
+  import { createLightModeButton, changeLanguage } from "./modules/sharedFunctions.js"
 
-createLightModeButton();
+  createLightModeButton();
+  changeLanguage();
   document
     .getElementById("createUserForm")
     .addEventListener("submit", async function (event) {
@@ -57,10 +70,10 @@ createLightModeButton();
 
         if (response.status == 200) {
 
-            let data = await response.json;
-            localStorage.removeItem("token")
-            console.log("User created");
-            window.location.href="login.html"
+          let data = await response.json;
+          localStorage.removeItem("token")
+          console.log("User created");
+          window.location.href = "login.html"
 
 
         } else {
