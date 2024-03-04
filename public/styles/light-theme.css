@@ -267,3 +267,33 @@ canvas {
     /* Full width on smaller screens */
   }
 }
+#languageSwitcher {
+  position: relative;
+  display: inline-block;
+}
+
+
+#languageDropdown {
+
+  list-style: none; 
+
+}
+#languageDropdown li {
+  background-color:  #adadad;
+  max-width: 100px;
+  border-radius: 8px;
+  margin: 5px;
+}
+
+#languageDropdown a {
+  display: block;
+  padding: 10px;
+  text-decoration: none;
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+#languageDropdown a:hover {
+  background-color: #f5f5f534; 
+  border-radius: 8px;
+}

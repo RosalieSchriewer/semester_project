@@ -6,7 +6,7 @@ GET / -> Returns current authenticated user object. If no authenticated user, re
 fetch url: "./user/"  
 METHOD: GET
 Expects: JSON
-Returns: JSON
+Returns: JSON <!-- TODO: definer hva som er i JSON -->
 Requires: Authentication (token)
 Creates a user, required fields {name,password,email,....}
 

@@ -1,0 +1,24 @@
+{
+    "submit":"Save",
+    "editUserHeader":"Edit your user Account",
+    "changeEmail":"Change e-mail:",
+    "changePassword":"Change password:",
+    "e-mail":"E-mail:",
+    "password":"Password:",
+    "changeFullName":"Change full name:",
+    "english": "english",
+    "norwegian": "norwegian",
+    "german": "german",
+    "switchLanguage": "Switch language",
+    "createAccount": "Create Account",
+    "login": "Login",
+    "myProfile": "My Profile",
+    "logout": "Logout",
+    "saveAvatar": "Save Avatar",
+    "shareAvatar": "Share Avatar",
+    "darkmode": "Darkmode",
+    "lightmode": "Lightmode",
+    "notificationSaved": "Saved your Avatar!",
+    "expiredLogin": "Login expired, please log in again"
+  }
+  
