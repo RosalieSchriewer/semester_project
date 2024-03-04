@@ -49,7 +49,6 @@ changeLanguage();
             let pswHash = formData.get("password");
 
 
-
             let url = "/user/login";
 
 
@@ -57,7 +56,7 @@ changeLanguage();
                 let response = await fetch(url, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ email, pswHash }),
+                    body: JSON.stringify({ email, pswHash}),
                 });
 
                 if (response.status != 200) {

@@ -5,8 +5,10 @@ CREATE TABLE "Users" (
     email text NOT NULL,
     avatar_id integer REFERENCES "Avatar"(id),
     lightmode integer DEFAULT 1,
-    role text DEFAULT 'user'::text
+    role text DEFAULT 'user'::text,
+    "lastLogin" timestamp without time zone DEFAULT now()
 );
+
 
 CREATE TABLE "Hair" (
     id integer GENERATED ALWAYS AS IDENTITY PRIMARY KEY,

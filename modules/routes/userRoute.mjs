@@ -46,7 +46,7 @@ USER_API.post("/", async (req, res, next) => {
 
 USER_API.post("/login", async (req, res, next) => {
   try {
-    const { email, pswHash } = req.body;
+    const { email, pswHash} = req.body;
     const secretKey = process.env.SECRET_KEY;
 
     const user = await DBManager.getUserByEmailAndPassword(email, pswHash);
