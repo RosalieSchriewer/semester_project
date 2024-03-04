@@ -9,6 +9,7 @@ export function createLightModeButton(){
       if (lightmode ==="2"){
         const themeStylesheet = document.getElementById("themeStylesheet");
         lightModeBtn.textContent = "Lightmode"
+        lightModeBtn.setAttribute("data-i18n", "lightmode"); 
         themeStylesheet.href = "/styles/dark.theme.css";
         
       }
@@ -25,6 +26,7 @@ export function createLightModeButton(){
       
       } else {
         lightModeBtn.textContent = "Lightmode"
+        lightModeBtn.setAttribute("data-i18n", "lightmode"); 
         themeStylesheet.href = "/styles/dark.theme.css";
         lightingMode = 2
         
@@ -78,4 +80,48 @@ export function showNotification(message) {
   export function isSharedAvatar() {
     const queryParams = new URLSearchParams(window.location.search);
     return queryParams.has("token");
+}
+
+export function changeLanguage(){
+  let currentLanguage = 'en';
+
+async function loadTranslations(language) {
+  const response = await fetch(`/translations/${language}.json`);
+  return response.json();
+}
+
+
+document.getElementById('languageSwitchButton').addEventListener('click', function () {
+  const dropdown = document.getElementById('languageDropdown');
+  dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
+});
+
+
+const languageOptions = document.querySelectorAll('#languageDropdown a');
+languageOptions.forEach(option => {
+  option.addEventListener('click', function (event) {
+    event.preventDefault();
+    const selectedLanguage = this.getAttribute('data-language');
+    setLanguage(selectedLanguage);
+    document.getElementById('languageDropdown').style.display = 'none';
+  });
+});
+
+
+function setLanguage(language) {
+  if (language !== currentLanguage) {
+    currentLanguage = language;
+    updateUI();
+  }
+}
+
+function updateUI() {
+  loadTranslations(currentLanguage).then(translations => {
+    const elements = document.querySelectorAll('[data-i18n]');
+    elements.forEach(element => {
+      const key = element.getAttribute('data-i18n');
+      element.textContent = translations[key] || key;
+    });
+  });
+}
 }

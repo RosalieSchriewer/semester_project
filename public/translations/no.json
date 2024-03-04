@@ -1,0 +1,16 @@
+{
+  "english": "Engelsk",
+  "norwegian": "Norsk",
+  "german": "Tysk",
+  "switchLanguage": "Bytt språk",
+  "createAccount": "Opprett konto",
+  "login": "Logg inn",
+  "myProfile": "Min profil",
+  "logout": "Logg ut",
+  "saveAvatar": "Lagre avatar",
+  "shareAvatar": "Del avatar",
+  "darkmode": "Mørk modus",
+  "lightmode": "Lys modus",
+  "notificationSaved": "Lagret din avatar!",
+  "expiredLogin": "Innlogging utløpt, vennligst logg inn igjen"
+}

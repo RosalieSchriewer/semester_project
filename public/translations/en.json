@@ -1,4 +1,8 @@
 {
+    "english": "english",
+    "norwegian": "norwegian",
+    "german": "german",
+    "switchLanguage": "Switch language",
     "createAccount": "Create Account",
     "login": "Login",
     "myProfile": "My Profile",

@@ -14,15 +14,24 @@
     <span id="notificationText"></span>
   </div>
   <div>
-  <button id="lightModeBtn">Darkmode</button>
-  <button id="createAccBtn">Create account</button>
-  <button id="loginBtn" class="greenButton">Login</button>
-  <button id="profileBtn" style="display: none;">My profile</button>
-  <button id="logoutBtn" style="display: none;" style="background-color: rgb(211, 97, 77),">Logout</button>
+    <div id="languageSwitcher">
+      <button id="languageSwitchButton"data-i18n="switchLanguage">Switch Language</button>
+      <ul id="languageDropdown" style="display: none;">
+        <li><a href="#" data-language="en"data-i18n="english">English</a></li>
+        <li><a href="#" data-language="no"data-i18n="norwegian">Norwegian</a></li>
+        <li><a href="#" data-language="de"data-i18n="german">German</a></li>
+      </ul>
+    </div>
+    
+  <button id="lightModeBtn"data-i18n="darkmode">Darkmode</button>
+  <button id="createAccBtn"data-i18n="createAccount">Create account</button>
+  <button id="loginBtn" class="greenButton"data-i18n="login">Login</button>
+  <button id="profileBtn" style="display: none;" data-i18n="myProfile">My profile</button>
+  <button id="logoutBtn" style="display: none;" style="background-color: rgb(211, 97, 77),"data-i18n="logout">Logout</button>
   <!-- <h1>Create you avatar</h1> -->
 </div>
 <div><button id="checkBtn" class="globalBtn">&#10004</button>
-  <button id="shareBtn" class="globalBtn">Share this avatar</button></div>
+  <button id="shareBtn" class="globalBtn" data-i18n="shareAvatar">Share this avatar</button></div>
 
   <div id="choiceMenu">
     
@@ -41,11 +50,11 @@
 
   import { loadScene } from "./avatarstudio/Script/main.js";
   import { avatarData } from "./avatarstudio/Script/scene.js";
-  import { createLightModeButton, showNotification } from "./modules/sharedFunctions.js";
+  import { createLightModeButton, showNotification, changeLanguage } from "./modules/sharedFunctions.js";
 
 
   loadScene()
-
+  changeLanguage()
 
 
   let token = localStorage.getItem("token")

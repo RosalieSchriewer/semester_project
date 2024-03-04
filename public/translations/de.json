@@ -1,0 +1,16 @@
+{
+  "english": "Englisch",
+  "norwegian": "Norwegisch",
+  "german": "Deutsch",
+  "switchLanguage": "Sprache ändern",
+  "createAccount": "Konto erstellen",
+  "login": "Anmelden",
+  "myProfile": "Mein Profil",
+  "logout": "Abmelden",
+  "saveAvatar": "Avatar speichern",
+  "shareAvatar": "Avatar teilen",
+  "darkmode": "Dunkelmodus",
+  "lightmode": "Lichtmodus",
+  "notificationSaved": "Avatar gespeichert!",
+  "expiredLogin": "Anmeldung abgelaufen, bitte erneut anmelden"
+}
