@@ -11,7 +11,7 @@ const USER_API = express.Router();
 const users = [];
 
 /*   -----------NEW USER--------------- */
-USER_API.post("/", async (req, res) => {
+USER_API.post("/", async (req, res, next) => {
   try {
     const { name, email, pswHash } = req.body;
 
@@ -40,11 +40,11 @@ USER_API.post("/", async (req, res) => {
       .status(HTTPCodes.ClientSideErrorResponse.BadRequest)
       .send(error.message)
       .end();
-  }
+  }next()
 });
 /*   -----------LOGIN--------------- */
 
-USER_API.post("/login", async (req, res) => {
+USER_API.post("/login", async (req, res, next) => {
   try {
     const { email, pswHash } = req.body;
     const secretKey = process.env.SECRET_KEY;
@@ -76,10 +76,10 @@ USER_API.post("/login", async (req, res) => {
     res
       .status(HTTPCodes.ClientSideErrorResponse.Unauthorized)
       .send(error.message);
-  }
+  }next()
 });
 /*   -----------EDIT--------------- */
-USER_API.put("/updateUser", verifyToken, async (req, res) => {
+USER_API.put("/updateUser", verifyToken, async (req, res, next) => {
   try {
     const { email, pswHash, name } = req.body;
     const userId = req.user.userId;
@@ -96,7 +96,7 @@ USER_API.put("/updateUser", verifyToken, async (req, res) => {
     res
       .status(HTTPCodes.ServerErrorResponse.InternalError)
       .send("Internal Server Error");
-  }
+  }next()
 });
 
 /*   -----------DELETE--------------- */
@@ -111,7 +111,7 @@ USER_API.delete("/deleteUser", verifyToken, async (req, res, next) => {
       .status(HTTPCodes.ServerErrorResponse.InternalError)
       .send("Internal Server Error")
       .end();
-  }
+  }next()
 });
 
 /* /*   -----------GET ID--------------- 
@@ -132,11 +132,11 @@ USER_API.get("/getUserById", verifyToken, async (req, res, next) => {
     res
       .status(HTTPCodes.ServerErrorResponse.InternalError)
       .send("Internal Server Error");
-  }
+  }next()
 });
 
 ////--------------ALL USERS-----------------
-USER_API.get("/admin/allUsers",verifyToken, isAdmin, async (req, res) => {
+USER_API.get("/admin/allUsers",verifyToken, isAdmin, async (req, res, next) => {
   try {
     const allUsers = await DBManager.getAllUsers();
     res.status(HTTPCodes.SuccessfulResponse.Ok).json(allUsers);
@@ -145,11 +145,11 @@ USER_API.get("/admin/allUsers",verifyToken, isAdmin, async (req, res) => {
     res
       .status(HTTPCodes.ServerErrorResponse.InternalError)
       .send("Internal Server Error");
-  }
+  }next()
 });
 //----------------------------------------------------
 /*   -----------SAVE AVATAR--------------- */
-USER_API.put("/saveAvatar",  verifyToken,  async (req, res) => {
+USER_API.put("/saveAvatar",  verifyToken,  async (req, res, next) => {
   try {
     const { eyeColor, 
       skinColor,
@@ -176,10 +176,10 @@ USER_API.put("/saveAvatar",  verifyToken,  async (req, res) => {
     res
       .status(HTTPCodes.ClientSideErrorResponse.Unauthorized)
       .send(error.message);
-  }
+  }next()
 });
 /*   -----------GET AVATAR--------------- */
-USER_API.get("/getAvatar",  verifyToken,  async (req, res) => {
+USER_API.get("/getAvatar",  verifyToken,  async (req, res, next) => {
   try {
    
     const avatar_id = req.user.avatar_id
@@ -190,10 +190,10 @@ USER_API.get("/getAvatar",  verifyToken,  async (req, res) => {
     res
       .status(HTTPCodes.ServerErrorResponse.InternalError)
       .send("Internal Server Error");
-  }
+  }next()
 });
 
-USER_API.post("/generateShareableLink", verifyToken, async (req, res) => {
+USER_API.post("/generateShareableLink", verifyToken, async (req, res, next) => {
   try {
     const avatar_id = req.user.avatar_id
     const avatarInfo = await DBManager.getAvatar(avatar_id);
@@ -216,9 +216,9 @@ USER_API.post("/generateShareableLink", verifyToken, async (req, res) => {
   } catch (error) {
     console.error("Error generating shareable link:", error.message);
     res.status(HTTPCodes.ClientSideErrorResponse.Unauthorized).send(error.message);
-  }
+  }next()
 });
-USER_API.post("/decodeSharedAvatar", async (req, res) => {
+USER_API.post("/decodeSharedAvatar", async (req, res, next) => {
   try {
     const {token} = req.body;
 
@@ -241,9 +241,9 @@ USER_API.post("/decodeSharedAvatar", async (req, res) => {
     res
       .status(HTTPCodes.ServerErrorResponse.InternalError)
       .send("Internal Server Error");
-  }
+  }next()
 });
-USER_API.put("/updateLightMode", verifyToken, async (req, res) => {
+USER_API.put("/updateLightMode", verifyToken, async (req, res, next) => {
   try {
     const { lightmode } = req.body; 
     const userId = req.user.userId; 
@@ -258,9 +258,9 @@ USER_API.put("/updateLightMode", verifyToken, async (req, res) => {
     res
       .status(HTTPCodes.ServerErrorResponse.InternalError)
       .send("Internal Server Error");
-  }
+  }next()
 });
-USER_API.get("/getLightMode", verifyToken, async (req, res) => {
+USER_API.get("/getLightMode", verifyToken, async (req, res, next) => {
   try {
     const  lightmode  =  req.user.lightmode; 
    
@@ -271,6 +271,7 @@ USER_API.get("/getLightMode", verifyToken, async (req, res) => {
       .status(HTTPCodes.ServerErrorResponse.InternalError)
       .send("Internal Server Error");
   }
+  next()
 });
 /* USER_API.get("/admin/userManagement", verifyToken, isAdmin, async (req, res) => {
   try {

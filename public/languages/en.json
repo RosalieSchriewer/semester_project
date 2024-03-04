@@ -1,0 +1,13 @@
+{
+    "createAccount": "Create Account",
+    "login": "Login",
+    "myProfile": "My Profile",
+    "logout": "Logout",
+    "saveAvatar": "Save Avatar",
+    "shareAvatar": "Share Avatar",
+    "darkmode": "Darkmode",
+    "lightmode": "Lightmode",
+    "notificationSaved": "Saved your Avatar!",
+    "expiredLogin": "Login expired, please log in again"
+  }
+  

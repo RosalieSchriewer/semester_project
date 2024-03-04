@@ -26,24 +26,27 @@
 
   <div id="choiceMenu">
     
-    <img class="thumbnail" src="./AvatarStudio/Media/head.png">
-    <img class="thumbnail" src="./AvatarStudio/Media/head.png">
-    <img class="thumbnail" src="./AvatarStudio/Media/head.png">
-    <img class="thumbnail" src="./AvatarStudio/Media/head.png">
-    <img class="thumbnail" src="./AvatarStudio/Media/head.png">
-    <img class="thumbnail" src="./AvatarStudio/Media/eyebrowRender.jpg" id="loadEyebrows2Button">
-    <img class="thumbnail" src="./AvatarStudio/Media/eyebrow-1Render.jpg" id="loadEyebrowsButton">
+    <img class="thumbnail" src="./avatarstudio/Media/head.png">
+    <img class="thumbnail" src="./avatarstudio/Media/head.png">
+    <img class="thumbnail" src="./avatarstudio/Media/head.png">
+    <img class="thumbnail" src="./avatarstudio/Media/head.png">
+    <img class="thumbnail" src="./avatarstudio/Media/head.png">
+    <img class="thumbnail" src="./avatarstudio/Media/eyebrowRender.jpg" id="loadEyebrows2Button">
+    <img class="thumbnail" src="./avatarstudio/Media/eyebrow-1Render.jpg" id="loadEyebrowsButton">
   </div>
 </body>
-
 
 <script type="module">
 
 
-  import { loadScene } from "./AvatarStudio/Script/main.js";
-  import { avatarData } from "./AvatarStudio/Script/scene.js";
-  import { createLightModeButton, showNotification } from "./modules/sharedFunctions.js"
+  import { loadScene } from "./avatarstudio/Script/main.js";
+  import { avatarData } from "./avatarstudio/Script/scene.js";
+  import { createLightModeButton, showNotification } from "./modules/sharedFunctions.js";
+
+
   loadScene()
+
+
 
   let token = localStorage.getItem("token")
 
