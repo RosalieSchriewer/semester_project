@@ -93,11 +93,6 @@ Button, .globalButton{
     --mainBtnColor: #EBAC78;
 }
 
-body {
-    margin: 0;
-    overflow: hidden;
-    position: relative;
-}
 
 canvas {
     width: 100%;
@@ -109,7 +104,7 @@ canvas {
     border: none;
     border-radius: 10px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    position: absolute;
+    position: relative;
     font-weight: bold;
     font-size: large;
     height: 2.5em;
@@ -121,41 +116,22 @@ canvas {
 
 }
 
-#mainBtn {
-    background-color: var(--mainBtnColor);
-    color: rgb(255, 255, 255);
-    width: 5em;
-    left: 3.5em;
-}
 
-#mainBtn:hover {
-    color: aqua;
-    background-color: rgb(17, 75, 75);
-    width: 5.3em;
-    height: 2.6em;
-}
-
-#exitBtn {
-    background-color: white;
-    color: #cc8145;
-    right: 3.5em;
-    width: 2.5em;
-}
-
-#questionBtn {
-    background-color: white;
-    color: #cc8145;
-    right: 6.5em;
-    width: 2.5em;
-}
 
 #checkBtn {
     color: rgb(47, 185, 70);
     background-color: white;
     left: 80%;
-   
+    bottom: 40%;
     width: 2.5em;
 }
+#shareBtn {
+    color: rgb(47, 185, 70);
+    background-color: white;
+    right: 2em;
+    bottom: 20%;
+    
+  }
 
 #checkBtn:hover {
     background-color: rgb(47, 185, 70);
@@ -240,7 +216,7 @@ canvas {
         background-color: white;
         color: rgb(47, 185, 70);
         right: 2em;
-        bottom: 18em;
+        bottom: 40%;
         width: 2.5em;
     }
 }

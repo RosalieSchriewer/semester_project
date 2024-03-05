@@ -82,6 +82,7 @@
       } catch (error) {
         alert("This email is already in use.");
         console.error("The error is: " + error);
+        handleFetchError(error)
       }
     });
 </script>

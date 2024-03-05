@@ -24,9 +24,6 @@ export function TinitialiseScene(anAvatar) {
 
   scene = new THREE.Scene();
 
-
-
-  
   scene.background = new THREE.Color(0x294a5e);
 
   //----------------scene objects----------------------
@@ -66,7 +63,6 @@ export function TinitialiseScene(anAvatar) {
 
   const userEyebrowType = localStorage.getItem("userEyebrowType");
   avatarData.eyebrowType = userEyebrowType;
-
 
   renderer = new THREE.WebGLRenderer();
   renderer.setSize(window.innerWidth, window.innerHeight);
@@ -146,7 +142,6 @@ export function TinitialiseScene(anAvatar) {
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
   }
-
 
   render();
 }

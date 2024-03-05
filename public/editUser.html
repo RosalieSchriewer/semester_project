@@ -97,6 +97,7 @@
 
         } catch (error) {
             console.error("The error is: " + error);
+            handleFetchError(error)
         }
 
         // userFrontend --------
@@ -138,7 +139,7 @@
                     throw new Error("Server error: " + response.status);
                 }
             } catch (error) {
-
+                handleFetchError(error)
                 console.error("The error is: " + error);
             }
         });
@@ -168,6 +169,7 @@
 
 
             } catch (error) {
+                handleFetchError(error)
                 console.error("The error is: " + error);
             }
         });

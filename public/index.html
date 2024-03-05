@@ -51,7 +51,7 @@
   import { loadScene } from "./avatarstudio/Script/main.js";
   import { avatarData } from "./avatarstudio/Script/scene.js";
   import { createLightModeButton, showNotification, changeLanguage } from "./modules/sharedFunctions.js";
-
+  import { handleFetchError } from "./modules/errorHandler.mjs"
 
 
   loadScene()
@@ -132,6 +132,7 @@
     } catch (error) {
 
       console.error("The error is: " + error);
+      handleFetchError(error)
       
     }
 
@@ -167,6 +168,7 @@
       }
     } catch (error) {
       console.error("The error is: " + error);
+      handleFetchError(error)
     }
   
   });

@@ -88,6 +88,7 @@ changeLanguage();
                    
 
                 } catch (error) {
+                    handleFetchError(error)
                     console.error("The error is: " + error)
                 }
 
@@ -113,10 +114,11 @@ changeLanguage();
                     alert("You are now logged in");
                     location.href = "index.html";
                 } catch (error) {
-
+                    handleFetchError(error)
                     location.href = "index.html";
                 }
             } catch (error) {
+                handleFetchError(error)
                 alert("Wrong password or e-mail");
                 console.error("The error is: " + error);
             }
