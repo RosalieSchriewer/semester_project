@@ -1,5 +1,5 @@
 "use strict";
-import { TinitialiseScene } from './scene.js';
+import { TinitialiseScene } from './scene.mjs';
 
 
  export function loadScene() {

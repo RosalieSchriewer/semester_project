@@ -68,7 +68,7 @@ export function showNotification(message) {
     const notificationPopup = document.getElementById('notificationPopup');
     const notificationText = document.getElementById('notificationText');
 
-    notificationText.textContent = message;
+    notificationText.textContent = message
 
     notificationPopup.classList.remove('hidden');
 
@@ -76,6 +76,7 @@ export function showNotification(message) {
       notificationPopup.classList.add('hidden');
     }, 3000);
   }
+
 
   export function isSharedAvatar() {
     const queryParams = new URLSearchParams(window.location.search);

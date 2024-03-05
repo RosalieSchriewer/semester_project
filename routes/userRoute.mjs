@@ -1,10 +1,10 @@
 import express, { raw } from "express";
-import User from "../user.mjs";
-import HTTPCodes from "../httpConstants.mjs";
+import User from "../modules/user.mjs";
+import HTTPCodes from "../modules/httpConstants.mjs";
 import jwt from "jsonwebtoken";
-import { verifyToken, isAdmin } from "../authentication.mjs";
-import DBManager from "../storageManager.mjs";
-import Avatar from "../avatar.mjs";
+import { verifyToken, isAdmin } from "../modules/authentication.mjs";
+import DBManager from "../modules/storageManager.mjs";
+import Avatar from "../modules/avatar.mjs";
 
 const USER_API = express.Router();
 

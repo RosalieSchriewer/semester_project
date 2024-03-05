@@ -19,7 +19,7 @@ export class TCharacter extends THREE.Object3D {
         const loader = new GLTFLoader();
         
    
-        loader.load("avatarstudio/Media/Boy-smaller-file.gltf", (gltfModel) => {
+        loader.load("avatarstudio/media/Boy-smaller-file.gltf", (gltfModel) => {
             //this.irisOfEye = gltfModel.scene.children[2].material;
             
             gltfModel.scene.position.set(0, 0, 0);
