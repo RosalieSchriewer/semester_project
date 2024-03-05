@@ -1260,3 +1260,17 @@ Database connection  undefined
 12:17:19 PM GET /translations/de.json
 12:17:19 PM GET /styles/dark.theme.css
 12:17:19 PM GET /favicon.ico
+12:30:07 PM GET /index.html
+12:30:07 PM GET /styles/light-theme.css
+12:30:07 PM GET /modules/sharedFunctions.mjs
+12:30:07 PM GET /modules/errorHandler.mjs
+12:30:08 PM GET /translations/de.json
+12:30:08 PM GET /styles/dark.theme.css
+12:30:08 PM GET /favicon.ico
+12:31:01 PM GET /index.html
+12:31:01 PM GET /styles/light-theme.css
+12:31:01 PM GET /modules/sharedFunctions.mjs
+12:31:01 PM GET /modules/errorHandler.mjs
+12:31:02 PM GET /translations/de.json
+12:31:02 PM GET /styles/dark.theme.css
+12:31:02 PM GET /favicon.ico
