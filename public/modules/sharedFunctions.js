@@ -9,7 +9,7 @@ export function createLightModeButton(){
       if (lightmode ==="2"){
         const themeStylesheet = document.getElementById("themeStylesheet");
         lightModeBtn.textContent = "Lightmode"
-        lightModeBtn.setAttribute("data-i18n", "lightmode"); 
+        lightModeBtn.setAttribute("data-translate", "lightmode"); 
         themeStylesheet.href = "/styles/dark.theme.css";
         
       }
@@ -26,7 +26,7 @@ export function createLightModeButton(){
       
       } else {
         lightModeBtn.textContent = "Lightmode"
-        lightModeBtn.setAttribute("data-i18n", "lightmode"); 
+        lightModeBtn.setAttribute("data-translate", "lightmode"); 
         themeStylesheet.href = "/styles/dark.theme.css";
         lightingMode = 2
         
@@ -81,10 +81,11 @@ export function showNotification(message) {
     const queryParams = new URLSearchParams(window.location.search);
     return queryParams.has("token");
 }
-
+  
 export function changeLanguage(){
-  let currentLanguage = 'en';
-
+  let currentLanguage = localStorage.getItem('selectedLanguage') || 'en';
+  console.log (currentLanguage)
+  updateUI()
 
 
 async function loadTranslations(language) {
@@ -99,29 +100,37 @@ document.getElementById('languageSwitchButton').addEventListener('click', functi
 });
 
 
+
 const languageOptions = document.querySelectorAll('#languageDropdown a');
 languageOptions.forEach(option => {
   option.addEventListener('click', function (event) {
     event.preventDefault();
-    const selectedLanguage = this.getAttribute('data-language');
-    setLanguage(selectedLanguage);
+   
+    let selectedLanguage = this.getAttribute('data-language');
+     localStorage.setItem( "selectedLanguage", selectedLanguage)
+     setLanguage(selectedLanguage);
     document.getElementById('languageDropdown').style.display = 'none';
   });
 });
 
 
 function setLanguage(language) {
+
+
   if (language !== currentLanguage) {
     currentLanguage = language;
     updateUI();
-  }
+  
 }
+}
+
+
 
 function updateUI() {
   loadTranslations(currentLanguage).then(translations => {
-    const elements = document.querySelectorAll('[data-i18n]');
+    const elements = document.querySelectorAll('[data-translate]');
     elements.forEach(element => {
-      const key = element.getAttribute('data-i18n');
+      const key = element.getAttribute('data-translate');
       element.textContent = translations[key] || key;
       
     });
@@ -131,7 +140,7 @@ function updateUI() {
       let form = document.getElementById('loginForm')
       return form;
     }
-    console.log(form)
+   
     const submitButton = form.querySelector('input[type="submit"]');
     if (form && submitButton) {
       submitButton.value = translations['submit'] || 'Submit';
