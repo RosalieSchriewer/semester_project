@@ -99,10 +99,24 @@ Requires: Authentication (token)
 the link contains a token that contains all the info of the to-be-shared avatar
 
 ## -----------------------------------------------------------------------------------------------
-GET /shareable-link -> decodes token from link and reroutes to display the shared avatar
+POST /decodeSharedAvatar -> decodes token from link and reroutes to display the shared avatar
 
-fetch url: "./user/shareable-link"  
-METHOD: GET
+fetch url: "./user/decodeSharedAvatar"  
+METHOD: POST
 Returns: JSON 
 
+## -----------------------------------------------------------------------------------------------
+PUT /updateLightMode -> saves the users' lightmode preferences to the database
 
+fetch url: "./user/updateLightMode"  
+METHOD: PUT
+Returns: JSON 
+Requires: Authentication (token)
+
+## -----------------------------------------------------------------------------------------------
+GET /getLightMode -> gets the users' lightmode preferences from the database
+
+fetch url: "./user/getLightMode"  
+METHOD: GET
+Returns: JSON 
+Requires: Authentication (token)

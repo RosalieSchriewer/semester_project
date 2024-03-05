@@ -7,6 +7,11 @@ body {
     position: relative;
 }
 
+p{
+    font-family: Arial, Helvetica, sans-serif;
+
+}
+
 input{
     
     background-color: darkgrey; 

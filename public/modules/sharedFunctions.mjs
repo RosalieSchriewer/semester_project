@@ -78,6 +78,39 @@ export function showNotification(message) {
   }
 
 
+ 
+ export function showNotificationWithLink(link) {
+  const modal = document.createElement('div');
+  modal.innerHTML = `
+      <div style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: whitesmoke;border-radius: 8px; padding: 20px; border: 1px solid #ccc;">
+          <p>Copy this link to share your avatar:</p>
+          <input type="text" value="${link}" readonly id="shareLinkInput">
+          <button id="copyButton">Copy to Clipboard</button>
+          <button id="closeButton">Close</button>
+      </div>
+  `;
+
+  document.body.appendChild(modal);
+
+  const copyButton = document.getElementById('copyButton');
+  const closeButton = document.getElementById('closeButton');
+
+  copyButton.addEventListener('click', copyToClipboard);
+  closeButton.addEventListener('click', closeModal);
+}
+
+function copyToClipboard() {
+  const input = document.getElementById('shareLinkInput');
+  input.select();
+  document.execCommand('copy');
+  alert('Link copied to clipboard!');
+}
+
+function closeModal() {
+  const modal = document.querySelector('div');
+  document.body.removeChild(modal);
+}
+
   export function isSharedAvatar() {
     const queryParams = new URLSearchParams(window.location.search);
     return queryParams.has("token");

@@ -51,7 +51,7 @@
 
   import { loadScene } from "./avatarStudio/script/main.mjs";
   import { avatarData } from "./avatarStudio/script/scene.mjs";
-  import { createLightModeButton, showNotification, changeLanguage } from "./modules/sharedFunctions.mjs";
+  import { createLightModeButton, showNotification, changeLanguage, showNotificationWithLink } from "./modules/sharedFunctions.mjs";
   import { handleFetchError } from "./modules/errorHandler.mjs"
 
 
@@ -158,7 +158,7 @@
         let data = await response.json();
         const shareableLink = data.shareableLink;
         console.log("this", shareableLink)
-        showNotification("Shareable link generated: " + shareableLink);
+        showNotificationWithLink(shareableLink);
         console.log(shareableLink)
       } else if (response.status === 401) {
         localStorage.clear();

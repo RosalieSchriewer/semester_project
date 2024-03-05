@@ -273,16 +273,5 @@ USER_API.get("/getLightMode", verifyToken, async (req, res, next) => {
   }
   next()
 });
-/* USER_API.get("/admin/userManagement", verifyToken, isAdmin, async (req, res) => {
-  try {
-    const  role  =  req.user.role; 
-   
-    res.status(HTTPCodes.SuccessfulResponse.Ok).json({role});
-  } catch (error) {
-    console.error("Error getting light mode choice:", error.message);
-    res
-      .status(HTTPCodes.ServerErrorResponse.InternalError)
-      .send("Internal Server Error");
-  }
-}); */
+
 export default USER_API;
