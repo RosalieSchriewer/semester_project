@@ -13,13 +13,13 @@ export class TCharacterOptions extends THREE.Object3D {
 
         const userEyebrowType = localStorage.getItem("userEyebrowType")
         if (userEyebrowType == 1){
-            loader.load("avatarstudio/media/eyebrows.gltf", (gltfModel) => {
+            loader.load("avatarStudio/media/eyebrows.gltf", (gltfModel) => {
                 gltfModel.scene.position.set(0, 0, 0);
                 this.add(gltfModel.scene);
                 activeEyebrow = gltfModel.scene;
                 
             });
-        }else {loader.load("avatarstudio/media/eyebrows-1.gltf", (gltfModel) => {
+        }else {loader.load("avatarStudio/media/eyebrows-1.gltf", (gltfModel) => {
 
             
             gltfModel.scene.position.set(0, 0, 0);
@@ -39,7 +39,7 @@ const loadEyebrowsButton = document.getElementById('loadEyebrowsButton');
                 this.remove(activeEyebrow);
             }
 
-            loader.load("avatarstudio/media/eyebrows.gltf", (gltfModel) => {
+            loader.load("avatarStudio/media/eyebrows.gltf", (gltfModel) => {
                 gltfModel.scene.position.set(0, 0, 0);
                 this.add(gltfModel.scene);
                 eyebrowInt=1
@@ -53,7 +53,7 @@ const loadEyebrowsButton = document.getElementById('loadEyebrowsButton');
  const loadEyebrows2Button = document.getElementById('loadEyebrows2Button');
 
         loadEyebrows2Button.addEventListener('click', () => {
-            loader.load("avatarstudio/media/eyebrows-1.gltf", (gltfModel) => {
+            loader.load("avatarStudio/media/eyebrows-1.gltf", (gltfModel) => {
 
                 if (activeEyebrow) {
                     this.remove(activeEyebrow);
