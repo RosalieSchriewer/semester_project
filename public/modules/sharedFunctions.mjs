@@ -5,6 +5,7 @@ let lightingMode
 export function createLightModeButton(){
     let lightModeBtn = document.getElementById("lightModeBtn")
     const lightmode = localStorage.getItem("lightmode")
+    console.log(lightmode)
    
       if (lightmode ==="2"){
         const themeStylesheet = document.getElementById("themeStylesheet");
@@ -22,12 +23,14 @@ export function createLightModeButton(){
         lightModeBtn.textContent = "Darkmode"
         themeStylesheet.href = "/styles/light-theme.css";
         lightingMode = 1
+        
        
       
       } else {
         lightModeBtn.textContent = "Lightmode"
         lightModeBtn.setAttribute("data-translate", "lightmode"); 
         themeStylesheet.href = "/styles/dark.theme.css";
+        
         lightingMode = 2
         
       }
@@ -47,6 +50,11 @@ export function createLightModeButton(){
         if (response.status === 200) {
           const data = await response.json();
           console.log("Light mode updated successfully:", data);
+         
+          localStorage.removeItem("lightmode")
+          console.log("bahjskd:"+data.lightmode)
+          localStorage.setItem("lightmode",data.lightmode)
+          console.log(localStorage)
         } else if (response.status === 401) {
           localStorage.clear();
           alert("Login expired, please log in again");

@@ -10,6 +10,7 @@
 
 <body>
     <header>
+        <button id="lightModeBtn">Darkmode</button>
     <div id="languageSwitcher">
         <button id="languageSwitchButton"data-translate="switchLanguage">Switch Language</button>
         <ul id="languageDropdown" style="display: none;">
@@ -38,9 +39,10 @@
 
 
     <script type="module">
-import {changeLanguage} from "./modules/sharedFunctions.mjs"
+import {changeLanguage, createLightModeButton} from "./modules/sharedFunctions.mjs"
 import { handleFetchError } from "./modules/errorHandler.mjs"
 changeLanguage();
+createLightModeButton()
 
         const loginForm = document.getElementById("loginForm");
 
