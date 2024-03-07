@@ -148,6 +148,21 @@ USER_API.get("/admin/allUsers",verifyToken, isAdmin, async (req, res, next) => {
   }next()
 });
 //----------------------------------------------------
+USER_API.put("/admin/updateUserRole/:userId", verifyToken, isAdmin, async (req, res, next) => {
+  try {
+    const { userId } = req.params;
+    const { role } = req.body;
+
+    const userUpdate = await DBManager.updateUserRole(userId, role);
+    res.status(HTTPCodes.SuccessfulResponse.Ok).json(userUpdate);
+  } catch (error) {
+    console.error("Error updating user role:", error.message);
+    res
+      .status(HTTPCodes.ServerErrorResponse.InternalError)
+      .send("Internal Server Error");
+  }
+  next();
+});
 /*   -----------SAVE AVATAR--------------- */
 USER_API.put("/saveAvatar",  verifyToken,  async (req, res, next) => {
   try {

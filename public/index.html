@@ -102,7 +102,7 @@
   }
 
 
-  console.log(avatarData)
+
   checkBtn.addEventListener("click", async function (event) {
 
     try {
@@ -141,7 +141,7 @@
   
 
   shareBtn.addEventListener("click", async function (event) {
-  //  console.log(JSON.parse(avatarData))
+  
    
 
     try {
@@ -157,9 +157,9 @@
       if (response.status == 200) {
         let data = await response.json();
         const shareableLink = data.shareableLink;
-        console.log("this", shareableLink)
+        
         showNotificationWithLink(shareableLink);
-        console.log(shareableLink)
+       
       } else if (response.status === 401) {
         localStorage.clear();
         alert("Login expired, please log in again");

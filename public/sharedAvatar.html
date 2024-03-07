@@ -27,6 +27,7 @@
 
     import { loadScene } from "./avatarStudio/script/main.mjs";
     import { avatarData } from "./avatarStudio/script/scene.mjs";
+    import { handleFetchError } from "./modules/errorHandler.mjs"
     loadScene()
 
 
@@ -54,7 +55,7 @@
                 throw new Error("Server error: " + response.status);
             } else {
                 let data = await response.json();
-                console.log(data);
+                
                 localStorage.setItem("userHairColor", data.hairColor);
                 localStorage.setItem("userSkinColor", data.skinColor);
                 localStorage.setItem("userEyeColor", data.eyeColor);

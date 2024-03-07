@@ -46,7 +46,7 @@
 </body>
 <script type="module">
     import {createLightModeButton, showNotification, changeLanguage} from "./modules/sharedFunctions.mjs"
-
+    import { handleFetchError } from "./modules/errorHandler.mjs"
 
 
     //-----------------getting user data to preview currently saved information-----------
@@ -80,7 +80,7 @@
                 throw new Error("Server error: " + response.status);
             } else {
                 let data = await response.json();
-                console.log(data);
+               
 
                 
                 inputFullname.value = data.userInfo.name

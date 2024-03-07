@@ -44,6 +44,7 @@
 
   // userFrontend --------should be moved to other file?--------
   import { createLightModeButton, changeLanguage } from "./modules/sharedFunctions.mjs"
+  import { handleFetchError } from "./modules/errorHandler.mjs"
 
   createLightModeButton();
   changeLanguage();
@@ -73,7 +74,6 @@
 
           let data = await response.json;
           localStorage.removeItem("token")
-          console.log("User created");
           window.location.href = "login.html"
 
 

@@ -182,6 +182,30 @@ class DBManager {
       client.end();
     }
   }
+  async updateUserRole(userId, role) {
+    const client = new pg.Client(this.#credentials);
+
+    try {
+      await client.connect();
+
+      const output = await client.query(
+        'UPDATE "public"."Users" SET "role" = $1 WHERE id = $2 RETURNING *',
+        [role, userId]
+      );
+
+      if (output.rows.length > 0) {
+        const updatedUser = output.rows[0];
+        return updatedUser;
+      } else {
+        throw new Error("User not found or not updated");
+      }
+    } catch (error) {
+      console.error("Error updating user role:", error);
+      throw error;
+    } finally {
+      client.end(); // Always disconnect from the database.
+    }
+  }
 
   async saveAvatar(eyeColor, 
     skinColor,

@@ -39,6 +39,7 @@
 
     <script type="module">
 import {changeLanguage} from "./modules/sharedFunctions.mjs"
+import { handleFetchError } from "./modules/errorHandler.mjs"
 changeLanguage();
 
         const loginForm = document.getElementById("loginForm");
@@ -67,7 +68,7 @@ changeLanguage();
 
                 let data = await response.json();
                 localStorage.setItem("token", data.token);
-                console.log("User logged in with token" + data.token);
+                
 
                 
 
@@ -81,11 +82,9 @@ changeLanguage();
                     if (lightmodeResponse.status == 200) {
                         let lightmodeData = await lightmodeResponse.json();
                         localStorage.setItem("lightmode", lightmodeData.lightmode)
-                        console.log(lightmodeData.lightmode)
+                        
 
-                    } else {
-                        console.log("not getting lightmode");
-                    }
+                    } 
 
                    
 
@@ -103,15 +102,12 @@ changeLanguage();
 
                     if (avatarResponse.status == 200) {
                         let avatarData = await avatarResponse.json();
-                        console.log(avatarData);
+                       
                         localStorage.setItem("userHairColor", avatarData.avatarInfo.hairColor);
                         localStorage.setItem("userSkinColor", avatarData.avatarInfo.skinColor);
                         localStorage.setItem("userEyeColor", avatarData.avatarInfo.eyeColor);
                         localStorage.setItem("userEyebrowType", avatarData.avatarInfo.eyebrowType);
-                    } else {
-                        console.log("not getting Avatar");
-                    }
-
+                    } 
                   
                     alert("You are now logged in");
                     location.href = "index.html";
