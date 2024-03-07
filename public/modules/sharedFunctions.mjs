@@ -105,19 +105,21 @@ export function showNotification(message) {
 
   copyButton.addEventListener('click', copyToClipboard);
   closeButton.addEventListener('click', closeModal);
+
+  function copyToClipboard() {
+    const input = document.getElementById('shareLinkInput');
+    input.select();
+    document.execCommand('copy');
+    alert('Link copied to clipboard!');
+  }
+  
+  function closeModal() {
+   
+    document.body.removeChild(modal);
+  }
+  
 }
 
-function copyToClipboard() {
-  const input = document.getElementById('shareLinkInput');
-  input.select();
-  document.execCommand('copy');
-  alert('Link copied to clipboard!');
-}
-
-function closeModal() {
-  const modal = document.querySelector('div');
-  document.body.removeChild(modal);
-}
 
   export function isSharedAvatar() {
     const queryParams = new URLSearchParams(window.location.search);
