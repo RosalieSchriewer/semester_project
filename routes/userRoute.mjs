@@ -1,10 +1,10 @@
 import express, { raw } from "express";
-import User from "../user.mjs";
-import HTTPCodes from "../httpConstants.mjs";
+import User from "../modules/user.mjs";
+import HTTPCodes from "../modules/httpConstants.mjs";
 import jwt from "jsonwebtoken";
-import { verifyToken, isAdmin } from "../authentication.mjs";
-import DBManager from "../storageManager.mjs";
-import Avatar from "../avatar.mjs";
+import { verifyToken, isAdmin } from "../modules/authentication.mjs";
+import DBManager from "../modules/storageManager.mjs";
+import Avatar from "../modules/avatar.mjs";
 
 const USER_API = express.Router();
 
@@ -46,7 +46,7 @@ USER_API.post("/", async (req, res, next) => {
 
 USER_API.post("/login", async (req, res, next) => {
   try {
-    const { email, pswHash } = req.body;
+    const { email, pswHash} = req.body;
     const secretKey = process.env.SECRET_KEY;
 
     const user = await DBManager.getUserByEmailAndPassword(email, pswHash);
@@ -148,6 +148,21 @@ USER_API.get("/admin/allUsers",verifyToken, isAdmin, async (req, res, next) => {
   }next()
 });
 //----------------------------------------------------
+USER_API.put("/admin/updateUserRole/:userId", verifyToken, isAdmin, async (req, res, next) => {
+  try {
+    const { userId } = req.params;
+    const { role } = req.body;
+
+    const userUpdate = await DBManager.updateUserRole(userId, role);
+    res.status(HTTPCodes.SuccessfulResponse.Ok).json(userUpdate);
+  } catch (error) {
+    console.error("Error updating user role:", error.message);
+    res
+      .status(HTTPCodes.ServerErrorResponse.InternalError)
+      .send("Internal Server Error");
+  }
+  next();
+});
 /*   -----------SAVE AVATAR--------------- */
 USER_API.put("/saveAvatar",  verifyToken,  async (req, res, next) => {
   try {
@@ -273,16 +288,5 @@ USER_API.get("/getLightMode", verifyToken, async (req, res, next) => {
   }
   next()
 });
-/* USER_API.get("/admin/userManagement", verifyToken, isAdmin, async (req, res) => {
-  try {
-    const  role  =  req.user.role; 
-   
-    res.status(HTTPCodes.SuccessfulResponse.Ok).json({role});
-  } catch (error) {
-    console.error("Error getting light mode choice:", error.message);
-    res
-      .status(HTTPCodes.ServerErrorResponse.InternalError)
-      .send("Internal Server Error");
-  }
-}); */
+
 export default USER_API;

@@ -1,7 +1,7 @@
 "use strict"
 import { GLTFLoader } from "../three.js-master/build/GLTFLoader.js";
 import * as THREE from '../three.js-master/src/Three.js';
-import { avatarData } from "./scene.js";
+import { avatarData } from "./scene.mjs";
 
 export class TCharacterOptions extends THREE.Object3D {
     constructor(scene) {
@@ -13,13 +13,13 @@ export class TCharacterOptions extends THREE.Object3D {
 
         const userEyebrowType = localStorage.getItem("userEyebrowType")
         if (userEyebrowType == 1){
-            loader.load("avatarstudio/Media/eyebrows.gltf", (gltfModel) => {
+            loader.load("avatarStudio/media/eyebrows.gltf", (gltfModel) => {
                 gltfModel.scene.position.set(0, 0, 0);
                 this.add(gltfModel.scene);
                 activeEyebrow = gltfModel.scene;
                 
             });
-        }else {loader.load("avatarstudio/Media/eyebrows-1.gltf", (gltfModel) => {
+        }else {loader.load("avatarStudio/media/eyebrows-1.gltf", (gltfModel) => {
 
             
             gltfModel.scene.position.set(0, 0, 0);
@@ -39,7 +39,7 @@ const loadEyebrowsButton = document.getElementById('loadEyebrowsButton');
                 this.remove(activeEyebrow);
             }
 
-            loader.load("avatarstudio/Media/eyebrows.gltf", (gltfModel) => {
+            loader.load("avatarStudio/media/eyebrows.gltf", (gltfModel) => {
                 gltfModel.scene.position.set(0, 0, 0);
                 this.add(gltfModel.scene);
                 eyebrowInt=1
@@ -53,7 +53,7 @@ const loadEyebrowsButton = document.getElementById('loadEyebrowsButton');
  const loadEyebrows2Button = document.getElementById('loadEyebrows2Button');
 
         loadEyebrows2Button.addEventListener('click', () => {
-            loader.load("avatarstudio/Media/eyebrows-1.gltf", (gltfModel) => {
+            loader.load("avatarStudio/media/eyebrows-1.gltf", (gltfModel) => {
 
                 if (activeEyebrow) {
                     this.remove(activeEyebrow);

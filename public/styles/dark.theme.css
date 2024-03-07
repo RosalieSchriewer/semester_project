@@ -7,6 +7,11 @@ body {
     position: relative;
 }
 
+p{
+    font-family: Arial, Helvetica, sans-serif;
+
+}
+
 input{
     
     background-color: darkgrey; 
@@ -93,11 +98,6 @@ Button, .globalButton{
     --mainBtnColor: #EBAC78;
 }
 
-body {
-    margin: 0;
-    overflow: hidden;
-    position: relative;
-}
 
 canvas {
     width: 100%;
@@ -109,7 +109,7 @@ canvas {
     border: none;
     border-radius: 10px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    position: absolute;
+    position: relative;
     font-weight: bold;
     font-size: large;
     height: 2.5em;
@@ -121,41 +121,22 @@ canvas {
 
 }
 
-#mainBtn {
-    background-color: var(--mainBtnColor);
-    color: rgb(255, 255, 255);
-    width: 5em;
-    left: 3.5em;
-}
 
-#mainBtn:hover {
-    color: aqua;
-    background-color: rgb(17, 75, 75);
-    width: 5.3em;
-    height: 2.6em;
-}
-
-#exitBtn {
-    background-color: white;
-    color: #cc8145;
-    right: 3.5em;
-    width: 2.5em;
-}
-
-#questionBtn {
-    background-color: white;
-    color: #cc8145;
-    right: 6.5em;
-    width: 2.5em;
-}
 
 #checkBtn {
     color: rgb(47, 185, 70);
     background-color: white;
     left: 80%;
-   
+    bottom: 40%;
     width: 2.5em;
 }
+#shareBtn {
+    color: rgb(47, 185, 70);
+    background-color: white;
+    right: 2em;
+    bottom: 20%;
+    
+  }
 
 #checkBtn:hover {
     background-color: rgb(47, 185, 70);
@@ -240,7 +221,7 @@ canvas {
         background-color: white;
         color: rgb(47, 185, 70);
         right: 2em;
-        bottom: 18em;
+        bottom: 40%;
         width: 2.5em;
     }
 }
@@ -272,9 +253,9 @@ canvas {
   .user-card {
     flex: 0 1 calc(33.33% - 20px);
     padding: 20px;
-    border: 1px solid #ddd;
+    border: 1px solid #272727;
     border-radius: 8px;
-    background-color: #fff;
+    background-color:  rgb(77, 77, 77); 
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     box-sizing: border-box;
   }
@@ -283,7 +264,7 @@ canvas {
     margin-bottom: 10px;
     padding: 8px;
     width: 90%;
-    border: 1px solid #ddd;
+    border: 1px solid #272727;
     border-radius: 4px;
   }
   
@@ -330,4 +311,28 @@ canvas {
   #languageDropdown a:hover {
     background-color: #f5f5f534; 
     border-radius: 8px;
+  }
+
+  
+.user-card select {
+    margin-bottom: 10px;
+    padding: 8px;
+    margin: 7px;
+    width: 95%;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .user-card select,
+  .user-card option {
+    font-size: 16px; 
+  }
+  
+  .user-card select:focus {
+    outline: none;
+    border-color: #4caf50; 
+  }
+  
+  .user-card select:hover {
+    border-color: #ccc; 
   }

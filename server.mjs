@@ -1,15 +1,14 @@
 import express from 'express' // Express is installed using npm
-import USER_API from './modules/routes/userRoute.mjs'; // This is where we have defined the API for working with users.
+import USER_API from './routes/userRoute.mjs'; // This is where we have defined the API for working with users.
 import SuperLogger from './modules/superLogger.mjs';
 import dotenv from 'dotenv'
 import printDeveloperStartupImportantInformationMSG from "./modules/developerHelpers.mjs";
-import { verifyToken } from './modules/authentication.mjs';
+
 printDeveloperStartupImportantInformationMSG();
 dotenv.config()
 // Creating an instance of the server
 const server = express();
-//console.log('Environment variables:', process.env);
-//server.use(express.static('public', { extensions: ['html', 'mjs'] }));
+
 // Selecting a port for the server to use.
 const port = (process.env.PORT || 8080);
 
@@ -28,10 +27,7 @@ server.use(express.json());
 // Telling the server to use the USER_API 
 server.use("/user",  USER_API);
 
-//server.put("/:id", verifyToken, USER_API.put);
-//server.get("/user/:id", verifyToken, USER_API.get);
 
-//server.post("/user", USER_API.post); 
 
 // A get request handler example)
 server.get("/", (req, res, next) => {

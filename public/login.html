@@ -9,22 +9,25 @@
 </head>
 
 <body>
-    <div id="languageSwitcher">
-        <button id="languageSwitchButton"data-i18n="switchLanguage">Switch Language</button>
-        <ul id="languageDropdown" style="display: none;">
-          <li><a href="#" data-language="en"data-i18n="english">English</a></li>
-          <li><a href="#" data-language="no"data-i18n="norwegian">Norwegian</a></li>
-          <li><a href="#" data-language="de"data-i18n="german">German</a></li>
-        </ul>
-      </div>
-    <h1 data-i18n="login">Login</h1>
-    
+    <header>
+        <button id="lightModeBtn">Darkmode</button>
+        <div id="languageSwitcher">
+            <button id="languageSwitchButton" data-translate="switchLanguage">Switch Language</button>
+            <ul id="languageDropdown" style="display: none;">
+                <li><a href="#" data-language="en" data-translate="english">English</a></li>
+                <li><a href="#" data-language="no" data-translate="norwegian">Norwegian</a></li>
+                <li><a href="#" data-language="de" data-translate="german">German</a></li>
+            </ul>
+        </div>
+    </header>
+    <h1 data-translate="login">Login</h1>
+
     <form id="loginForm">
 
-        <label for="inputEmail"data-i18n="e-mail">E-mail</label><br>
+        <label for="inputEmail" data-translate="e-mail">E-mail</label><br>
         <input id="inputEmail" class="inputField" name="email" type="text"
             pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" placeholder="name@email.com" required /><br>
-        <label for="inputPassword"data-i18n="password">Password</label><br>
+        <label for="inputPassword" data-translate="password">Password</label><br>
         <input id="inputPassword" class="inputField" name="password" type="password" placeholder="Password"
             required /><br>
         <input type="submit" value="Submit" id="submitButton" />
@@ -36,8 +39,10 @@
 
 
     <script type="module">
-import {changeLanguage} from "./modules/sharedFunctions.js"
-changeLanguage();
+        import { changeLanguage, createLightModeButton } from "./modules/sharedFunctions.mjs"
+        import { handleFetchError } from "./modules/errorHandler.mjs"
+        changeLanguage();
+        createLightModeButton()
 
         const loginForm = document.getElementById("loginForm");
 
@@ -47,7 +52,6 @@ changeLanguage();
             let formData = new FormData(loginForm);
             let email = formData.get("email");
             let pswHash = formData.get("password");
-
 
 
             let url = "/user/login";
@@ -66,9 +70,9 @@ changeLanguage();
 
                 let data = await response.json();
                 localStorage.setItem("token", data.token);
-                console.log("User logged in with token" + data.token);
 
-                
+
+
 
                 try {
                     let lightmodeResponse = await fetch("/user/getLightMode", {
@@ -80,15 +84,14 @@ changeLanguage();
                     if (lightmodeResponse.status == 200) {
                         let lightmodeData = await lightmodeResponse.json();
                         localStorage.setItem("lightmode", lightmodeData.lightmode)
-                        console.log(lightmodeData.lightmode)
 
-                    } else {
-                        console.log("not getting lightmode");
+
                     }
 
-                   
+
 
                 } catch (error) {
+                    handleFetchError(error)
                     console.error("The error is: " + error)
                 }
 
@@ -101,23 +104,34 @@ changeLanguage();
 
                     if (avatarResponse.status == 200) {
                         let avatarData = await avatarResponse.json();
-                        console.log(avatarData);
+
                         localStorage.setItem("userHairColor", avatarData.avatarInfo.hairColor);
                         localStorage.setItem("userSkinColor", avatarData.avatarInfo.skinColor);
                         localStorage.setItem("userEyeColor", avatarData.avatarInfo.eyeColor);
                         localStorage.setItem("userEyebrowType", avatarData.avatarInfo.eyebrowType);
-                    } else {
-                        console.log("not getting Avatar");
                     }
 
-                  
                     alert("You are now logged in");
                     location.href = "index.html";
                 } catch (error) {
+                    if (error instanceof TypeError && error.message.includes('avatarData.avatarInfo is undefined')) {
+                        const defaultHairColor = "48190b"
+                        const defaultSkinColor = "a25143"
+                        const defaultEyeColor = "294c59"
+                        const defaultEyebrowType = 2
+                        localStorage.setItem("userHairColor", defaultHairColor);
+                        localStorage.setItem("userSkinColor", defaultSkinColor);
+                        localStorage.setItem("userEyeColor", defaultEyeColor);
+                        localStorage.setItem("userEyebrowType", defaultEyebrowType);
+                        location.href = "index.html";
 
-                    location.href = "index.html";
+                    } else {
+                        handleFetchError()
+                    }
+
                 }
             } catch (error) {
+                handleFetchError(error)
                 alert("Wrong password or e-mail");
                 console.error("The error is: " + error);
             }

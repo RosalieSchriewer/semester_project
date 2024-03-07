@@ -127,7 +127,17 @@ class DBManager {
         [email, pswHash]
       );
 
+      if (output.rows.length > 0) {
+        const user = output.rows[0];
+
+        const now = new Date();
+        await client.query(
+          'UPDATE "public"."Users" SET "lastLogin" = $1 WHERE id = $2',
+          [now, user.id]
+        );
+      }
       return output.rows[0];
+
     } catch (error) {
       console.error("Error fetching user by email and password:", error);
       throw error;
@@ -170,6 +180,30 @@ class DBManager {
       throw error;
     } finally {
       client.end();
+    }
+  }
+  async updateUserRole(userId, role) {
+    const client = new pg.Client(this.#credentials);
+
+    try {
+      await client.connect();
+
+      const output = await client.query(
+        'UPDATE "public"."Users" SET "role" = $1 WHERE id = $2 RETURNING *',
+        [role, userId]
+      );
+
+      if (output.rows.length > 0) {
+        const updatedUser = output.rows[0];
+        return updatedUser;
+      } else {
+        throw new Error("User not found or not updated");
+      }
+    } catch (error) {
+      console.error("Error updating user role:", error);
+      throw error;
+    } finally {
+      client.end(); // Always disconnect from the database.
     }
   }
 

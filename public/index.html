@@ -13,44 +13,46 @@
   <div id="notificationPopup" class="notification-popup hidden">
     <span id="notificationText"></span>
   </div>
+  <header>
   <div>
     <div id="languageSwitcher">
-      <button id="languageSwitchButton"data-i18n="switchLanguage">Switch Language</button>
+      <button id="languageSwitchButton"data-translate="switchLanguage">Switch Language</button>
       <ul id="languageDropdown" style="display: none;">
-        <li><a href="#" data-language="en"data-i18n="english">English</a></li>
-        <li><a href="#" data-language="no"data-i18n="norwegian">Norwegian</a></li>
-        <li><a href="#" data-language="de"data-i18n="german">German</a></li>
+        <li><a href="#" data-language="en"data-translate="english">English</a></li>
+        <li><a href="#" data-language="no"data-translate="norwegian">Norwegian</a></li>
+        <li><a href="#" data-language="de"data-translate="german">German</a></li>
       </ul>
     </div>
     
-  <button id="lightModeBtn"data-i18n="darkmode">Darkmode</button>
-  <button id="createAccBtn"data-i18n="createAccount">Create account</button>
-  <button id="loginBtn" class="greenButton"data-i18n="login">Login</button>
-  <button id="profileBtn" style="display: none;" data-i18n="myProfile">My profile</button>
-  <button id="logoutBtn" style="display: none;" style="background-color: rgb(211, 97, 77),"data-i18n="logout">Logout</button>
-  <!-- <h1>Create you avatar</h1> -->
+  <button id="lightModeBtn"data-translate="darkmode">Darkmode</button>
+  <button id="createAccBtn"data-translate="createAccount">Create account</button>
+  <button id="loginBtn" class="greenButton"data-translate="login">Login</button>
+  <button id="profileBtn" style="display: none;" data-translate="myProfile">My profile</button>
+  <button id="logoutBtn" style="display: none;" style="background-color: rgb(211, 97, 77),"data-translate="logout">Logout</button>
+</header>
 </div>
 <div><button id="checkBtn" class="globalBtn">&#10004</button>
-  <button id="shareBtn" class="globalBtn" data-i18n="shareAvatar">Share this avatar</button></div>
+  <button id="shareBtn" class="globalBtn" data-translate="shareAvatar">Share this avatar</button></div>
 
   <div id="choiceMenu">
     
-    <img class="thumbnail" src="./avatarstudio/Media/head.png">
-    <img class="thumbnail" src="./avatarstudio/Media/head.png">
-    <img class="thumbnail" src="./avatarstudio/Media/head.png">
-    <img class="thumbnail" src="./avatarstudio/Media/head.png">
-    <img class="thumbnail" src="./avatarstudio/Media/head.png">
-    <img class="thumbnail" src="./avatarstudio/Media/eyebrowRender.jpg" id="loadEyebrows2Button">
-    <img class="thumbnail" src="./avatarstudio/Media/eyebrow-1Render.jpg" id="loadEyebrowsButton">
+    <img class="thumbnail" src="./avatarStudio/media/head.png">
+    <img class="thumbnail" src="./avatarStudio/media/head.png">
+    <img class="thumbnail" src="./avatarStudio/media/head.png">
+    <img class="thumbnail" src="./avatarStudio/media/head.png">
+    <img class="thumbnail" src="./avatarStudio/media/head.png">
+    <img class="thumbnail" src="./avatarStudio/media/eyebrowRender.jpg" id="loadEyebrows2Button">
+    <img class="thumbnail" src="./avatarStudio/media/eyebrow-1Render.jpg" id="loadEyebrowsButton">
   </div>
 </body>
 
 <script type="module">
 
 
-  import { loadScene } from "./avatarstudio/Script/main.js";
-  import { avatarData } from "./avatarstudio/Script/scene.js";
-  import { createLightModeButton, showNotification, changeLanguage } from "./modules/sharedFunctions.js";
+  import { loadScene } from "./avatarStudio/script/main.mjs";
+  import { avatarData } from "./avatarStudio/script/scene.mjs";
+  import { createLightModeButton, showNotification, changeLanguage, showNotificationWithLink } from "./modules/sharedFunctions.mjs";
+  import { handleFetchError } from "./modules/errorHandler.mjs"
 
 
   loadScene()
@@ -100,7 +102,7 @@
   }
 
 
-  console.log(avatarData)
+
   checkBtn.addEventListener("click", async function (event) {
 
     try {
@@ -131,6 +133,7 @@
     } catch (error) {
 
       console.error("The error is: " + error);
+      handleFetchError(error)
       
     }
 
@@ -138,7 +141,7 @@
   
 
   shareBtn.addEventListener("click", async function (event) {
-  //  console.log(JSON.parse(avatarData))
+  
    
 
     try {
@@ -154,9 +157,9 @@
       if (response.status == 200) {
         let data = await response.json();
         const shareableLink = data.shareableLink;
-        console.log("this", shareableLink)
-        showNotification("Shareable link generated: " + shareableLink);
-        console.log(shareableLink)
+        
+        showNotificationWithLink(shareableLink);
+       
       } else if (response.status === 401) {
         localStorage.clear();
         alert("Login expired, please log in again");
@@ -166,6 +169,7 @@
       }
     } catch (error) {
       console.error("The error is: " + error);
+      handleFetchError(error)
     }
   
   });

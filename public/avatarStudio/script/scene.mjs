@@ -2,9 +2,9 @@
 import * as THREE from "../three.js-master/src/Three.js";
 import * as dat from "../three.js-master/build/dat.gui.module.js";
 //import { GLTFLoader } from "../three.js-master/build/GLTFLoader.js";
-import { TCharacter } from "./Character.js";
-import { TCharacterOptions } from "./characterOptions.js";
-import { isSharedAvatar } from "../../modules/sharedFunctions.js";
+import { TCharacter } from "./character.mjs";
+import { TCharacterOptions } from "./characterOptions.mjs";
+import { isSharedAvatar } from "../../modules/sharedFunctions.mjs";
 
 export let avatarData = {
   skinColor: null,
@@ -24,9 +24,6 @@ export function TinitialiseScene(anAvatar) {
 
   scene = new THREE.Scene();
 
-
-
-  
   scene.background = new THREE.Color(0x294a5e);
 
   //----------------scene objects----------------------
@@ -66,7 +63,6 @@ export function TinitialiseScene(anAvatar) {
 
   const userEyebrowType = localStorage.getItem("userEyebrowType");
   avatarData.eyebrowType = userEyebrowType;
-
 
   renderer = new THREE.WebGLRenderer();
   renderer.setSize(window.innerWidth, window.innerHeight);
@@ -146,7 +142,6 @@ export function TinitialiseScene(anAvatar) {
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
   }
-
 
   render();
 }
