@@ -819,3 +819,51 @@ Database connection  undefined
 11:19:16 AM GET /translations/en.json
 11:19:16 AM GET /styles/dark.theme.css
 11:19:16 AM GET /favicon.ico
+####################
+Server environment undefined
+####################
+Database connection  undefined
+11:49:19 AM GET /login.html
+11:49:19 AM GET /styles/light-theme.css
+11:49:19 AM GET /modules/sharedFunctions.mjs
+11:49:19 AM GET /modules/errorHandler.mjs
+11:49:19 AM GET /translations/en.json
+11:49:19 AM GET /styles/dark.theme.css
+11:49:20 AM GET /favicon.ico
+11:49:24 AM POST /user/login
+11:49:25 AM GET /user/getLightMode
+11:49:25 AM GET /user/getAvatar
+11:49:26 AM GET /index.html
+11:49:26 AM GET /styles/light-theme.css
+11:49:26 AM GET /modules/sharedFunctions.mjs
+11:49:26 AM GET /modules/errorHandler.mjs
+11:49:27 AM GET /translations/en.json
+11:49:27 AM GET /favicon.ico
+11:49:29 AM GET /index.html
+11:49:29 AM GET /styles/light-theme.css
+11:49:29 AM GET /modules/sharedFunctions.mjs
+11:49:29 AM GET /modules/errorHandler.mjs
+11:49:29 AM GET /translations/en.json
+11:49:29 AM GET /login.html
+11:49:30 AM GET /styles/light-theme.css
+11:49:30 AM GET /modules/sharedFunctions.mjs
+11:49:30 AM GET /modules/errorHandler.mjs
+11:49:30 AM GET /translations/en.json
+11:49:30 AM GET /favicon.ico
+11:49:34 AM POST /user/login
+11:49:34 AM GET /user/getLightMode
+11:49:34 AM GET /user/getAvatar
+11:49:35 AM GET /index.html
+11:49:35 AM GET /styles/light-theme.css
+11:49:35 AM GET /modules/sharedFunctions.mjs
+11:49:35 AM GET /modules/errorHandler.mjs
+11:49:36 AM GET /translations/en.json
+11:49:36 AM GET /favicon.ico
+11:49:43 AM GET /admin.html
+11:49:44 AM GET /styles/light-theme.css
+11:49:44 AM GET /modules/sharedFunctions.mjs
+11:49:44 AM GET /modules/errorHandler.mjs
+11:49:44 AM GET /user/admin/allUsers
+11:49:44 AM GET /favicon.ico
+11:49:55 AM PUT /user/admin/updateUserRole/19
+11:50:22 AM PUT /user/admin/updateUserRole/19

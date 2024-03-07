@@ -9,52 +9,52 @@
 </head>
 
 <body>
-<header>
-    <div id="languageSwitcher">
-        <button id="languageSwitchButton"data-translate="switchLanguage">Switch Language</button>
-        <ul id="languageDropdown" style="display: none;">
-          <li><a href="#" data-language="en"data-translate="english">English</a></li>
-          <li><a href="#" data-language="no"data-translate="norwegian">Norwegian</a></li>
-          <li><a href="#" data-language="de"data-translate="german">German</a></li>
-        </ul>
-      </div>
-    <div id="notificationPopup" class="notification-popup hidden">
-        <span id="notificationText"></span>
-    </div>
-    <button id="lightModeBtn"data-translate="darkmode">Darkmode</button>
-    <input class="globalButton" type="submit" value="Delete user" style="background-color: rgb(211, 97, 77);"
-        id="deleteAccBtn">
+    <header>
+        <div id="languageSwitcher">
+            <button id="languageSwitchButton" data-translate="switchLanguage">Switch Language</button>
+            <ul id="languageDropdown" style="display: none;">
+                <li><a href="#" data-language="en" data-translate="english">English</a></li>
+                <li><a href="#" data-language="no" data-translate="norwegian">Norwegian</a></li>
+                <li><a href="#" data-language="de" data-translate="german">German</a></li>
+            </ul>
+        </div>
+        <div id="notificationPopup" class="notification-popup hidden">
+            <span id="notificationText"></span>
+        </div>
+        <button id="lightModeBtn" data-translate="darkmode">Darkmode</button>
+        <input class="globalButton" type="submit" value="Delete user" style="background-color: rgb(211, 97, 77);"
+            id="deleteAccBtn">
     </header>
     <!-- <input class="globalButton" type="submit" value="Logout" style="background-color: rgb(211, 97, 77);"
         id="logoutBtn"> -->
     <h1 data-translate="editUserHeader">Edit your user account</h1>
     <form id="createUserForm" action="" lang="en">
 
-        <label for="inputEmail" id="emailLabel"data-translate="changeEmail">Change e-mail:</label><br />
+        <label for="inputEmail" id="emailLabel" data-translate="changeEmail">Change e-mail:</label><br />
         <input type="email" id="inputEmail" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" name="inputEmail"
             required /><br />
-        <label for="inputPassword" id="passwordLabel"data-translate="changePassword">Change password:</label><br />
-        <input type="password" id="inputPassword" name="inputPassword"/><br />
-        <label for="inputFullname" id="fullNameLabel"data-translate="changeFullName">Change full name:</label><br />
+        <label for="inputPassword" id="passwordLabel" data-translate="changePassword">Change password:</label><br />
+        <input type="password" id="inputPassword" name="inputPassword" /><br />
+        <label for="inputFullname" id="fullNameLabel" data-translate="changeFullName">Change full name:</label><br />
         <input type="txt" pattern="^[^\d]+ [^\d]+$"
             title="Can't contain numbers and has to include both first and last name." id="inputFullname"
             name="inputFullname" required /><br />
-        <input type="submit" data-translate="submit"value="Save" id="submitButton" />
-     
+        <input type="submit" data-translate="submit" value="Save" id="submitButton" />
+
 
     </form>
 </body>
 <script type="module">
-    import {createLightModeButton, showNotification, changeLanguage} from "./modules/sharedFunctions.mjs"
+    import { createLightModeButton, showNotification, changeLanguage } from "./modules/sharedFunctions.mjs"
     import { handleFetchError } from "./modules/errorHandler.mjs"
 
 
     //-----------------getting user data to preview currently saved information-----------
- createLightModeButton();
- changeLanguage()
- 
+    createLightModeButton();
+    changeLanguage()
 
-    let token = localStorage.getItem("token")
+
+    const token = localStorage.getItem("token")
     loadData();
 
 
@@ -63,13 +63,13 @@
 
         const form = document.querySelector('form');
         let formData = new FormData(form);
-        
+
 
         try {
 
-            
 
-            let response = await fetch("/user/getUserById", { 
+
+            let response = await fetch("/user/getUserById", {
                 method: 'GET',
                 headers: { Authorization: token },
 
@@ -80,41 +80,28 @@
                 throw new Error("Server error: " + response.status);
             } else {
                 let data = await response.json();
-               
-
-                
                 inputFullname.value = data.userInfo.name
                 inputEmail.value = data.userInfo.email
-                
-
-                
             }
-
-
-           
-
-
-
-
 
         } catch (error) {
             console.error("The error is: " + error);
             handleFetchError(error)
         }
 
-        // userFrontend --------
+
 
         document.getElementById("createUserForm")
         document.addEventListener("submit", async function (event) {
             event.preventDefault();
 
-            // Getting form data
+
             const name = document.getElementById("inputFullname").value;
             const email = document.getElementById("inputEmail").value;
-            const newPassword = document.getElementById("inputPassword").value; 
+            const newPassword = document.getElementById("inputPassword").value;
 
-            const userData = { name, email};
-            if(newPassword){
+            const userData = { name, email };
+            if (newPassword) {
                 userData.pswHash = newPassword
             }
 
@@ -131,7 +118,7 @@
                 if (response.status == 200) {
                     let data = await response.json();
                     showNotification("User updated successfully")
-                    
+
                 } else if (response.status === 401) {
                     localStorage.clear()
                     alert("Login expired, please log in again")
@@ -164,11 +151,9 @@
                     throw new Error("Server error: " + response.status);
                 }
 
-                
                 alert("User deleted.")
-                window.location.href="index.html"
+                window.location.href = "index.html"
                 localStorage.removeItem(token)
-
 
             } catch (error) {
                 handleFetchError(error)
