@@ -11,23 +11,23 @@
 <body>
     <header>
         <button id="lightModeBtn">Darkmode</button>
-    <div id="languageSwitcher">
-        <button id="languageSwitchButton"data-translate="switchLanguage">Switch Language</button>
-        <ul id="languageDropdown" style="display: none;">
-          <li><a href="#" data-language="en"data-translate="english">English</a></li>
-          <li><a href="#" data-language="no"data-translate="norwegian">Norwegian</a></li>
-          <li><a href="#" data-language="de"data-translate="german">German</a></li>
-        </ul>
-      </div>
+        <div id="languageSwitcher">
+            <button id="languageSwitchButton" data-translate="switchLanguage">Switch Language</button>
+            <ul id="languageDropdown" style="display: none;">
+                <li><a href="#" data-language="en" data-translate="english">English</a></li>
+                <li><a href="#" data-language="no" data-translate="norwegian">Norwegian</a></li>
+                <li><a href="#" data-language="de" data-translate="german">German</a></li>
+            </ul>
+        </div>
     </header>
     <h1 data-translate="login">Login</h1>
-    
+
     <form id="loginForm">
 
-        <label for="inputEmail"data-translate="e-mail">E-mail</label><br>
+        <label for="inputEmail" data-translate="e-mail">E-mail</label><br>
         <input id="inputEmail" class="inputField" name="email" type="text"
             pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" placeholder="name@email.com" required /><br>
-        <label for="inputPassword"data-translate="password">Password</label><br>
+        <label for="inputPassword" data-translate="password">Password</label><br>
         <input id="inputPassword" class="inputField" name="password" type="password" placeholder="Password"
             required /><br>
         <input type="submit" value="Submit" id="submitButton" />
@@ -39,10 +39,10 @@
 
 
     <script type="module">
-import {changeLanguage, createLightModeButton} from "./modules/sharedFunctions.mjs"
-import { handleFetchError } from "./modules/errorHandler.mjs"
-changeLanguage();
-createLightModeButton()
+        import { changeLanguage, createLightModeButton } from "./modules/sharedFunctions.mjs"
+        import { handleFetchError } from "./modules/errorHandler.mjs"
+        changeLanguage();
+        createLightModeButton()
 
         const loginForm = document.getElementById("loginForm");
 
@@ -61,7 +61,7 @@ createLightModeButton()
                 let response = await fetch(url, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ email, pswHash}),
+                    body: JSON.stringify({ email, pswHash }),
                 });
 
                 if (response.status != 200) {
@@ -70,9 +70,9 @@ createLightModeButton()
 
                 let data = await response.json();
                 localStorage.setItem("token", data.token);
-                
 
-                
+
+
 
                 try {
                     let lightmodeResponse = await fetch("/user/getLightMode", {
@@ -84,11 +84,11 @@ createLightModeButton()
                     if (lightmodeResponse.status == 200) {
                         let lightmodeData = await lightmodeResponse.json();
                         localStorage.setItem("lightmode", lightmodeData.lightmode)
-                        
 
-                    } 
 
-                   
+                    }
+
+
 
                 } catch (error) {
                     handleFetchError(error)
@@ -104,18 +104,31 @@ createLightModeButton()
 
                     if (avatarResponse.status == 200) {
                         let avatarData = await avatarResponse.json();
-                       
+
                         localStorage.setItem("userHairColor", avatarData.avatarInfo.hairColor);
                         localStorage.setItem("userSkinColor", avatarData.avatarInfo.skinColor);
                         localStorage.setItem("userEyeColor", avatarData.avatarInfo.eyeColor);
                         localStorage.setItem("userEyebrowType", avatarData.avatarInfo.eyebrowType);
-                    } 
-                  
+                    }
+
                     alert("You are now logged in");
                     location.href = "index.html";
                 } catch (error) {
-                    handleFetchError(error)
-                    location.href = "index.html";
+                    if (error instanceof TypeError && error.message.includes('avatarData.avatarInfo is undefined')) {
+                        const defaultHairColor = "48190b"
+                        const defaultSkinColor = "a25143"
+                        const defaultEyeColor = "294c59"
+                        const defaultEyebrowType = 2
+                        localStorage.setItem("userHairColor", defaultHairColor);
+                        localStorage.setItem("userSkinColor", defaultSkinColor);
+                        localStorage.setItem("userEyeColor", defaultEyeColor);
+                        localStorage.setItem("userEyebrowType", defaultEyebrowType);
+                        location.href = "index.html";
+
+                    } else {
+                        handleFetchError()
+                    }
+
                 }
             } catch (error) {
                 handleFetchError(error)
