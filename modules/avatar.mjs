@@ -22,17 +22,7 @@ class Avatar {
     if (this.id == null) {
       return await DBManager.saveAvatar(this);
     }
-  }/*  else {
-      return await DBManager.updateAvatar(this);
-    }
   }
-
-  delete() {
-
-  
-    DBManager.deleteAvatar(this);
-  } */
-  //NOT IN USE, if time --> TODO
 
 }
 

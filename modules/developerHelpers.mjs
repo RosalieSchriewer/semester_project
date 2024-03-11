@@ -8,11 +8,7 @@ export default function printDeveloperStartupImportantInformationMSG() {
 
     SuperLogger.log(`Server environment ${process.env.ENVIRONMENT}`, SuperLogger.LOGGING_LEVELS.CRITICAL);
 
- /*    if (process.env.ENVIRONMENT == "local") {
-        SuperLogger.log( `Database connection  ${process.env.DB_CONNECTIONSTRING_LOCAL}`,  SuperLogger.LOGGING_LEVELS.CRITICAL);
-    } else {
-        SuperLogger.log( `Database connection  ${process.env.DB_CONNECTIONSTRING_PROD}`,  SuperLogger.LOGGING_LEVELS.CRITICAL);
-    } */
+
 
     if (process.argv.length > 2) {
         if (process.argv[2] == "--setup") {

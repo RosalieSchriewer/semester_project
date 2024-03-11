@@ -3,7 +3,7 @@ import Chalk from "chalk";
 import { HTTPMethods } from "./httpConstants.mjs"
 import fs from "fs/promises"
 
-//#region  Construct for decorating output.
+
 
 let COLORS = {}; // Creating a lookup tbl to avoid having to use if/else if or switch. 
 COLORS[HTTPMethods.POST] = Chalk.yellow;
@@ -13,8 +13,7 @@ COLORS[HTTPMethods.GET] = Chalk.green;
 COLORS[HTTPMethods.DELETE] = Chalk.red;
 COLORS.Default = Chalk.gray;
 
-// Convenience function
-// https://en.wikipedia.org/wiki/Convenience_function
+
 const colorize = (method) => {
     if (method in COLORS) {
         return COLORS[method](method);
@@ -22,7 +21,7 @@ const colorize = (method) => {
     return COLORS.Default(method);
 };
 
-//#endregion
+
 
 
 class SuperLogger {

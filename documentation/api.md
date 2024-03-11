@@ -228,8 +228,8 @@ Returns: JSON
   "role": 
   "lastLogin": 
 }
-Requires: Authentication (token). -->This has to be the token from a user with the role "admin"
+Requires: Authentication (token). -->This has to be the token from a user with the role "admin".
 Required fields: {
 "role": either admin or user
 }
-The users id needs to be added in the URL
+The users' id needs to be added in the fetch URL.
