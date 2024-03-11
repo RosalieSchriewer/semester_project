@@ -3,7 +3,7 @@ let lightingMode;
 export function createLightModeButton() {
   let lightModeBtn = document.getElementById("lightModeBtn");
   const lightmode = localStorage.getItem("lightmode");
-  console.log(lightmode);
+
 
   if (lightmode === "2") {
     const themeStylesheet = document.getElementById("themeStylesheet");
@@ -39,12 +39,8 @@ export function createLightModeButton() {
 
         if (response.status === 200) {
           const data = await response.json();
-          console.log("Light mode updated successfully:", data);
-
-          localStorage.removeItem("lightmode");
-          console.log("bahjskd:" + data.lightmode);
-          localStorage.setItem("lightmode", data.lightmode);
-          console.log(localStorage);
+          localStorage.removeItem("lightmode");     
+          localStorage.setItem("lightmode", data.lightmode);       
         } else if (response.status === 401) {
           localStorage.clear();
           alert("Login expired, please log in again");
@@ -110,7 +106,6 @@ export function isSharedAvatar() {
 
 export function changeLanguage() {
   let currentLanguage = localStorage.getItem("selectedLanguage") || "en";
-  console.log(currentLanguage);
   updateUI();
 
   async function loadTranslations(language) {

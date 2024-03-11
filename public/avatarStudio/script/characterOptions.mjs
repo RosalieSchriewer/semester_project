@@ -22,7 +22,7 @@ export class TCharacterOptions extends THREE.Object3D {
       loader.load("avatarStudio/media/eyebrows-1.gltf", (gltfModel) => {
         gltfModel.scene.position.set(0, 0, 0);
         this.add(gltfModel.scene);
-        console.log(avatarData);
+        
         activeEyebrow = gltfModel.scene;
       });
     }
@@ -55,7 +55,7 @@ export class TCharacterOptions extends THREE.Object3D {
         this.add(gltfModel.scene);
         eyebrowInt = 2;
         avatarData.eyebrowType = eyebrowInt;
-        console.log(avatarData);
+       
         activeEyebrow = gltfModel.scene;
       });
     });

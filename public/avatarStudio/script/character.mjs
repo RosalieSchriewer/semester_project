@@ -52,7 +52,7 @@ export class TCharacter extends THREE.Object3D {
       const hairMaterial = gltfModel.scene.children.find(
         (child) => child.name === "hair_joined"
       );
-      console.log(hairMaterial);
+      
       this.setHairColor = function (aColor) {
         hairMaterial.material.color.set(aColor); // Set a default color for testing
       };
@@ -69,7 +69,7 @@ export class TCharacter extends THREE.Object3D {
       const earMaterial = gltfModel.scene.children.find(
         (child) => child.name === "EARS"
       );
-      console.log(skinMaterial);
+      
 
       // Define setIrisColor as a method of the class
       this.setSkinColor = function (aColor) {
