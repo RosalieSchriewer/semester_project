@@ -1,7 +1,6 @@
 "use strict";
 import * as THREE from "../three.js-master/src/Three.js";
 import * as dat from "../three.js-master/build/dat.gui.module.js";
-//import { GLTFLoader } from "../three.js-master/build/GLTFLoader.js";
 import { TCharacter } from "./character.mjs";
 import { TCharacterOptions } from "./characterOptions.mjs";
 import { isSharedAvatar } from "../../modules/sharedFunctions.mjs";
@@ -48,7 +47,6 @@ export function TinitialiseScene(anAvatar) {
   eyeMaterial = new THREE.MeshBasicMaterial();
   const userEyeColor = localStorage.getItem("userEyeColor");
   eyeMaterial.color.set("#" + userEyeColor);
-  // character.setIrisColor(userEyeColor);
   avatarData.eyeColor = userEyeColor;
 
   hairMaterial = new THREE.MeshBasicMaterial();

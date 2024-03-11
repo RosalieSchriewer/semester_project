@@ -14,28 +14,30 @@
     <span id="notificationText"></span>
   </div>
   <header>
-  <div>
-    <div id="languageSwitcher">
-      <button id="languageSwitchButton"data-translate="switchLanguage">Switch Language</button>
-      <ul id="languageDropdown" style="display: none;">
-        <li><a href="#" data-language="en"data-translate="english">English</a></li>
-        <li><a href="#" data-language="no"data-translate="norwegian">Norwegian</a></li>
-        <li><a href="#" data-language="de"data-translate="german">German</a></li>
-      </ul>
-    </div>
-    
-  <button id="lightModeBtn"data-translate="darkmode">Darkmode</button>
-  <button id="createAccBtn"data-translate="createAccount">Create account</button>
-  <button id="loginBtn" class="greenButton"data-translate="login">Login</button>
-  <button id="profileBtn" style="display: none;" data-translate="myProfile">My profile</button>
-  <button id="logoutBtn" style="display: none;" style="background-color: rgb(211, 97, 77),"data-translate="logout">Logout</button>
-</header>
-</div>
-<div><button id="checkBtn" class="globalBtn">&#10004</button>
-  <button id="shareBtn" class="globalBtn" data-translate="shareAvatar">Share this avatar</button></div>
+    <div>
+      <div id="languageSwitcher">
+        <button id="languageSwitchButton" data-translate="switchLanguage">Switch Language</button>
+        <ul id="languageDropdown" style="display: none;">
+          <li><a href="#" data-language="en" data-translate="english">English</a></li>
+          <li><a href="#" data-language="no" data-translate="norwegian">Norwegian</a></li>
+          <li><a href="#" data-language="de" data-translate="german">German</a></li>
+        </ul>
+      </div>
+
+      <button id="lightModeBtn" data-translate="darkmode">Darkmode</button>
+      <button id="createAccBtn" data-translate="createAccount">Create account</button>
+      <button id="loginBtn" class="greenButton" data-translate="login">Login</button>
+      <button id="profileBtn" style="display: none;" data-translate="myProfile">My profile</button>
+      <button id="logoutBtn" style="display: none;" style="background-color: rgb(211, 97, 77),"
+        data-translate="logout">Logout</button>
+  </header>
+  </div>
+  <div><button id="checkBtn" class="globalBtn">&#10004</button>
+    <button id="shareBtn" class="globalBtn" data-translate="shareAvatar">Share this avatar</button>
+  </div>
 
   <div id="choiceMenu">
-    
+
     <img class="thumbnail" src="./avatarStudio/media/head.png">
     <img class="thumbnail" src="./avatarStudio/media/head.png">
     <img class="thumbnail" src="./avatarStudio/media/head.png">
@@ -86,11 +88,11 @@
     location.href = "index.html"
   })
 
- 
 
-     createLightModeButton();
-   
- 
+
+  createLightModeButton();
+
+
 
 
   const checkBtn = document.getElementById("checkBtn")
@@ -134,15 +136,15 @@
 
       console.error("The error is: " + error);
       handleFetchError(error)
-      
+
     }
 
   });
-  
+
 
   shareBtn.addEventListener("click", async function (event) {
-  
-   
+
+
 
     try {
       let response = await fetch("user/generateShareableLink", {
@@ -157,21 +159,21 @@
       if (response.status == 200) {
         let data = await response.json();
         const shareableLink = data.shareableLink;
-        
+
         showNotificationWithLink(shareableLink);
-       
+
       } else if (response.status === 401) {
         localStorage.clear();
         alert("Login expired, please log in again");
         location.href = "login.html";
-      }else {
+      } else {
         throw new Error("Server error: " + response.status);
       }
     } catch (error) {
       console.error("The error is: " + error);
       handleFetchError(error)
     }
-  
+
   });
 
 </script>

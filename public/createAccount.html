@@ -12,31 +12,30 @@
 </head>
 
 <body>
-<header>
-  <button id="lightModeBtn" data-translate="darkmode">Darkmode</button>
+  <header>
+    <button id="lightModeBtn" data-translate="darkmode">Darkmode</button>
 
-  <div id="languageSwitcher">
-    <button id="languageSwitchButton" data-translate="switchLanguage">Switch Language</button>
-    <ul id="languageDropdown" style="display: none;">
-      <li><a href="#" data-language="en" data-translate="english">English</a></li>
-      <li><a href="#" data-language="no" data-translate="norwegian">Norwegian</a></li>
-      <li><a href="#" data-language="de" data-translate="german">German</a></li>
-    </ul>
-  </div>
-</header>
+    <div id="languageSwitcher">
+      <button id="languageSwitchButton" data-translate="switchLanguage">Switch Language</button>
+      <ul id="languageDropdown" style="display: none;">
+        <li><a href="#" data-language="en" data-translate="english">English</a></li>
+        <li><a href="#" data-language="no" data-translate="norwegian">Norwegian</a></li>
+        <li><a href="#" data-language="de" data-translate="german">German</a></li>
+      </ul>
+    </div>
+  </header>
   <h1 data-translate="createUserAccount">Create your user account</h1>
 
   <form id="createUserForm" action="" lang="en">
     <label for="inputEmail" id="emailLabel">E-mail:</label><br>
     <input type="email" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" id="inputEmail" name="inputEmail"
       required><br>
-    <label for="inputPassword" id="passwordLabel"data-translate="password">Password:</label><br>
+    <label for="inputPassword" id="passwordLabel" data-translate="password">Password:</label><br>
     <input type="password" id="inputPassword" name="inputPassword" required><br>
-    <label for="inputFullname" id="fullNameLabel"data-translate="fullName">Full name:</label><br>
+    <label for="inputFullname" id="fullNameLabel" data-translate="fullName">Full name:</label><br>
     <input type="txt" id="inputFullname" name="inputFullname" pattern="^[^\d]+ [^\d]+$"
       title="Can't contain numbers and has to include both first and last name." required><br>
-    <!-- <label for="inputImage" id="imageLabel">Profile picture</label><br>
-        <input type="file" id="inputImage" name="inputImage" ><br><br> -->
+
     <input type="submit" value="Submit" id="submitButton" />
   </form>
 </body>
