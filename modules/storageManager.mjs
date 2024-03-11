@@ -48,6 +48,25 @@ class DBManager {
       client.end(); // Always disconnect from the database.
     }
   }
+
+  async deleteUser(userId) {
+
+    const client = new pg.Client(this.#credentials);
+
+    try {
+        await client.connect();
+        const output = await client.query('Delete from "public"."Users"  where id = $1;', [userId]);
+
+
+
+    } catch (error) {
+      console.error("Error deleting user:", error);
+      throw error;
+    } finally {
+        client.end();
+    }
+  }
+
   async updateLightMode(lightmode,userId){
     const client = new pg.Client(this.#credentials);
 

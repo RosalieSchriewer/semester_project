@@ -1,15 +1,6 @@
 
 ## User
 
-GET / -> Returns current authenticated user object. If no authenticated user, returns 403 Not authorized.
-
-fetch url: "./user/"  
-METHOD: GET
-Expects: JSON
-Returns: JSON <!-- TODO: definer hva som er i JSON -->
-Requires: Authentication (token)
-Creates a user, required fields {name,password,email,....}
-
 ## -----------------------------------------------------------------------------------------------
 
 POST / -> Posts new user into database.
@@ -17,17 +8,17 @@ POST / -> Posts new user into database.
 fetch url: "./user/"  
 METHOD: POST
 Expects: JSON
-Creates a user, 
-required fields {name:      name,
-                password:   pswHash,
-                email:      email}
+
+Required fields: {"name":     "Example name",
+                "pswHash":    "password",
+                "email":      "example@email.com"}
 ## -----------------------------------------------------------------------------------------------
 POST /login -> Checks user login data and assigns a token
 
 fetch url: "./user/login"  
 METHOD: POST
 Expects: JSON
-Returns: JSON 
+Returns: JSON {"token":}
 Token contents: {userId: the user's unique ID,
                 email: the user's email,
                 avatar_id: the user's avatar ID (only if applicable),
@@ -45,17 +36,25 @@ fetch url: "./user/updateUser"
 METHOD: PUT
 Expects: JSON
 Returns: JSON 
+{"id":
+"name":
+"pswHash":
+"email":
+"avatar_id":
+"lightmode":
+"role":
+"lastLogin":}
+
 Requires: Authentication (token)
-required fields {name:      name,
-                password:   pswHash,
-                email:      email}
+required fields {"name":      "New name",
+                "pswHash":   "newPassword",
+                "email":      "new@email.com"}
 
 ## -----------------------------------------------------------------------------------------------
-DELETE /delete -> Deletes a user from the database
+DELETE /deleteUser -> Deletes a user from the database
 
-fetch url: "./user/delete"  
+fetch url: "./user/deleteUser"  
 METHOD: DELETE
-Returns: JSON 
 Requires: Authentication (token)
 
 ## -----------------------------------------------------------------------------------------------
@@ -64,6 +63,18 @@ GET /getUserById -> Returns the logged in user's info by the provided ID
 fetch url: "./user/getUserById"  
 METHOD: GET
 Returns: JSON 
+{
+  "userInfo": {
+    "id": 
+    "name": 
+    "pswHash": 
+    "email": 
+    "avatar_id":
+    "lightmode": 
+    "role": 
+    "lastLogin":
+  }
+}
 Requires: Authentication (token)
 
 
@@ -104,6 +115,8 @@ POST /decodeSharedAvatar -> decodes token from link and reroutes to display the 
 fetch url: "./user/decodeSharedAvatar"  
 METHOD: POST
 Returns: JSON 
+Queries: token
+Requires: Authentication (token from  URL)
 
 ## -----------------------------------------------------------------------------------------------
 PUT /updateLightMode -> saves the users' lightmode preferences to the database
@@ -112,6 +125,7 @@ fetch url: "./user/updateLightMode"
 METHOD: PUT
 Returns: JSON 
 Requires: Authentication (token)
+Required fields: {lightmode: 1 or 2}
 
 ## -----------------------------------------------------------------------------------------------
 GET /getLightMode -> gets the users' lightmode preferences from the database
