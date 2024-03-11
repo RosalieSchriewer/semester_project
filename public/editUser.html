@@ -151,8 +151,9 @@
                 }
 
                 alert("User deleted.")
+                localStorage.clear()
                 window.location.href = "index.html"
-                localStorage.removeItem(token)
+                
 
             } catch (error) {
                 handleFetchError(error)
