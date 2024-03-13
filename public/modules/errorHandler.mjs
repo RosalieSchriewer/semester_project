@@ -1,4 +1,4 @@
- export let HTTPError = {
+ export let HTTPCode = {
   Ok : 200,
   Unauthorized : 401
 }
