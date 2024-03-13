@@ -54,7 +54,7 @@
   import { loadScene } from "./avatarStudio/script/main.mjs";
   import { avatarData } from "./avatarStudio/script/scene.mjs";
   import { createLightModeButton, showNotification, changeLanguage, showNotificationWithLink } from "./modules/sharedFunctions.mjs";
-  import { handleFetchError } from "./modules/errorHandler.mjs"
+  import { handleFetchError,HTTPError } from "./modules/errorHandler.mjs"
 
 
   loadScene()
@@ -116,7 +116,7 @@
         },
         body: JSON.stringify(avatarData),
       });
-      if (response.status == 200) {
+      if (response.status == HTTPError.Ok) {
         let data = await response.json();
         localStorage.setItem("userHairColor", avatarData.hairColor);
         localStorage.setItem("userSkinColor", avatarData.skinColor);
@@ -124,7 +124,7 @@
         localStorage.setItem("userEyebrowType", avatarData.eyebrowType);
         showNotification("Saved your Avatar!")
 
-      } else if (response.status === 401) {
+      } else if (response.status === HTTPError.Unauthorized) {
         localStorage.clear()
         alert("Login expired, please log in again")
         location.href = "login.html"
@@ -156,13 +156,13 @@
         body: JSON.stringify(avatarData),
       });
 
-      if (response.status == 200) {
+      if (response.status == HTTPError.Ok) {
         let data = await response.json();
         const shareableLink = data.shareableLink;
 
         showNotificationWithLink(shareableLink);
 
-      } else if (response.status === 401) {
+      } else if (response.status === HTTPError.Unauthorized) {
         localStorage.clear();
         alert("Login expired, please log in again");
         location.href = "login.html";

@@ -8,7 +8,6 @@ import Avatar from "../modules/avatar.mjs";
 
 const USER_API = express.Router();
 
-const users = [];
 
 /*   -----------NEW USER--------------- */
 USER_API.post("/", async (req, res, next) => {

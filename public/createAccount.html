@@ -42,7 +42,7 @@
 <script type="module">
 
   import { createLightModeButton, changeLanguage } from "./modules/sharedFunctions.mjs"
-  import { handleFetchError } from "./modules/errorHandler.mjs"
+  import { handleFetchError, HTTPError } from "./modules/errorHandler.mjs"
 
   createLightModeButton();
   changeLanguage();
@@ -67,7 +67,7 @@
           body: JSON.stringify(userData),
         });
 
-        if (response.status == 200) {
+        if (response.status == HTTPError.Ok) {
 
           let data = await response.json;
           localStorage.removeItem("token")

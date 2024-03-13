@@ -27,7 +27,7 @@
 
     import { loadScene } from "./avatarStudio/script/main.mjs";
     import { avatarData } from "./avatarStudio/script/scene.mjs";
-    import { handleFetchError } from "./modules/errorHandler.mjs"
+    import { handleFetchError,HTTPError } from "./modules/errorHandler.mjs"
     loadScene()
 
 
@@ -51,7 +51,7 @@
 
             });
 
-            if (response.status != 200) {
+            if (response.status != HTTPError.Ok) {
                 throw new Error("Server error: " + response.status);
             } else {
                 let data = await response.json();
