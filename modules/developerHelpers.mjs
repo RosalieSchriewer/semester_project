@@ -1,8 +1,9 @@
 
 import SuperLogger from "./superLogger.mjs";
 import chalk from "chalk";
+import { setupDatabase } from "./dbSetup.mjs";
 
-export default function printDeveloperStartupImportantInformationMSG() {
+export default async function printDeveloperStartupImportantInformationMSG() {
 
     drawLine("#", 20);
 
@@ -13,7 +14,7 @@ export default function printDeveloperStartupImportantInformationMSG() {
     if (process.argv.length > 2) {
         if (process.argv[2] == "--setup") {
             SuperLogger.log(chalk.red("Running setup for database"), SuperLogger.LOGGING_LEVELS.CRITICAL);
-            // TODO: Code that would set up our database with tbls etc..
+            await setupDatabase()
         }
     }
 
