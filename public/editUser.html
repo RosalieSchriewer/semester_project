@@ -25,8 +25,7 @@
         <input class="globalButton" type="submit" value="Delete user" style="background-color: rgb(211, 97, 77);"
             id="deleteAccBtn">
     </header>
-    <!-- <input class="globalButton" type="submit" value="Logout" style="background-color: rgb(211, 97, 77);"
-        id="logoutBtn"> -->
+
     <h1 data-translate="editUserHeader">Edit your user account</h1>
     <form id="createUserForm" action="" lang="en">
 
@@ -46,7 +45,7 @@
 </body>
 <script type="module">
     import { createLightModeButton, showNotification, changeLanguage } from "./modules/sharedFunctions.mjs"
-    import { handleFetchError } from "./modules/errorHandler.mjs"
+    import { handleFetchError,HTTPError } from "./modules/errorHandler.mjs"
 
 
     //-----------------getting user data to preview currently saved information-----------
@@ -76,7 +75,7 @@
 
             });
 
-            if (response.status != 200) {
+            if (response.status != HTTPError.Ok) {
                 throw new Error("Server error: " + response.status);
             } else {
                 let data = await response.json();
@@ -115,11 +114,11 @@
                     body: JSON.stringify(userData),
                 });
 
-                if (response.status == 200) {
+                if (response.status == HTTPError.Ok) {
                     let data = await response.json();
                     showNotification("User updated successfully")
 
-                } else if (response.status === 401) {
+                } else if (response.status === HTTPError.Unauthorized) {
                     localStorage.clear()
                     alert("Login expired, please log in again")
                     location.href = "login.html"
@@ -147,13 +146,14 @@
 
                 });
 
-                if (response.status != 200) {
+                if (response.status != HTTPError.Ok) {
                     throw new Error("Server error: " + response.status);
                 }
 
                 alert("User deleted.")
+                localStorage.clear()
                 window.location.href = "index.html"
-                localStorage.removeItem(token)
+                
 
             } catch (error) {
                 handleFetchError(error)

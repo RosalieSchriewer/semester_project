@@ -8,7 +8,6 @@ import Avatar from "../modules/avatar.mjs";
 
 const USER_API = express.Router();
 
-const users = [];
 
 /*   -----------NEW USER--------------- */
 USER_API.post("/", async (req, res, next) => {
@@ -114,12 +113,7 @@ USER_API.delete("/deleteUser", verifyToken, async (req, res, next) => {
   }next()
 });
 
-/* /*   -----------GET ID--------------- 
-USER_API.get("/getUserId", verifyToken, (req, res) => {
-  const userId = req.user.userId;
 
-  res.json({ userId });
-}); */
 
 /*   -----------GET USER BY ID--------------- */
 USER_API.get("/getUserById", verifyToken, async (req, res, next) => {
@@ -239,18 +233,8 @@ USER_API.post("/decodeSharedAvatar", async (req, res, next) => {
 
     const decoded = jwt.verify(token, process.env.SECRET_KEY);
    
-
-   // res.json(decoded);
-
-    //res.set('Content-Type', 'text/html');
    res.json(decoded);
 
- /*    res.sendFile(htmlFilePath, {
-      token: JSON.stringify(decoded),
-      headers: {
-        'Content-Type': 'text/html',
-      },
-    }); */
   } catch (error) {
     console.error("Error handling shareable link:", error.message);
     res

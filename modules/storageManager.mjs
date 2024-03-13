@@ -48,13 +48,28 @@ class DBManager {
       client.end(); // Always disconnect from the database.
     }
   }
-  async updateLightMode(lightmode,userId){
+
+  async deleteUser(userId) {
     const client = new pg.Client(this.#credentials);
 
     try {
       await client.connect();
+      await client.query('Delete from "public"."Users"  where id = $1;', [
+        userId,
+      ]);
+    } catch (error) {
+      console.error("Error deleting user:", error);
+      throw error;
+    } finally {
+      client.end();
+    }
+  }
 
-    
+  async updateLightMode(lightmode, userId) {
+    const client = new pg.Client(this.#credentials);
+
+    try {
+      await client.connect();
 
       const lightmodeOutput = await client.query(
         'UPDATE "public"."Users" SET "lightmode" = $1 WHERE id = $2 RETURNING *',
@@ -62,7 +77,6 @@ class DBManager {
       );
       const lightmodeUpdate = lightmodeOutput.rows[0];
       return { lightmode, lightmodeUpdate };
-  
     } catch (error) {
       console.error("Error saving lightmode choice:", error);
       throw error;
@@ -71,7 +85,6 @@ class DBManager {
     }
   }
 
-  
   async getUserByEmail(email) {
     const client = new pg.Client(this.#credentials);
 
@@ -108,7 +121,6 @@ class DBManager {
       }
     } catch (error) {
       console.error(error);
-      //TODO : Error handling?? Remember that this is a module seperate from your server
     } finally {
       client.end(); // Always disconnect from the database.
     }
@@ -137,7 +149,6 @@ class DBManager {
         );
       }
       return output.rows[0];
-
     } catch (error) {
       console.error("Error fetching user by email and password:", error);
       throw error;
@@ -207,11 +218,7 @@ class DBManager {
     }
   }
 
-  async saveAvatar(eyeColor, 
-    skinColor,
-    hairColor,
-    eyebrowType,
-    userId) {
+  async saveAvatar(eyeColor, skinColor, hairColor, eyebrowType, userId) {
     const client = new pg.Client(this.#credentials);
 
     try {
@@ -219,13 +226,9 @@ class DBManager {
 
       const avatarOutput = await client.query(
         'INSERT INTO "public"."Avatar"( "eyeColor", "skinColor", "hairColor", "eyebrowType") VALUES($1, $2, $3, $4) RETURNING id',
-        [eyeColor, 
-          skinColor,
-          hairColor,
-          eyebrowType]
+        [eyeColor, skinColor, hairColor, eyebrowType]
       );
 
-      /*  if (output.rows.length > 0) { */
       const avatarId = avatarOutput.rows[0].id;
 
       const userOutput = await client.query(
@@ -234,9 +237,6 @@ class DBManager {
       );
       const userUpdate = userOutput.rows[0];
       return { avatarId, userUpdate };
-      /*  } else {
-                throw new Error("Avatar not saved");
-            } */
     } catch (error) {
       console.error("Error saving Avatar:", error);
       throw error;
@@ -290,5 +290,3 @@ let connectionString =
     : process.env.DB_CONNECTIONSTRING_PROD;
 
 export default new DBManager(connectionString);
-
-//

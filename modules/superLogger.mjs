@@ -3,7 +3,7 @@ import Chalk from "chalk";
 import { HTTPMethods } from "./httpConstants.mjs"
 import fs from "fs/promises"
 
-//#region  Construct for decorating output.
+
 
 let COLORS = {}; // Creating a lookup tbl to avoid having to use if/else if or switch. 
 COLORS[HTTPMethods.POST] = Chalk.yellow;
@@ -13,8 +13,7 @@ COLORS[HTTPMethods.GET] = Chalk.green;
 COLORS[HTTPMethods.DELETE] = Chalk.red;
 COLORS.Default = Chalk.gray;
 
-// Convenience function
-// https://en.wikipedia.org/wiki/Convenience_function
+
 const colorize = (method) => {
     if (method in COLORS) {
         return COLORS[method](method);
@@ -22,7 +21,7 @@ const colorize = (method) => {
     return COLORS.Default(method);
 };
 
-//#endregion
+
 
 
 class SuperLogger {
@@ -32,7 +31,7 @@ class SuperLogger {
         ALL: 0,         // We output everything, no limits
         VERBOSE: 5,     // We output a lott, but not 
         NORMAL: 10,     // We output a moderate amount of messages
-        IMPORTANT: 100, // We output just siginfican messages
+        IMPORTANT: 100, // We output just significant messages
         CRITICAL: 999    // We output only errors. 
     };
 
@@ -46,7 +45,7 @@ class SuperLogger {
     static instance = null;
 
     constructor() {
-        // This constructor will allways return a refrence to the first instance created. 
+        // This constructor will always return a reference to the first instance created. 
         if (SuperLogger.instance == null) {
             SuperLogger.instance = this;
             this.#loggers = [];
@@ -68,7 +67,7 @@ class SuperLogger {
 
 
     // This is our automatic logger, it outputs at a "normal" level
-    // It is just a convinent wrapper around the more generic createLimitedRequestLogger function
+    // It is just a convenient wrapper around the more generic createLimitedRequestLogger function
     createAutoHTTPRequestLogger() {
         return this.createLimitedHTTPRequestLogger({ threshold: SuperLogger.LOGGING_LEVELS.NORMAL });
     }
@@ -95,8 +94,7 @@ class SuperLogger {
 
 
     #LogHTTPRequest(req, res, next) {
-        // These are just some variables that we extract to show the point 
-        // TODO: Extract and format information important for your dev process. 
+     
         let type = req.method;
         const path = req.originalUrl;
         const when = new Date().toLocaleTimeString();
@@ -110,15 +108,17 @@ class SuperLogger {
         // On to the next handler function
         next();
     }
+    
 
     #writeToLog(msg) {
 
         msg += "\n";
         console.log(msg);
-        const currentDate = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+        const currentDate = new Date().toLocaleDateString('en-GB').replace(/\//g, '');
         const fileName = `./log_${currentDate}.txt`;
 
-        fs.appendFile(fileName, msg, { encoding: "utf8" }, (err) => {
+
+        fs.appendFile(fileName,msg, { encoding: "utf8" }, (err) => {
             if (err) {
                 console.error("Error writing to log file:", err);
             }
