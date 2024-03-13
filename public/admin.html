@@ -27,7 +27,7 @@
 
 <script type="module">
     import { createLightModeButton, showNotification } from "./modules/sharedFunctions.mjs";
-    import { handleFetchError, HTTPError } from "./modules/errorHandler.mjs"
+    import { handleFetchError, HTTPCode } from "./modules/errorHandler.mjs"
     createLightModeButton();
     loadData();
 
@@ -46,7 +46,7 @@
                 headers: { Authorization: token },
             });
 
-            if (response.status != HTTPError.Ok) {
+            if (response.status != HTTPCode.Ok) {
                 throw new Error("Server error: " + response.status);
             } else {
                 let data = await response.json();
@@ -145,7 +145,7 @@
                     body: JSON.stringify({ role: userRole })
                 });
 
-                if (response.status === HTTPError.Ok) {
+                if (response.status === HTTPCode.Ok) {
                     showNotification('User updated successfully');
                     userRoleInput.disabled = true;
                     saveButton.remove();

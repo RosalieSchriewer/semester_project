@@ -45,7 +45,7 @@
 </body>
 <script type="module">
     import { createLightModeButton, showNotification, changeLanguage } from "./modules/sharedFunctions.mjs"
-    import { handleFetchError,HTTPError } from "./modules/errorHandler.mjs"
+    import { handleFetchError,HTTPCode } from "./modules/errorHandler.mjs"
 
 
     //-----------------getting user data to preview currently saved information-----------
@@ -75,7 +75,7 @@
 
             });
 
-            if (response.status != HTTPError.Ok) {
+            if (response.status != HTTPCode.Ok) {
                 throw new Error("Server error: " + response.status);
             } else {
                 let data = await response.json();
@@ -114,11 +114,11 @@
                     body: JSON.stringify(userData),
                 });
 
-                if (response.status == HTTPError.Ok) {
+                if (response.status == HTTPCode.Ok) {
                     let data = await response.json();
                     showNotification("User updated successfully")
 
-                } else if (response.status === HTTPError.Unauthorized) {
+                } else if (response.status === HTTPCode.Unauthorized) {
                     localStorage.clear()
                     alert("Login expired, please log in again")
                     location.href = "login.html"
@@ -146,7 +146,7 @@
 
                 });
 
-                if (response.status != HTTPError.Ok) {
+                if (response.status != HTTPCode.Ok) {
                     throw new Error("Server error: " + response.status);
                 }
 
