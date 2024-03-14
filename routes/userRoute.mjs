@@ -204,7 +204,9 @@ USER_API.get("/getAvatar",  verifyToken,  async (req, res, next) => {
 
 USER_API.post("/generateShareableLink", verifyToken, async (req, res, next) => {
   try {
-    const avatar_id = req.user.avatar_id
+    const userId = req.user.userId;
+    const userInfo = await DBManager.getUserById(userId);
+    const avatar_id = userInfo.avatar_id
     const avatarInfo = await DBManager.getAvatar(avatar_id);
 
    
