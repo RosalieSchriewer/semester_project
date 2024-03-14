@@ -266,6 +266,33 @@ class DBManager {
     }
   }
 
+  async updateAvatar(avatarInfo) {
+    const client = new pg.Client(this.#credentials);
+    let eyeColor = avatarInfo.eyeColor
+    let skinColor = avatarInfo.skinColor
+    let hairColor = avatarInfo.hairColor
+    let eyebrowType = avatarInfo.eyebrowType
+    let avatarId = avatarInfo.id
+    try {
+      await client.connect();
+
+      const avatarUpdate = await client.query(
+        'UPDATE "public"."Avatar" SET "eyeColor" = $1, "skinColor" = $2, "hairColor" = $3, "eyebrowType" = $4 WHERE "id" = $5 RETURNING id',
+        [eyeColor, skinColor, hairColor, eyebrowType, avatarId]
+      );
+      
+
+      const avatarResponse = avatarUpdate.rows[0].id;
+
+
+      return  avatarResponse
+    } catch (error) {
+      console.error("Error updating Avatar:", error);
+      throw error;
+    } finally {
+      client.end(); // Always disconnect from the database.
+    }
+  }
 
 }
 

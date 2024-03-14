@@ -13,6 +13,8 @@ class Avatar {
   async save() {
     if (this.id == null) {
       return await DBManager.saveAvatar(this);
+    }else {
+      return await DBManager.updateAvatar(this)
     }
   }
 }

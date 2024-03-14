@@ -164,21 +164,19 @@ USER_API.put("/saveAvatar",  verifyToken,  async (req, res, next) => {
       skinColor,
       hairColor,
       eyebrowType} = req.body;
-      const userId = req.user.userId;
+      const avatar_id= req.user.avatar_id
+
 
       let avatar = new Avatar();
       avatar.eyeColor = eyeColor;
      avatar.skinColor = skinColor;
       avatar.hairColor = hairColor;
       avatar.eyebrowType = eyebrowType;
+      avatar.id = avatar_id
+    
+  
 
-    await DBManager.saveAvatar(
-      eyeColor, 
-      skinColor,
-      hairColor,
-      eyebrowType,
-      userId
-    );
+      await avatar.save();
     res.status(HTTPCodes.SuccessfulResponse.Ok).json(avatar);
   } catch (error) {
     console.error("Error saving Avatar:", error.message);
