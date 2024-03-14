@@ -1,15 +1,12 @@
 import pg from 'pg';
 
 
-const dbConfig = {
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  host: process.env.DB_HOST,
-  port: process.env.DB_PORT,
-  database: process.env.DB_NAME
-};
+let connectionString =
+  process.env.ENVIRONMENT == "local"
+    ? process.env.DB_CONNECTIONSTRING_LOCAL
+    : process.env.DB_CONNECTIONSTRING_PROD;
 
-const client = new pg.Client(dbConfig);
+const client = new pg.Client(connectionString);
 
 export async function setupDatabase() {
   try {
