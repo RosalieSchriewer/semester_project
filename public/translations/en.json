@@ -5,6 +5,7 @@
     "changePassword":"Change password:",
     "e-mail":"E-mail:",
     "password":"Password:",
+    "repeatPassword":"Repeat password:",
     "changeFullName":"Change full name:",
     "fullName":"Full name",
     "createUserAccount":"Create your user account",

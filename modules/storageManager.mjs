@@ -11,6 +11,29 @@ class DBManager {
     };
   }
 
+  async createUser(user) {
+    const client = new pg.Client(this.#credentials);
+
+    try {
+      user.pswHash = generateHash(user.pswHash);
+      await client.connect();
+      const output = await client.query(
+        'INSERT INTO "public"."Users"("name", "email", "pswHash") VALUES($1::Text, $2::Text, $3::Text) RETURNING id;',
+        [user.name, user.email, user.pswHash]
+      );
+
+      if (output.rows.length == 1) {
+        user.id = output.rows[0].id;
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      client.end(); // Always disconnect from the database.
+    }
+
+    return user;
+  }
+
   async updateUser(name, email, pswHash, userId) {
     const client = new pg.Client(this.#credentials);
 
@@ -105,29 +128,6 @@ class DBManager {
     }
   }
 
-  async createUser(user) {
-    const client = new pg.Client(this.#credentials);
-
-    try {
-      user.pswHash = generateHash(user.pswHash);
-      await client.connect();
-      const output = await client.query(
-        'INSERT INTO "public"."Users"("name", "email", "pswHash") VALUES($1::Text, $2::Text, $3::Text) RETURNING id;',
-        [user.name, user.email, user.pswHash]
-      );
-
-      if (output.rows.length == 1) {
-        user.id = output.rows[0].id;
-      }
-    } catch (error) {
-      console.error(error);
-    } finally {
-      client.end(); // Always disconnect from the database.
-    }
-
-    return user;
-  }
-
   async getUserByEmailAndPassword(email, pswHash) {
     const client = new pg.Client(this.#credentials);
 
@@ -193,6 +193,7 @@ class DBManager {
       client.end();
     }
   }
+
   async updateUserRole(userId, role) {
     const client = new pg.Client(this.#credentials);
 
@@ -215,6 +216,26 @@ class DBManager {
       throw error;
     } finally {
       client.end(); // Always disconnect from the database.
+    }
+  }
+
+  async getAvatar(avatar_id) {
+    const client = new pg.Client(this.#credentials);
+
+    try {
+      await client.connect();
+
+      const output = await client.query(
+        'SELECT * FROM "public"."Avatar" WHERE id = $1',
+        [avatar_id]
+      );
+
+      return output.rows[0];
+    } catch (error) {
+      console.error("Error getting avatar id:", error);
+      throw error;
+    } finally {
+      client.end();
     }
   }
 
@@ -244,44 +265,8 @@ class DBManager {
       client.end(); // Always disconnect from the database.
     }
   }
-  async getAvatarId(avatar_id) {
-    const client = new pg.Client(this.#credentials);
 
-    try {
-      await client.connect();
-      pswHash = generateHash(pswHash);
-      const output = await client.query(
-        'SELECT * FROM "public"."Users" WHERE avatar_id = $1',
-        [avatar_id]
-      );
 
-      return output.rows[0];
-    } catch (error) {
-      console.error("Error fetching user by email and password:", error);
-      throw error;
-    } finally {
-      client.end();
-    }
-  }
-  async getAvatar(avatar_id) {
-    const client = new pg.Client(this.#credentials);
-
-    try {
-      await client.connect();
-
-      const output = await client.query(
-        'SELECT * FROM "public"."Avatar" WHERE id = $1',
-        [avatar_id]
-      );
-
-      return output.rows[0];
-    } catch (error) {
-      console.error("Error getting avatar id:", error);
-      throw error;
-    } finally {
-      client.end();
-    }
-  }
 }
 
 let connectionString =

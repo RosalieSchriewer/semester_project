@@ -124,24 +124,24 @@ canvas {
 
 
 #checkBtn {
-    color: rgb(47, 185, 70);
-    background-color: white;
+    color: white;
+    background-color: #04aa6d;
     left: 80%;
     bottom: 40%;
     width: 2.5em;
 }
 #shareBtn {
-    color: rgb(47, 185, 70);
-    background-color: white;
+    color: white;
+    background-color: #04aa6d;
     right: 2em;
     bottom: 20%;
     
   }
 
-#checkBtn:hover {
-    background-color: rgb(47, 185, 70);
-    color: white;
-}
+/* #checkBtn:hover {
+    background-color: white;
+    color: #04aa6d;;
+} */
 
 
 
@@ -190,11 +190,11 @@ canvas {
 
     }
 
-    #checkBtn {
-        background-color: white;
-        color: rgb(47, 185, 70);
+/*     #checkBtn {
+        background-color: #04aa6d;
+        color: white;
       position: fixed;
-    }
+    } */
 
  
 
