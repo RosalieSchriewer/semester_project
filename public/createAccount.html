@@ -32,6 +32,8 @@
       required><br>
     <label for="inputPassword" id="passwordLabel" data-translate="password">Password:</label><br>
     <input type="password" id="inputPassword" name="inputPassword" required><br>
+    <label for="repeatPassword" id="passwordLabel" data-translate="repeatPassword">Repeat password:</label><br>
+    <input type="password" id="repeatPassword" name="repeatPassword" required><br>
     <label for="inputFullname" id="fullNameLabel" data-translate="fullName">Full name:</label><br>
     <input type="txt" id="inputFullname" name="inputFullname" pattern="^[^\d]+ [^\d]+$"
       title="Can't contain numbers and has to include both first and last name." required><br>
@@ -55,32 +57,37 @@
       const name = document.getElementById("inputFullname").value;
       const email = document.getElementById("inputEmail").value;
       const pswHash = document.getElementById("inputPassword").value;
+      const repeatPassword = document.getElementById("repeatPassword").value;
 
       const userData = { name, email, pswHash };
 
-      try {
-        let response = await fetch("/user", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(userData),
-        });
+      if (pswHash === repeatPassword) {
+        try {
+          let response = await fetch("/user", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(userData),
+          });
 
-        if (response.status == HTTPCode.Ok) {
+          if (response.status == HTTPCode.Ok) {
 
-          let data = await response.json;
-          localStorage.removeItem("token")
-          window.location.href = "login.html"
+            let data = await response.json;
+            localStorage.removeItem("token")
+            window.location.href = "login.html"
 
 
-        } else {
-          throw new Error("Server error: " + response.status);
+          } else {
+            throw new Error("Server error: " + response.status);
+          }
+        } catch (error) {
+          alert("This email is already in use.");
+          console.error("The error is: " + error);
+          handleFetchError(error)
         }
-      } catch (error) {
-        alert("This email is already in use.");
-        console.error("The error is: " + error);
-        handleFetchError(error)
+      } else {
+        alert("Passwords do not match.")
       }
     });
 </script>

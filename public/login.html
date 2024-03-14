@@ -40,7 +40,7 @@
 
     <script type="module">
         import { changeLanguage, createLightModeButton } from "./modules/sharedFunctions.mjs"
-        import { handleFetchError, HTTPError } from "./modules/errorHandler.mjs"
+        import { handleFetchError, HTTPCode } from "./modules/errorHandler.mjs"
         changeLanguage();
         createLightModeButton()
 
@@ -64,7 +64,7 @@
                     body: JSON.stringify({ email, pswHash }),
                 });
 
-                if (response.status != HTTPError.Ok) {
+                if (response.status != HTTPCode.Ok) {
                     throw new Error("Server error: " + response.status);
                 }
 
@@ -81,7 +81,7 @@
                         },
                     });
 
-                    if (lightmodeResponse.status == HTTPError.Ok) {
+                    if (lightmodeResponse.status == HTTPCode.Ok) {
                         let lightmodeData = await lightmodeResponse.json();
                         localStorage.setItem("lightmode", lightmodeData.lightmode)
 
@@ -102,7 +102,7 @@
                         },
                     });
 
-                    if (avatarResponse.status == HTTPError.Ok) {
+                    if (avatarResponse.status == HTTPCode.Ok) {
                         let avatarData = await avatarResponse.json();
 
                         localStorage.setItem("userHairColor", avatarData.avatarInfo.hairColor);
